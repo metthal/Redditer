@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RedditerCore
 {
-    public class DummyClass
+    public class Class1
     {
     }
 }
