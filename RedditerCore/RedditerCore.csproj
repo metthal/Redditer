@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{a478b566-b7d7-4061-adac-204d4ca48bfa}</ProjectGuid>
+    <ProjectGuid>{A478B566-B7D7-4061-ADAC-204D4CA48BFA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RedditerCore</RootNamespace>
@@ -107,10 +107,21 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\AuthenticationClient.cs" />
+    <Compile Include="Authentication\IUserAuthenticator.cs" />
+    <Compile Include="Authentication\Token.cs" />
+    <Compile Include="Authentication\User.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rest\RestClient.cs" />
+    <Compile Include="Rest\RestRequest.cs" />
+    <Compile Include="Rest\RestResponse.cs" />
+    <Compile Include="Utilities\EnumerableKeyValuePairExtension.cs" />
+    <Compile Include="Utilities\RandomString.cs" />
+    <Compile Include="Utilities\StringExtension.cs" />
     <EmbeddedResource Include="Properties\RedditerCore.rd.xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
