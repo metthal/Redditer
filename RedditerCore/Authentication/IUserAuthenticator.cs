@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace RedditerCore.Authentication
 {
     public interface IUserAuthenticator
     {
-        Tuple<string, string> OnLogInChallenge();
-        bool OnAppAuthorizeChallenge();
+        Task<Tuple<string, string>> OnLogInChallenge();
+        Task<bool> OnAppAuthorizeChallenge();
     }
 }

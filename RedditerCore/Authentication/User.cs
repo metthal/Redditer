@@ -26,13 +26,13 @@ namespace RedditerCore.Authentication
 
             if (Username == null && Password == null)
             {
-                var credentials = authenticator.OnLogInChallenge();
+                var credentials = await authenticator.OnLogInChallenge();
                 Username = credentials.Item1;
                 Password = credentials.Item2;
             }
             await _client.LogInRequest(Username, Password);
 
-            if (authenticator.OnAppAuthorizeChallenge())
+            if (await authenticator.OnAppAuthorizeChallenge())
             {
                 await _client.AuthenticationRequest(HttpMethod.Post);
                 AccessToken = _client.ObtainedToken;
