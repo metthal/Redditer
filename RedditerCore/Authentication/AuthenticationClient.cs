@@ -86,7 +86,6 @@ namespace RedditerCore.Authentication
 
             // Try to parse 'uh' string from HTML page
             string content = await response.Message.Content.ReadAsStringAsync();
-            string newc = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(content));
             var startIndex = content.IndexOf("<input type=\"hidden\" name=\"uh\" value=\"", StringComparison.Ordinal) + "<input type=\"hidden\" name=\"uh\" value=\"".Length;
             var endIndex = content.IndexOf("\"", startIndex, StringComparison.Ordinal);
             _uh = content.Substring(startIndex, endIndex - startIndex);
