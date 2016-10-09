@@ -1,7 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace RedditerCore.Authentication
+﻿namespace RedditerCore.Authentication
 {
     public class User
     {
@@ -10,8 +7,6 @@ namespace RedditerCore.Authentication
             Username = null;
             Password = null;
             AccessToken = null;
-
-            _client = new AuthenticationClient();
         }
 
         public User(string username, string password) : this()
@@ -20,36 +15,9 @@ namespace RedditerCore.Authentication
             Password = password;
         }
 
-        public async Task<Token> LogIn(IUserAuthenticator authenticator)
-        {
-            await _client.AuthenticationRequest(HttpMethod.Get);
-
-            if (Username == null && Password == null)
-            {
-                var credentials = await authenticator.OnLogInChallenge();
-                Username = credentials.Item1;
-                Password = credentials.Item2;
-            }
-            await _client.LogInRequest(Username, Password);
-
-            if (await authenticator.OnAppAuthorizeChallenge())
-            {
-                await _client.AuthenticationRequest(HttpMethod.Post);
-                AccessToken = _client.ObtainedToken;
-            }
-
-            return AccessToken;
-        }
-
-        public void LogOut()
-        {
-        }
-
         public bool Authenticated => AccessToken != null;
         public string Username { get; set; }
         public string Password { get; set; }
-        public Token AccessToken { get; private set; }
-
-        private readonly AuthenticationClient _client;
+        public Token AccessToken { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using RedditerCore.Exceptions;
 using RedditerCore.Rest;
 using RedditerCore.Utilities;
 using HttpMethod = System.Net.Http.HttpMethod;
@@ -68,16 +69,20 @@ namespace RedditerCore.Authentication
             return response;
         }
 
-        public async Task<RestResponse> LogInRequest(string username, string password)
+        public async Task<RestResponse> LogInRequest(User user)
         {
             // First send login request
             var request = new RestRequest(HttpMethod.Post) { Resource = LoginResource };
             request.AddParameter("op", "login");
             request.AddParameter("dest", BuildAuthenticationQuery());
-            request.AddParameter("user", username);
-            request.AddParameter("passwd", password);
+            request.AddParameter("user", user.Username);
+            request.AddParameter("passwd", user.Password);
             request.AddParameter("api_type", "json");
             var response = await Execute(request);
+
+            // We are not logged in, wrong username or password
+            if (response.Headers.Location == null)
+                throw new WrongUsernameOrPasswordException();
 
             // Follow redirect
             request = new RestRequest(HttpMethod.Get) { Resource = response.Headers.Location.AbsolutePath };

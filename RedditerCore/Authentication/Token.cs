@@ -7,12 +7,7 @@ namespace RedditerCore.Authentication
         public Token(string type, string value, uint durationSecs)
         {
             Type = type;
-            Renew(value, durationSecs);
-        }
-
-        public void Renew(string newValue, uint durationSecs)
-        {
-            Value = newValue;
+            Value = value;
             ValidUntil = DateTime.Now.AddSeconds(durationSecs);
         }
 
@@ -22,8 +17,8 @@ namespace RedditerCore.Authentication
         }
 
         public string Type { get; }
-        public string Value { get; private set; }
-        public DateTime ValidUntil { get; private set; }
+        public string Value { get; }
+        public DateTime ValidUntil { get; }
         public bool Expired => DateTime.Now >= ValidUntil;
     }
 }
