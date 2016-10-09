@@ -12,7 +12,10 @@ namespace RedditerCore.Rest
     {
         public RestClient()
         {
-            _handler = new HttpClientHandler();
+            _handler = new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            };
             _client = new HttpClient(_handler);
             UserAgent = "Redditer";
             Authorization = "";
@@ -31,7 +34,7 @@ namespace RedditerCore.Rest
             if (Authorization.Length > 0)
                 message.Headers.Add("Authorization", Authorization);
             message.Headers.Add("Accept", "application/json, application/xml, text/json, text/x-json, text/javascript, text/xml");
-            //message.Headers.Add("Accept-Encoding", "gzip, deflate");
+            message.Headers.Add("Accept-Encoding", "gzip, deflate");
             message.RequestUri = requestUri.Uri;
             message.Method = request.Method;
             if (request.Parameters.Count > 0)
