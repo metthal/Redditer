@@ -1,0 +1,18 @@
+﻿<ContentDialog
+    x:Class="Redditer.Views.AuthorizeAppDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Redditer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="AUTHORIZE REDDITER"
+    PrimaryButtonText="ALLOW"
+    SecondaryButtonText="DENY"
+    PrimaryButtonClick="AllowButtonClick"
+    SecondaryButtonClick="DenyButtonClick">
+
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Application Redditer wants to access your personal data. TODO BETTER MESSAGE" VerticalAlignment="Top" Height="57" Width="270"/>
+    </Grid>
+</ContentDialog>

@@ -1,0 +1,22 @@
+﻿<ContentDialog
+    x:Class="Redditer.Views.LoginDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="REDDIT LOGIN"
+    PrimaryButtonText="LOGIN"
+    SecondaryButtonText="CANCEL"
+    PrimaryButtonClick="LoginButtonClick"
+    SecondaryButtonClick="CancelButtonClick">
+
+    <Grid Height="105">
+        <StackPanel HorizontalAlignment="Left" Height="105" VerticalAlignment="Top" Width="270">
+            <TextBlock TextWrapping="Wrap" Text="Login"/>
+            <TextBox x:Name="BoxUsername" TextWrapping="Wrap" MaxLength="25"/>
+            <TextBlock TextWrapping="Wrap" Text="Password"/>
+            <PasswordBox x:Name="BoxPassword"/>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

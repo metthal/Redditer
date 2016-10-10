@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="Redditer.Views.SubredditPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <SplitView HorizontalAlignment="Left" Width="432" DisplayMode="Inline" IsPaneOpen="False">
+            <SplitView.Pane>
+                <StackPanel>
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Pivot x:Name="subredditPivot" HorizontalAlignment="Left" Width="432" Title="/r/all">
+                    <PivotItem Header="hot">
+                        <Grid/>
+                    </PivotItem>
+                    <PivotItem Header="new">
+                        <Grid/>
+                    </PivotItem>
+                    <PivotItem Header="rising">
+                        <Grid/>
+                    </PivotItem>
+                    <PivotItem Header="top">
+                        <Grid/>
+                    </PivotItem>
+                    <PivotItem Header="controversial">
+                        <Grid/>
+                    </PivotItem>
+                    <PivotItem Header="gilded">
+                        <Grid/>
+                    </PivotItem>
+                </Pivot>
+            </SplitView.Content>
+        </SplitView>
+    </Grid>
+</Page>
+
