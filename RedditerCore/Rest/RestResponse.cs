@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace RedditerCore.Rest
 {
@@ -9,6 +10,11 @@ namespace RedditerCore.Rest
         public RestResponse(HttpResponseMessage message)
         {
             Message = message;
+        }
+
+        public async Task<string> Content()
+        {
+            return await Message.Content.ReadAsStringAsync();
         }
 
         public HttpResponseMessage Message { get; }

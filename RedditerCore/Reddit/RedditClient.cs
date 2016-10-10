@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RedditerCore.Authentication;
 using RedditerCore.Rest;
 
@@ -27,14 +29,30 @@ namespace RedditerCore.Reddit
             _authClient = new AuthenticationClient();
         }
 
-        public async Task<RestResponse> Call(string apiMethod)
+        public async Task<JObject> Call(HttpMethod method, string apiMethod, params string[] args)
         {
-            if (User != null && User.Authenticated && User.AccessToken.Expired)
+            // Odd number of parameters
+            if ((args.Length & 1) == 1)
+                throw new ArgumentException();
+
+            if (User.Authenticated && User.AccessToken.Expired)
                 await RenewToken();
 
-            var request = new RestRequest(HttpMethod.Get) { Resource = apiMethod };
+            var request = new RestRequest(method) { Resource = apiMethod };
+            for (var i = 0; i < args.Length; i += 2)
+            {
+                var key = args[i];
+                var value = args[i + 1];
+                if (method == HttpMethod.Get)
+                    request.AddQueryParameter(key, value);
+                else
+                    request.AddParameter(key, value);
+            }
+
             var response = await Execute(request);
-            return response;
+            var content = await response.Content();
+
+            return JObject.Parse(content);
         }
 
         public async Task<Token> LogIn(IUserAuthenticator authenticator)
@@ -68,6 +86,19 @@ namespace RedditerCore.Reddit
             await _authClient.AuthenticationRequest(HttpMethod.Post);
             User.AccessToken = _authClient.ObtainedToken;
             return User.AccessToken;
+        }
+
+        public async Task<JObject> AboutMe()
+        {
+            return await Call(HttpMethod.Get, "/api/v1/me");
+        }
+
+        public async Task<JObject> ListThreads(string subreddit)
+        {
+            if (subreddit == "")
+                subreddit = "/r/all";
+
+            return await Call(HttpMethod.Get, subreddit + "/hot/.json");
         }
 
         protected void UpdateAuthenticationInfo(Token token)

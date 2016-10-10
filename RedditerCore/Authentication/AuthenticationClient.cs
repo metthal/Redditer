@@ -90,7 +90,7 @@ namespace RedditerCore.Authentication
             response = await Execute(request);
 
             // Try to parse 'uh' string from HTML page
-            string content = await response.Message.Content.ReadAsStringAsync();
+            string content = await response.Content();
             var startIndex = content.IndexOf("<input type=\"hidden\" name=\"uh\" value=\"", StringComparison.Ordinal) + "<input type=\"hidden\" name=\"uh\" value=\"".Length;
             var endIndex = content.IndexOf("\"", startIndex, StringComparison.Ordinal);
             _uh = content.Substring(startIndex, endIndex - startIndex);
@@ -109,6 +109,7 @@ namespace RedditerCore.Authentication
             query.Append("redirect_uri=").Append(RedirectUri);
             return query.ToString();
         }
+
         public Token ObtainedToken { get; private set; }
 
         private delegate void AddParameter(string key, string value);
