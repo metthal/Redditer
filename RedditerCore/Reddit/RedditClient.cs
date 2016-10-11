@@ -93,12 +93,12 @@ namespace RedditerCore.Reddit
             return await Call(HttpMethod.Get, "/api/v1/me");
         }
 
-        public async Task<JObject> ListThreads(string subreddit)
+        public async Task<RedditListings> ListThreads(string subreddit)
         {
             if (subreddit == "")
                 subreddit = "/r/all";
 
-            return await Call(HttpMethod.Get, subreddit + "/hot/.json");
+            return new RedditListings(await Call(HttpMethod.Get, subreddit + "/hot/.json"));
         }
 
         protected void UpdateAuthenticationInfo(Token token)
