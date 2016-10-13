@@ -12,6 +12,8 @@ namespace Redditer.ViewModels
             SortType = new ObservableCollection<string>{ "hot", "new", "top", "controversial", "gilded" };
             Threads = new ObservableCollection<string>();
 
+            _currentSubreddit = "/r/all";
+
             _reddit = new RedditClient();
         }
 
@@ -26,9 +28,19 @@ namespace Redditer.ViewModels
             }
 
             Threads = newThreads;
+            CurrentSubreddit = subreddit;
         }
 
         public ObservableCollection<string> SortType { get; }
+        public string CurrentSubreddit
+        {
+            get { return _currentSubreddit; }
+            set
+            {
+                _currentSubreddit = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<string> Threads
         {
             get { return _threads; }
@@ -40,6 +52,7 @@ namespace Redditer.ViewModels
         }
 
         private readonly RedditClient _reddit;
+        private string _currentSubreddit;
         private ObservableCollection<string> _threads;
     }
 }

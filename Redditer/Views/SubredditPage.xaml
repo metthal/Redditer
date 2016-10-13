@@ -10,13 +10,25 @@
     Loaded="OnLoaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SplitView HorizontalAlignment="Left" Width="432" DisplayMode="Inline" IsPaneOpen="False">
+        <SplitView Name="splitView" DisplayMode="Inline" IsPaneOpen="False" OpenPaneLength="200">
             <SplitView.Pane>
                 <StackPanel>
+                    <TextBlock Text="Go to subreddit" Margin="10,10,0,0"/>
+                    <TextBox Name="subredditTextBox" KeyDown="VisitSubreddit" Margin="10,10,10,0"/>
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>
-                <Pivot ItemsSource="{Binding SortType}" HorizontalAlignment="Left" Width="432" Title="/r/all">
+                <Pivot ItemsSource="{Binding SortType}" HorizontalContentAlignment="Stretch">
+                    <Pivot.TitleTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton DataContext="{Binding ElementName=splitView}" IsChecked="{Binding IsPaneOpen, Mode=TwoWay}"
+                                              FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                              Content="&#xE700;" Height="40" Width="40"/>
+                                <TextBlock FontSize="16" Text="{Binding CurrentSubreddit}" Padding="30,10,10,10"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Pivot.TitleTemplate>
                     <Pivot.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" MinWidth="50" MaxWidth="150"/>
