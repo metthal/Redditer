@@ -24,7 +24,13 @@
                     </Pivot.HeaderTemplate>
                     <Pivot.ItemTemplate>
                         <DataTemplate>
-                            <ListView ItemsSource="{Binding DataContext.Threads, ElementName=subredditPage}" Margin="0,0,0,35"/>
+                            <ListView ItemsSource="{Binding DataContext.Threads, ElementName=subredditPage}" Margin="-12,0,-12,20">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="WrapWholeWords" Text="{Binding}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </DataTemplate>
                     </Pivot.ItemTemplate>
                 </Pivot>
