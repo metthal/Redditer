@@ -26,7 +26,7 @@ namespace Redditer.Views
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            ViewModel.LoadSubreddit("/r/all");
+            ViewModel.LoadSubreddit("/r/all", ViewModel.SortType[0]);
         }
 
         private void VisitSubreddit(object sender, KeyRoutedEventArgs e)
@@ -41,7 +41,12 @@ namespace Redditer.Views
             subredditTextBox.Text = "";
             splitView.IsPaneOpen = false;
 
-            ViewModel.LoadSubreddit(subreddit);
+            ViewModel.LoadSubreddit(subreddit, ViewModel.SortType[pivotView.SelectedIndex]);
+        }
+
+        private void ChangeSortType(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit, ViewModel.SortType[pivotView.SelectedIndex]);
         }
     }
 }

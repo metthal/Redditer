@@ -18,7 +18,7 @@
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>
-                <Pivot ItemsSource="{Binding SortType}" HorizontalContentAlignment="Stretch">
+                <Pivot Name="pivotView" ItemsSource="{Binding SortType}" HorizontalContentAlignment="Stretch" SelectionChanged="ChangeSortType">
                     <Pivot.TitleTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

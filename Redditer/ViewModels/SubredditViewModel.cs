@@ -17,9 +17,11 @@ namespace Redditer.ViewModels
             _reddit = new RedditClient();
         }
 
-        public async void LoadSubreddit(string subreddit)
+        public async void LoadSubreddit(string subreddit, string sortType)
         {
-            var threadListings = await _reddit.ListThreads(subreddit);
+            Threads.Clear();
+
+            var threadListings = await _reddit.ListThreads(subreddit, sortType);
 
             var newThreads = new ObservableCollection<string>();
             foreach (var jthread in threadListings.Data)
