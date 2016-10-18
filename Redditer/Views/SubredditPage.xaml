@@ -9,6 +9,16 @@
     DataContext="{StaticResource SubredditViewModel}"
     Loaded="OnLoaded">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <CommonNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <SplitView Name="splitView" DisplayMode="Inline" IsPaneOpen="False" OpenPaneLength="200">
             <SplitView.Pane>
