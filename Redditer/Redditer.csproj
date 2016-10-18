@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Models\Subreddit.cs" />
     <Compile Include="Models\SubredditThread.cs" />
+    <Compile Include="ViewModels\SubredditThreadViewModel.cs" />
     <Compile Include="ViewModels\SubredditViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Views\AuthorizeAppDialog.xaml.cs">
@@ -109,6 +110,9 @@
       <DependentUpon>SubredditPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\ThreadPage.xaml.cs">
+      <DependentUpon>ThreadPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -142,6 +146,10 @@
     <Page Include="Views\SubredditPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ThreadPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

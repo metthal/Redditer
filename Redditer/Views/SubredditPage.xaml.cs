@@ -50,5 +50,11 @@ namespace Redditer.Views
         {
             ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
         }
+
+        private void ThreadClicked(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
+        {
+            var threadList = sender as ListView;
+            Frame.Navigate(typeof(ThreadPage), threadList.SelectedItem);
+        }
     }
 }
