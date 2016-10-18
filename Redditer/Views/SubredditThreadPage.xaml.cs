@@ -22,9 +22,9 @@ namespace Redditer.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ThreadPage : Page
+    public sealed partial class SubredditThreadPage : Page
     {
-        public ThreadPage()
+        public SubredditThreadPage()
         {
             this.InitializeComponent();
 

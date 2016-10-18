@@ -54,7 +54,7 @@ namespace Redditer.Views
         private void ThreadClicked(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             var threadList = sender as ListView;
-            Frame.Navigate(typeof(ThreadPage), threadList.SelectedItem);
+            Frame.Navigate(typeof(SubredditThreadPage), threadList.SelectedItem);
         }
     }
 }
