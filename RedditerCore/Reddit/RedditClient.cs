@@ -68,6 +68,11 @@ namespace RedditerCore.Reddit
             return new RedditListings(await Call(HttpMethod.Get, subreddit + "/" + sortType + "/.json"));
         }
 
+        public async Task<RedditListings> ListComments(string threadLink)
+        {
+            return new RedditListings(await Call(HttpMethod.Get, threadLink + "/.json"));
+        }
+
         protected async Task<JObject> Call(HttpMethod method, string apiMethod, params string[] args)
         {
             // Odd number of parameters
