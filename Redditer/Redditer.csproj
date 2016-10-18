@@ -95,6 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Subreddit.cs" />
+    <Compile Include="Models\SubredditThread.cs" />
     <Compile Include="ViewModels\SubredditViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Views\AuthorizeAppDialog.xaml.cs">

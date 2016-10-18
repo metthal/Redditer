@@ -1,8 +1,10 @@
-﻿using Windows.System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Redditer.ViewModels;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
+using Redditer.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -46,7 +48,7 @@ namespace Redditer.Views
 
         private void ChangeSortType(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit, ViewModel.SortType[pivotView.SelectedIndex]);
+            ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
         }
     }
 }

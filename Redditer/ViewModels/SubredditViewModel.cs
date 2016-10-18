@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using RedditerCore.Reddit;
 using Newtonsoft.Json.Linq;
+using Redditer.Models;
+using Redditer.Views;
 
 namespace Redditer.ViewModels
 {
@@ -10,31 +12,31 @@ namespace Redditer.ViewModels
         public SubredditViewModel()
         {
             SortType = new ObservableCollection<string>{ "hot", "new", "top", "controversial", "gilded" };
-            Threads = new ObservableCollection<string>();
 
-            _currentSubreddit = "/r/all";
-
+            _currentSubreddit = new Subreddit("/r/all", new ObservableCollection<SubredditThread>());
             _reddit = new RedditClient();
         }
 
         public async void LoadSubreddit(string subreddit, string sortType)
         {
-            Threads.Clear();
-
             var threadListings = await _reddit.ListThreads(subreddit, sortType);
 
-            var newThreads = new ObservableCollection<string>();
+            var newThreads = new ObservableCollection<SubredditThread>();
             foreach (var jthread in threadListings.Data)
             {
-                newThreads.Add(jthread.Value<JObject>("data").Value<string>("title"));
+                var jthreadData = jthread.Value<JObject>("data");
+                newThreads.Add(new SubredditThread
+                {
+                    Link = jthreadData.Value<string>("permalink"),
+                    Title = jthreadData.Value<string>("title")
+                });
             }
 
-            Threads = newThreads;
-            CurrentSubreddit = subreddit;
+            CurrentSubreddit = new Subreddit(subreddit, newThreads);
         }
 
         public ObservableCollection<string> SortType { get; }
-        public string CurrentSubreddit
+        public Subreddit CurrentSubreddit
         {
             get { return _currentSubreddit; }
             set
@@ -43,18 +45,8 @@ namespace Redditer.ViewModels
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<string> Threads
-        {
-            get { return _threads; }
-            set
-            {
-                _threads = value;
-                OnPropertyChanged();
-            }
-        }
 
         private readonly RedditClient _reddit;
-        private string _currentSubreddit;
-        private ObservableCollection<string> _threads;
+        private Subreddit _currentSubreddit;
     }
 }

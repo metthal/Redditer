@@ -25,7 +25,7 @@
                                 <ToggleButton DataContext="{Binding ElementName=splitView}" IsChecked="{Binding IsPaneOpen, Mode=TwoWay}"
                                               FontFamily="Segoe MDL2 Assets" FontSize="20"
                                               Content="&#xE700;" Height="40" Width="40"/>
-                                <TextBlock FontSize="16" Text="{Binding CurrentSubreddit}" Padding="30,10,10,10"/>
+                                <TextBlock FontSize="16" Text="{Binding CurrentSubreddit.Name}" Padding="30,10,10,10"/>
                             </StackPanel>
                         </DataTemplate>
                     </Pivot.TitleTemplate>
@@ -36,10 +36,10 @@
                     </Pivot.HeaderTemplate>
                     <Pivot.ItemTemplate>
                         <DataTemplate>
-                            <ListView ItemsSource="{Binding DataContext.Threads, ElementName=subredditPage}" Margin="-12,0,-12,20">
+                            <ListView ItemsSource="{Binding DataContext.CurrentSubreddit.Threads, ElementName=subredditPage}" Margin="-12,0,-12,20" SelectionChanged="ThreadClicked">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock TextWrapping="WrapWholeWords" Text="{Binding}"/>
+                                        <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Title}"/>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
