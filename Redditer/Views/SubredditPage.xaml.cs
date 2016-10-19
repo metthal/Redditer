@@ -36,14 +36,10 @@ namespace Redditer.Views
             if (e.Key != VirtualKey.Enter)
                 return;
 
-            var subreddit = subredditTextBox.Text;
-            if (!subreddit.StartsWith("/r/"))
-                subreddit = subreddit.Insert(0, "/r/");
+            ViewModel.LoadSubreddit(subredditTextBox.Text, ViewModel.SortType[pivotView.SelectedIndex]);
 
             subredditTextBox.Text = "";
             splitView.IsPaneOpen = false;
-
-            ViewModel.LoadSubreddit(subreddit, ViewModel.SortType[pivotView.SelectedIndex]);
         }
 
         private void ChangeSortType(object sender, SelectionChangedEventArgs e)

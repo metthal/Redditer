@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Models\Subreddit.cs" />
     <Compile Include="Models\SubredditThread.cs" />
+    <Compile Include="Providers\Reddit.cs" />
     <Compile Include="ViewModels\SubredditThreadViewModel.cs" />
     <Compile Include="ViewModels\SubredditViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />

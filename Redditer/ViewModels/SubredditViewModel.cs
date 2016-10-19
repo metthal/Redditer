@@ -3,6 +3,7 @@ using System.ComponentModel;
 using RedditerCore.Reddit;
 using Newtonsoft.Json.Linq;
 using Redditer.Models;
+using Redditer.Providers;
 using Redditer.Views;
 
 namespace Redditer.ViewModels
@@ -14,12 +15,14 @@ namespace Redditer.ViewModels
             SortType = new ObservableCollection<string>{ "hot", "new", "top", "controversial", "gilded" };
 
             _currentSubreddit = new Subreddit("/r/all", new ObservableCollection<SubredditThread>());
-            _reddit = new RedditClient();
         }
 
         public async void LoadSubreddit(string subreddit, string sortType)
         {
-            var threadListings = await _reddit.ListThreads(subreddit, sortType);
+            if (!subreddit.StartsWith("/r/"))
+                subreddit = subreddit.Insert(0, "/r/");
+
+            var threadListings = await Reddit.Instance.ListThreads(subreddit, sortType);
 
             var newThreads = new ObservableCollection<SubredditThread>();
             foreach (var jthread in threadListings.Data)
@@ -46,7 +49,6 @@ namespace Redditer.ViewModels
             }
         }
 
-        private readonly RedditClient _reddit;
         private Subreddit _currentSubreddit;
     }
 }
