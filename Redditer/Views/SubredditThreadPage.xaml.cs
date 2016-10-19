@@ -38,6 +38,7 @@ namespace Redditer.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Thread = e.Parameter as SubredditThread;
+            ViewModel.LoadComments();
 
             base.OnNavigatedTo(e);
         }

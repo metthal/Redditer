@@ -10,5 +10,6 @@ namespace Redditer.Models
     {
         public string Link { get; set; }
         public string Title { get; set; }
+        public string Selftext { get; set; }
     }
 }

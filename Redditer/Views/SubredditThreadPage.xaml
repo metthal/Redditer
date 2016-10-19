@@ -19,8 +19,22 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
-            <TextBlock Text="{Binding Thread.Title}" TextWrapping="WrapWholeWords"/>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Top Bar"/>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <TextBlock Text="{Binding Thread.Title}" TextWrapping="WrapWholeWords"/>
+                <Border BorderThickness="0.5" BorderBrush="DarkGray" Margin="5,0,5,0">
+                    <TextBlock Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords"/>
+                </Border>
+                <ListView>
+                    Here go comments
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
