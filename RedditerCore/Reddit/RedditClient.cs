@@ -57,7 +57,8 @@ namespace RedditerCore.Reddit
 
         public async Task<JObject> AboutMe()
         {
-            return await Call(HttpMethod.Get, "/api/v1/me");
+            var response = await Call(HttpMethod.Get, "/api/v1/me");
+            return JObject.Parse(response);
         }
 
         public async Task<RedditListings> ListThreads(string subreddit, string sortType)
@@ -65,15 +66,17 @@ namespace RedditerCore.Reddit
             if (subreddit == "")
                 subreddit = "/r/all";
 
-            return new RedditListings(await Call(HttpMethod.Get, subreddit + "/" + sortType + "/.json"));
+            var response = await Call(HttpMethod.Get, subreddit + "/" + sortType + "/.json");
+            return new RedditListings(JObject.Parse(response));
         }
 
-        public async Task<RedditListings> ListComments(string threadLink)
+        public async Task<JArray> ListComments(string threadLink)
         {
-            return new RedditListings(await Call(HttpMethod.Get, threadLink + "/.json"));
+            var response = await Call(HttpMethod.Get, threadLink + "/.json");
+            return JArray.Parse(response);
         }
 
-        protected async Task<JObject> Call(HttpMethod method, string apiMethod, params string[] args)
+        protected async Task<string> Call(HttpMethod method, string apiMethod, params string[] args)
         {
             // Odd number of parameters
             if ((args.Length & 1) == 1)
@@ -96,7 +99,7 @@ namespace RedditerCore.Reddit
             var response = await Execute(request);
             var content = await response.Content();
 
-            return JObject.Parse(content);
+            return content;
         }
 
         protected async Task<Token> RenewToken()
