@@ -34,7 +34,7 @@
                 <ListView ItemsSource="{Binding Thread.Comments}" Height="677">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <StackPanel Padding="{Binding Depth, Converter={StaticResource DepthToPaddingConverter}}">
                                 <TextBlock Text="{Binding Author}" Foreground="DarkGray"/>
                                 <TextBlock Text="{Binding Text}" TextWrapping="WrapWholeWords"/>
                             </StackPanel>

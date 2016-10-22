@@ -3,10 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:viewModels="using:Redditer.ViewModels"
+    xmlns:converters="using:Redditer.Converters"
     RequestedTheme="Dark">
 
     <Application.Resources>
         <viewModels:SubredditViewModel x:Key="SubredditViewModel" />
         <viewModels:SubredditThreadViewModel x:Key="SubredditThreadViewModel" />
+        <converters:DepthToPaddingConverter x:Key="DepthToPaddingConverter" />
     </Application.Resources>
 </Application>
