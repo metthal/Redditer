@@ -31,8 +31,15 @@
                 <Border BorderThickness="0.5" BorderBrush="DarkGray" Margin="5,0,5,0">
                     <TextBlock Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords"/>
                 </Border>
-                <ListView>
-                    Here go comments
+                <ListView ItemsSource="{Binding Thread.Comments}" Height="677">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Author}" Foreground="DarkGray"/>
+                                <TextBlock Text="{Binding Text}" TextWrapping="WrapWholeWords"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </StackPanel>
         </ScrollViewer>

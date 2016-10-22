@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Subreddit.cs" />
     <Compile Include="Models\SubredditThread.cs" />
     <Compile Include="Providers\Reddit.cs" />
