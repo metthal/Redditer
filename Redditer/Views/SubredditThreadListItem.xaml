@@ -1,0 +1,27 @@
+﻿<UserControl
+    x:Class="Redditer.Views.SubredditThreadListItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Redditer.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignWidth="400" MinHeight="60" MaxHeight="200">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="0,12,0,0">
+            <TextBlock FontFamily="Marlett" Text="t" TextAlignment="Center"/>
+            <TextBlock Text="{Binding Score}" TextAlignment="Center"/>
+            <TextBlock FontFamily="Marlett" Text="u" TextAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="8,8,8,8">
+            <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Title}"/>
+            <TextBlock Foreground="DarkGray" Text="{Binding Author}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

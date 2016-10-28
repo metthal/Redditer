@@ -116,6 +116,9 @@
     <Compile Include="Views\SubredditThreadPage.xaml.cs">
       <DependentUpon>SubredditThreadPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SubredditThreadListItem.xaml.cs">
+      <DependentUpon>SubredditThreadListItem.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -151,6 +154,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SubredditThreadPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SubredditThreadListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
