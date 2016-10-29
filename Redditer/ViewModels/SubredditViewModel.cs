@@ -35,7 +35,8 @@ namespace Redditer.ViewModels
                     Author = jthreadData.Value<string>("author"),
                     Score = jthreadData.Value<int>("score"),
                     Subreddit = jthreadData.Value<string>("subreddit"),
-                    Nsfw = jthreadData.Value<bool>("over_18")
+                    Nsfw = jthreadData.Value<bool>("over_18"),
+                    Sticky = jthreadData.Value<bool>("stickied")
                 });
             }
 

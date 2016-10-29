@@ -12,5 +12,6 @@
         <converters:CommentDepthToPaddingConverter x:Key="CommentDepthToPaddingConverter" />
         <converters:CommentScoreToStringConverter x:Key="CommentScoreToStringConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolToBrushOrWhiteConverter x:Key="BoolToBrushOrWhiteConverter" />
     </Application.Resources>
 </Application>

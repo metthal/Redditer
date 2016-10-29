@@ -25,6 +25,7 @@ namespace Redditer.Models
             }
         }
         public bool Nsfw { get; set; }
+        public bool Sticky { get; set; }
         public string Selftext { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
 
