@@ -98,8 +98,9 @@
     <Compile Include="Converters\BoolToBrushOrWhiteConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeToRelativeConverter.cs" />
-    <Compile Include="Converters\IntToStringWithSuffixConverter.cs" />
+    <Compile Include="Converters\IntToPluralStringConverter.cs" />
     <Compile Include="Converters\CommentDepthToPaddingConverter.cs" />
+    <Compile Include="Converters\IntToStringFormatConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Subreddit.cs" />

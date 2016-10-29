@@ -16,5 +16,8 @@ namespace Redditer.Models
         public string Flair { get; set; }
         public DateTime Created { get; set; }
         public Maybe<DateTime> Edited { get; set; }
+        public int Gilded { get; set; }
+        public bool IsGilded => Gilded > 0;
+        public bool IsMultigilded => Gilded > 1;
     }
 }

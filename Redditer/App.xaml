@@ -10,7 +10,8 @@
         <viewModels:SubredditViewModel x:Key="SubredditViewModel" />
         <viewModels:SubredditThreadViewModel x:Key="SubredditThreadViewModel" />
         <converters:CommentDepthToPaddingConverter x:Key="CommentDepthToPaddingConverter" />
-        <converters:IntToStringWithSuffixConverter x:Key="IntToStringWithSuffixConverter" />
+        <converters:IntToPluralStringConverter x:Key="IntToPluralStringConverter" />
+        <converters:IntToStringFormatConverter x:Key="IntToStringFormatConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:BoolToBrushOrWhiteConverter x:Key="BoolToBrushOrWhiteConverter" />
         <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />

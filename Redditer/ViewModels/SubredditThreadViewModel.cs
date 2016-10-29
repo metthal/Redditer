@@ -61,7 +61,8 @@ namespace Redditer.ViewModels
                     Created = DateTimeHelper.FromTimestamp(data.Value<ulong>("created_utc")),
                     Edited = data["edited"].Type == JTokenType.Boolean
                         ? Maybe<DateTime>.Nothing()
-                        : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(data.Value<ulong>("edited")))
+                        : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(data.Value<ulong>("edited"))),
+                    Gilded = data.Value<int>("gilded")
                 };
                 comments.Add(comment);
 

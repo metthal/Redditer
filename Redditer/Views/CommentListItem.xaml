@@ -23,7 +23,14 @@
                 </Border>
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
                 <TextBlock VerticalAlignment="Bottom" FontSize="11" Margin="0,-2,0,0"
-                           Text="{Binding Score, Converter={StaticResource IntToStringWithSuffixConverter}, ConverterParameter='point'}"/>
+                           Text="{Binding Score, Converter={StaticResource IntToPluralStringConverter}, ConverterParameter='point'}"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"
+                           Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE735;" FontSize="9" VerticalAlignment="Center" Foreground="Gold"
+                           Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <TextBlock Text="{Binding Gilded, Converter={StaticResource IntToStringFormatConverter}, ConverterParameter='x{0}'}"
+                           Visibility="{Binding IsMultigilded, Converter={StaticResource BoolToVisibilityConverter}}"
+                           Foreground="Gold" FontWeight="Bold" FontSize="10" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Created, Converter={StaticResource DateTimeToRelativeConverter}}"
