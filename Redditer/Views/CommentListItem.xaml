@@ -18,7 +18,8 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="DarkGray" VerticalAlignment="Bottom" FontSize="11" Text="{Binding Author}"/>
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
-                <TextBlock VerticalAlignment="Bottom" FontSize="11" Text="{Binding Score, Converter={StaticResource CommentScoreToStringConverter}}" Margin="0,-2,0,0"/>
+                <TextBlock VerticalAlignment="Bottom" FontSize="11" Margin="0,-2,0,0"
+                           Text="{Binding Score, Converter={StaticResource IntToStringWithSuffixConverter}, ConverterParameter='point'}"/>
             </StackPanel>
             <TextBlock Text="{Binding Text}" FontSize="13" TextWrapping="WrapWholeWords"/>
         </StackPanel>

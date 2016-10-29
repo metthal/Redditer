@@ -38,7 +38,8 @@ namespace Redditer.ViewModels
                     Subreddit = jthreadData.Value<string>("subreddit"),
                     Nsfw = jthreadData.Value<bool>("over_18"),
                     Sticky = jthreadData.Value<bool>("stickied"),
-                    Flairs = WebUtility.HtmlDecode(jthreadData.Value<string>("link_flair_text"))
+                    Flairs = WebUtility.HtmlDecode(jthreadData.Value<string>("link_flair_text")),
+                    NumberOfComments = jthreadData.Value<int>("num_comments")
                 });
             }
 

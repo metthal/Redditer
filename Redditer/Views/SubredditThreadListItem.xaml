@@ -39,6 +39,8 @@
                 <TextBlock Text="{Binding Subreddit}" FontSize="11"/>
             </StackPanel>
             <TextBlock Text="NSFW" Foreground="Crimson" FontWeight="Bold" FontSize="10" Visibility="{Binding Nsfw, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <TextBlock Text="{Binding NumberOfComments, Converter={StaticResource IntToStringWithSuffixConverter}, ConverterParameter='comment'}"
+                       TextAlignment="Right" FontSize="11"/>
         </StackPanel>
         <Line Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Stroke="DarkGray" StrokeThickness="1" Stretch="Fill" X1="0" X2="1"/>
     </Grid>

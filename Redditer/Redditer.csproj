@@ -97,7 +97,7 @@
     </Compile>
     <Compile Include="Converters\BoolToBrushOrWhiteConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\CommentScoreToStringConverter.cs" />
+    <Compile Include="Converters\IntToStringWithSuffixConverter.cs" />
     <Compile Include="Converters\CommentDepthToPaddingConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Models\Comment.cs" />
