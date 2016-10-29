@@ -31,6 +31,8 @@ namespace Redditer.Models
         public int NumberOfComments { get; set; }
         public DateTime Created { get; set; }
         public Maybe<DateTime> Edited { get; set; }
+        public string Thumbnail { get; set; }
+        public bool HasThumbnail => !(Thumbnail == "" || Thumbnail == "self" || Thumbnail == "default" || Thumbnail == "nsfw" || Thumbnail == "image");
         public string Selftext { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
 

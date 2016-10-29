@@ -45,7 +45,8 @@ namespace Redditer.ViewModels
                     Created = DateTimeHelper.FromTimestamp(jthreadData.Value<ulong>("created_utc")),
                     Edited = jthreadData["edited"].Type == JTokenType.Boolean
                         ? Maybe<DateTime>.Nothing()
-                        : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(jthreadData.Value<ulong>("edited")))
+                        : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(jthreadData.Value<ulong>("edited"))),
+                    Thumbnail = jthreadData.Value<string>("thumbnail")
                 });
             }
 

@@ -102,6 +102,8 @@
     <Compile Include="Converters\CommentDepthToPaddingConverter.cs" />
     <Compile Include="Converters\IntToStringFormatConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\ThreadThumbnailToColspanConverter.cs" />
+    <Compile Include="Converters\UriToImageConverter.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Subreddit.cs" />
     <Compile Include="Models\SubredditThread.cs" />

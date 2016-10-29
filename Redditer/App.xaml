@@ -16,5 +16,7 @@
         <converters:BoolToBrushOrWhiteConverter x:Key="BoolToBrushOrWhiteConverter" />
         <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <converters:DateTimeToRelativeConverter x:Key="DateTimeToRelativeConverter" />
+        <converters:ThreadThumbnailToColspanConverter x:Key="ThreadThumbnailToColspanConverter" />
+        <converters:UriToImageConverter x:Key="UriToImageConverter" />
     </Application.Resources>
 </Application>
