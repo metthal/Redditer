@@ -14,5 +14,6 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:BoolToBrushOrWhiteConverter x:Key="BoolToBrushOrWhiteConverter" />
         <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <converters:DateTimeToRelativeConverter x:Key="DateTimeToRelativeConverter" />
     </Application.Resources>
 </Application>

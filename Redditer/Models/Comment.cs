@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Redditer.Utilities;
 
 namespace Redditer.Models
 {
@@ -12,5 +13,8 @@ namespace Redditer.Models
         public string Text { get; set; }
         public string Author { get; set; }
         public int Score { get; set; }
+        public string Flair { get; set; }
+        public DateTime Created { get; set; }
+        public Maybe<DateTime> Edited { get; set; }
     }
 }

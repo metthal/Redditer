@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Redditer.Models;
 using Redditer.Providers;
+using Redditer.Utilities;
 using RedditerCore.Reddit;
 
 namespace Redditer.ViewModels
@@ -55,7 +56,12 @@ namespace Redditer.ViewModels
                     Depth = depth,
                     Author = data.Value<string>("author"),
                     Text = WebUtility.HtmlDecode(data.Value<string>("body")),
-                    Score = data.Value<int>("score")
+                    Score = data.Value<int>("score"),
+                    Flair = data.Value<string>("author_flair_text"),
+                    Created = DateTimeHelper.FromTimestamp(data.Value<ulong>("created_utc")),
+                    Edited = data["edited"].Type == JTokenType.Boolean
+                        ? Maybe<DateTime>.Nothing()
+                        : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(data.Value<ulong>("edited")))
                 };
                 comments.Add(comment);
 

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Redditer.Utilities;
 using RedditerCore.Reddit;
 
 namespace Redditer.Models
@@ -28,6 +29,8 @@ namespace Redditer.Models
         public bool Sticky { get; set; }
         public string Flairs { get; set; }
         public int NumberOfComments { get; set; }
+        public DateTime Created { get; set; }
+        public Maybe<DateTime> Edited { get; set; }
         public string Selftext { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
 

@@ -17,11 +17,22 @@
         <StackPanel Grid.Column="1">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="DarkGray" VerticalAlignment="Bottom" FontSize="11" Text="{Binding Author}"/>
-                <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
+                <Border Margin="2,0,2,0" CornerRadius="3" Background="DarkGray">
+                    <TextBlock Padding="2,0,2,0" FontSize="11" Foreground="Black" Text="{Binding Flair}"
+                               Visibility="{Binding Flair, Converter={StaticResource StringToVisibilityConverter}}"/>
+                </Border>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
                 <TextBlock VerticalAlignment="Bottom" FontSize="11" Margin="0,-2,0,0"
                            Text="{Binding Score, Converter={StaticResource IntToStringWithSuffixConverter}, ConverterParameter='point'}"/>
             </StackPanel>
-            <TextBlock Text="{Binding Text}" FontSize="13" TextWrapping="WrapWholeWords"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Created, Converter={StaticResource DateTimeToRelativeConverter}}"
+                       FontSize="11"/>
+                <TextBlock Text="{Binding Edited.Value, Converter={StaticResource DateTimeToRelativeConverter}, ConverterParameter=' (last edited {0})'}"
+                           Visibility="{Binding Edited.Defined, Converter={StaticResource BoolToVisibilityConverter}}"
+                           FontSize="11"/>
+            </StackPanel>
+            <TextBlock Text="{Binding Text}" FontSize="13" TextWrapping="WrapWholeWords" Margin="0,5,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -38,6 +38,11 @@
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
                 <TextBlock Text="{Binding Subreddit}" FontSize="11"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="11" Text="{Binding Created, Converter={StaticResource DateTimeToRelativeConverter}}"/>
+                <TextBlock FontSize="11" Text="{Binding Edited.Value, Converter={StaticResource DateTimeToRelativeConverter}, ConverterParameter=' (last edited {0})'}"
+                           Visibility="{Binding Edited.Defined, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </StackPanel>
             <TextBlock Text="NSFW" Foreground="Crimson" FontWeight="Bold" FontSize="10" Visibility="{Binding Nsfw, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <TextBlock Text="{Binding NumberOfComments, Converter={StaticResource IntToStringWithSuffixConverter}, ConverterParameter='comment'}"
                        TextAlignment="Right" FontSize="11"/>
