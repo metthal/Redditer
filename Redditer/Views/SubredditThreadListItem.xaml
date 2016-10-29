@@ -25,7 +25,12 @@
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="8,8,8,8">
             <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Title}" FontSize="13"/>
-            <TextBlock Foreground="DarkGray" Text="{Binding Author}" FontSize="11"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="DarkGray" Text="{Binding Author}" FontSize="11"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
+                <TextBlock Text="{Binding Subreddit}" FontSize="11"/>
+            </StackPanel>
+            <TextBlock Text="NSFW" Foreground="Crimson" FontWeight="Bold" FontSize="10" Visibility="{Binding Nsfw, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </StackPanel>
         <Line Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Stroke="DarkGray" StrokeThickness="1" Stretch="Fill" X1="0" X2="1"/>
     </Grid>

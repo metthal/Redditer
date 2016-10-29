@@ -11,5 +11,6 @@
         <viewModels:SubredditThreadViewModel x:Key="SubredditThreadViewModel" />
         <converters:CommentDepthToPaddingConverter x:Key="CommentDepthToPaddingConverter" />
         <converters:CommentScoreToStringConverter x:Key="CommentScoreToStringConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Application.Resources>
 </Application>

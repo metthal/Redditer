@@ -33,7 +33,9 @@ namespace Redditer.ViewModels
                     Link = jthreadData.Value<string>("permalink"),
                     Title = jthreadData.Value<string>("title"),
                     Author = jthreadData.Value<string>("author"),
-                    Score = jthreadData.Value<int>("score")
+                    Score = jthreadData.Value<int>("score"),
+                    Subreddit = jthreadData.Value<string>("subreddit"),
+                    Nsfw = jthreadData.Value<bool>("over_18")
                 });
             }
 
