@@ -32,7 +32,7 @@ namespace Redditer.ViewModels
                 newThreads.Add(new SubredditThread
                 {
                     Link = jthreadData.Value<string>("permalink"),
-                    Title = jthreadData.Value<string>("title"),
+                    Title = WebUtility.HtmlDecode(jthreadData.Value<string>("title")),
                     Author = jthreadData.Value<string>("author"),
                     Score = jthreadData.Value<int>("score"),
                     Subreddit = jthreadData.Value<string>("subreddit"),
