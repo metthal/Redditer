@@ -1,0 +1,26 @@
+﻿<UserControl
+    x:Class="Redditer.Views.CommentListItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid Margin="0,5,0,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Line Margin="0,5,0,2" Grid.Column="0" Stroke="DarkGray" StrokeThickness="1" Stretch="Fill" Y1="0" Y2="1"/>
+        <StackPanel Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="DarkGray" VerticalAlignment="Bottom" FontSize="11" Text="{Binding Author}"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
+                <TextBlock VerticalAlignment="Bottom" FontSize="11" Text="{Binding Score, Converter={StaticResource CommentScoreToStringConverter}}" Margin="0,-2,0,0"/>
+            </StackPanel>
+            <TextBlock Text="{Binding Text}" FontSize="13" TextWrapping="WrapWholeWords"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

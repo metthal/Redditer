@@ -51,9 +51,10 @@ namespace Redditer.ViewModels
                 var data = jcomment.Value<JObject>("data");
                 var comment = new Comment
                 {
-                    Author = data.Value<string>("author"),
                     Depth = depth,
-                    Text = data.Value<string>("body")
+                    Author = data.Value<string>("author"),
+                    Text = data.Value<string>("body"),
+                    Score = data.Value<int>("score")
                 };
                 comments.Add(comment);
 

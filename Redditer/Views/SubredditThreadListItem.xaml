@@ -9,19 +9,24 @@
     d:DesignWidth="400" MinHeight="60" MaxHeight="200">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="8"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Margin="0,12,0,0">
-            <TextBlock FontFamily="Marlett" Text="t" TextAlignment="Center"/>
-            <TextBlock Text="{Binding Score}" TextAlignment="Center"/>
-            <TextBlock FontFamily="Marlett" Text="u" TextAlignment="Center"/>
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,10,0,0">
+            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="13" Text="&#xE935;" TextAlignment="Center"/>
+            <TextBlock Text="{Binding Score}" FontSize="13" TextAlignment="Center" Margin="0,3,0,3"/>
+            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="13" Text="&#xE936;" TextAlignment="Center"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Margin="8,8,8,8">
-            <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Title}"/>
-            <TextBlock Foreground="DarkGray" Text="{Binding Author}"/>
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="8,8,8,8">
+            <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Title}" FontSize="13"/>
+            <TextBlock Foreground="DarkGray" Text="{Binding Author}" FontSize="11"/>
         </StackPanel>
+        <Line Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Stroke="DarkGray" StrokeThickness="1" Stretch="Fill" X1="0" X2="1"/>
     </Grid>
 </UserControl>

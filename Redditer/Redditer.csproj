@@ -95,7 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\DepthToPaddingConverter.cs" />
+    <Compile Include="Converters\CommentScoreToStringConverter.cs" />
+    <Compile Include="Converters\CommentDepthToPaddingConverter.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Subreddit.cs" />
     <Compile Include="Models\SubredditThread.cs" />
@@ -113,6 +114,9 @@
       <DependentUpon>SubredditPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\CommentListItem.xaml.cs">
+      <DependentUpon>CommentListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SubredditThreadPage.xaml.cs">
       <DependentUpon>SubredditThreadPage.xaml</DependentUpon>
     </Compile>
@@ -152,6 +156,10 @@
     <Page Include="Views\SubredditPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CommentListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SubredditThreadPage.xaml">
       <SubType>Designer</SubType>

@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Data;
 
 namespace Redditer.Converters
 {
-    public class DepthToPaddingConverter : IValueConverter
+    public class CommentDepthToPaddingConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

@@ -47,7 +47,7 @@
                     </Pivot.HeaderTemplate>
                     <Pivot.ItemTemplate>
                         <DataTemplate>
-                            <ListView ItemsSource="{Binding DataContext.CurrentSubreddit.Threads, ElementName=subredditPage}" Margin="-12,0,-12,20" SelectionChanged="ThreadClicked">
+                            <ListView ItemsSource="{Binding DataContext.CurrentSubreddit.Threads, ElementName=subredditPage}" Margin="-25,0,-12,20" SelectionChanged="ThreadClicked">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <views:SubredditThreadListItem DataContext="{Binding}"/>
