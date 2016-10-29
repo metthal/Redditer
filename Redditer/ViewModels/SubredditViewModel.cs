@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net;
 using RedditerCore.Reddit;
 using Newtonsoft.Json.Linq;
 using Redditer.Models;
@@ -36,7 +37,8 @@ namespace Redditer.ViewModels
                     Score = jthreadData.Value<int>("score"),
                     Subreddit = jthreadData.Value<string>("subreddit"),
                     Nsfw = jthreadData.Value<bool>("over_18"),
-                    Sticky = jthreadData.Value<bool>("stickied")
+                    Sticky = jthreadData.Value<bool>("stickied"),
+                    Flairs = WebUtility.HtmlDecode(jthreadData.Value<string>("link_flair_text"))
                 });
             }
 

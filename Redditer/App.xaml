@@ -13,5 +13,6 @@
         <converters:CommentScoreToStringConverter x:Key="CommentScoreToStringConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:BoolToBrushOrWhiteConverter x:Key="BoolToBrushOrWhiteConverter" />
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     </Application.Resources>
 </Application>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -28,7 +29,7 @@ namespace Redditer.ViewModels
             var response = await Reddit.Instance.ListComments(Thread.Link);
             var opComment = new RedditListings(JObject.Parse(response[0].ToString()));
 
-            Thread.Selftext = opComment.Data[0].Value<JObject>("data").Value<string>("selftext");
+            Thread.Selftext = WebUtility.HtmlDecode(opComment.Data[0].Value<JObject>("data").Value<string>("selftext"));
             OnPropertyChanged("Thread");
 
             var comments = new ObservableCollection<Comment>();
@@ -53,7 +54,7 @@ namespace Redditer.ViewModels
                 {
                     Depth = depth,
                     Author = data.Value<string>("author"),
-                    Text = data.Value<string>("body"),
+                    Text = WebUtility.HtmlDecode(data.Value<string>("body")),
                     Score = data.Value<int>("score")
                 };
                 comments.Add(comment);

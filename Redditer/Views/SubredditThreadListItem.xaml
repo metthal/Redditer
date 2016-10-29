@@ -28,10 +28,11 @@
             <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="13" Text="&#xE936;" TextAlignment="Center"/>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="8,8,8,8">
+            <TextBlock Text="{Binding Flairs}" FontSize="10" Visibility="{Binding Flairs, Converter={StaticResource StringToVisibilityConverter}}"/>
             <TextBlock Text="Stickied" Foreground="{StaticResource StickiedThreadBrush}" FontSize="10" FontWeight="Bold"
                        Visibility="{Binding Sticky, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Title}" FontSize="13" Foreground="{Binding Sticky, Converter={StaticResource BoolToBrushOrWhiteConverter},
-                ConverterParameter={StaticResource StickiedThreadBrush}}"/>
+                        ConverterParameter={StaticResource StickiedThreadBrush}}"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="DarkGray" Text="{Binding Author}" FontSize="11"/>
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
