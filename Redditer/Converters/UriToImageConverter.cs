@@ -13,7 +13,7 @@ namespace Redditer.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var uriStr = (string)value;
-            if (uriStr == "" || uriStr == "self" || uriStr == "default" || uriStr == "nsfw" || uriStr == "image")
+            if (!uriStr.StartsWith("http"))
                 return null;
 
             return new BitmapImage(new Uri(uriStr));

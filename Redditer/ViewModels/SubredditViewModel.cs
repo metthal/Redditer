@@ -48,7 +48,9 @@ namespace Redditer.ViewModels
                         ? Maybe<DateTime>.Nothing()
                         : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(jthreadData.Value<ulong>("edited"))),
                     Thumbnail = jthreadData.Value<string>("thumbnail"),
-                    Domain = jthreadData.Value<string>("domain")
+                    Domain = jthreadData.Value<string>("domain"),
+                    Selfpost = jthreadData.Value<bool>("is_self"),
+                    Url = jthreadData.Value<string>("url")
                 });
             }
 
