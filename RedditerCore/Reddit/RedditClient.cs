@@ -83,6 +83,16 @@ namespace RedditerCore.Reddit
             return JArray.Parse(response);
         }
 
+        public async Task<JObject> QuerySubreddits(string prefix)
+        {
+            var response = await Call(HttpMethod.Post, "/api/search_reddit_names/.json",
+                "query", prefix,
+                "exact", Convert.ToString(false),
+                "include_over_18", Convert.ToString(true),
+                "hide_unadvertisable", Convert.ToString(false));
+            return JObject.Parse(response);
+        }
+
         protected async Task<string> Call(HttpMethod method, string apiMethod, params string[] args)
         {
             // Odd number of parameters
