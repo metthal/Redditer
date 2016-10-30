@@ -47,8 +47,8 @@
                     </Pivot.HeaderTemplate>
                     <Pivot.ItemTemplate>
                         <DataTemplate>
-                            <ListView ItemsSource="{Binding DataContext.CurrentSubreddit.Threads, ElementName=subredditPage}" Margin="-25,0,-12,20"
-                                      IsItemClickEnabled="True" ItemClick="ThreadClicked" SelectionMode="None"
+                            <ListView ItemsSource="{Binding DataContext.CurrentSubreddit.Threads, ElementName=subredditPage}" Margin="-25,0,-25,20"
+                                      IsItemClickEnabled="True" ItemClick="ThreadClicked" SelectionMode="None" ContainerContentChanging="ThreadListScrolling"
                                       SelectedItem="{Binding DataContext.SelectedThread, ElementName=subredditPage, Mode=TwoWay}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>

@@ -106,5 +106,14 @@ namespace Redditer.Views
             else
                 await Launcher.LaunchUriAsync(new Uri(subredditPage.ViewModel.SelectedThread.Url));
         }
+
+        private async void ThumbnailTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var subredditPage = Tag as SubredditPage;
+            if (subredditPage == null)
+                return;
+
+            await Launcher.LaunchUriAsync(new Uri(subredditPage.ViewModel.SelectedThread.Url));
+        }
     }
 }

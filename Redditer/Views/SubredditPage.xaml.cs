@@ -53,33 +53,58 @@ namespace Redditer.Views
             var clickedItem = (ListViewItem)threadList.ContainerFromItem(e.ClickedItem);
             var clickedSubredditItem = (SubredditThreadListItem)clickedItem.ContentTemplateRoot;
 
+            // Extract selected item and selected thread
             ListViewItem selectedItem = null;
             SubredditThreadListItem selectedSubredditItem = null;
             if (threadList.SelectedItem != null)
             {
+                // Container is virtualized, so if thread is not visible it may not have any list item associated
                 selectedItem = (ListViewItem)threadList.ContainerFromItem(threadList.SelectedItem);
-                selectedSubredditItem = (SubredditThreadListItem)selectedItem.ContentTemplateRoot;
+                if (selectedItem != null)
+                    selectedSubredditItem = (SubredditThreadListItem)selectedItem.ContentTemplateRoot;
             }
 
+            // If there is no thread selected
             if (selectedItem == null)
             {
+                // Enable selection mode, select the clicked item and show extended menu
                 threadList.SelectionMode = ListViewSelectionMode.Single;
                 threadList.SelectedItem = e.ClickedItem;
                 clickedSubredditItem.ExtendedMenu = true;
             }
+            // If we click on the same item as currently selected item
             else if (threadList.SelectedItem == e.ClickedItem)
             {
+                // Disable selection mode, deselect item and hide extended menu
                 threadList.SelectionMode = ListViewSelectionMode.None;
                 threadList.SelectedItem = null;
                 selectedSubredditItem.ExtendedMenu = false;
             }
+            // If we clicked on another thread while other thread was selected
             else
             {
-                selectedSubredditItem.ExtendedMenu = false;
+                // If the previously selected thread was visible, hide extended menu
+                // If the previously selected thread is not visible, this is handled in ThreadListScrolling event
+                // Show extended menu on the newly selected item
+                if (selectedSubredditItem != null)
+                    selectedSubredditItem.ExtendedMenu = false;
                 clickedSubredditItem.ExtendedMenu = true;
             }
         }
+        private void ThreadListScrolling(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            // This piece of code makes sure that if we select some thread, then scroll away so we no longer see selected thread and select another one,
+            // we no longer see the old thread as selected when we scroll back to original posisition.
+            var subredditThreadItem = (SubredditThreadListItem)args.ItemContainer.ContentTemplateRoot;
+            if (subredditThreadItem == null)
+                return;
+
+            // If there is some other thread selected and it is not this thread and extended menu is shown, then hide the extended menu
+            if (ViewModel.SelectedThread != null && ViewModel.SelectedThread != (SubredditThread)args.Item && subredditThreadItem.ExtendedMenu)
+                subredditThreadItem.ExtendedMenu = false;
+        }
 
         public SubredditViewModel ViewModel { get; set; }
+
     }
 }
