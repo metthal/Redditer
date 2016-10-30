@@ -36,16 +36,8 @@ namespace Redditer.Views
             set { SetValue(ExtendedMenuProperty, value); }
         }
 
-        public object ParentDataContext
-        {
-            get { return GetValue(ParentDataContextProperty); }
-            set { SetValue(ParentDataContextProperty, value); }
-        }
-
         public static readonly DependencyProperty ExtendedMenuProperty =
             DependencyProperty.Register("ExtendedMenu", typeof(bool), typeof(SubredditThreadListItem), new PropertyMetadata(false));
-        public static readonly DependencyProperty ParentDataContextProperty =
-            DependencyProperty.Register("ParentDataContext", typeof(object), typeof(SubredditThreadListItem), new PropertyMetadata(null));
 
         private void ShowAuthorProfile(object sender, RoutedEventArgs e)
         {
