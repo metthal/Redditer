@@ -4,6 +4,7 @@ using Redditer.ViewModels;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 using Redditer.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -22,13 +23,7 @@ namespace Redditer.Views
             ViewModel = new SubredditViewModel();
 
             DataContext = ViewModel;
-        }
-
-        public SubredditViewModel ViewModel { get; set; }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel.LoadSubreddit("/r/all", ViewModel.SortType[0]);
+            ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
         }
 
         private void VisitSubreddit(object sender, KeyRoutedEventArgs e)
@@ -49,8 +44,15 @@ namespace Redditer.Views
 
         private void ThreadClicked(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            var threadList = sender as ListView;
-            Frame.Navigate(typeof(SubredditThreadPage), threadList.SelectedItem);
+            Frame.Navigate(typeof(SubredditThreadPage), ViewModel.SelectedThread);
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModel.SelectedThread = null;
+            base.OnNavigatedTo(e);
+        }
+
+        public SubredditViewModel ViewModel { get; set; }
     }
 }

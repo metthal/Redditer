@@ -17,7 +17,8 @@ namespace Redditer.ViewModels
         {
             SortType = new ObservableCollection<string>{ "hot", "new", "top", "controversial", "gilded" };
 
-            _currentSubreddit = new Subreddit("/r/all", new ObservableCollection<SubredditThread>());
+            CurrentSubreddit = new Subreddit("/r/all", new ObservableCollection<SubredditThread>());
+            SelectedThread = null;
         }
 
         public async void LoadSubreddit(string subreddit, string sortType)
@@ -63,7 +64,17 @@ namespace Redditer.ViewModels
                 OnPropertyChanged();
             }
         }
+        public SubredditThread SelectedThread
+        {
+            get { return _selectedThread; }
+            set
+            {
+                _selectedThread = value;
+                OnPropertyChanged();
+            }
+        }
 
         private Subreddit _currentSubreddit;
+        private SubredditThread _selectedThread;
     }
 }
