@@ -47,7 +47,8 @@ namespace Redditer.ViewModels
                     Edited = jthreadData["edited"].Type == JTokenType.Boolean
                         ? Maybe<DateTime>.Nothing()
                         : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(jthreadData.Value<ulong>("edited"))),
-                    Thumbnail = jthreadData.Value<string>("thumbnail")
+                    Thumbnail = jthreadData.Value<string>("thumbnail"),
+                    Domain = jthreadData.Value<string>("domain")
                 });
             }
 

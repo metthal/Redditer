@@ -33,6 +33,7 @@ namespace Redditer.Models
         public Maybe<DateTime> Edited { get; set; }
         public string Thumbnail { get; set; }
         public bool HasThumbnail => !(Thumbnail == "" || Thumbnail == "self" || Thumbnail == "default" || Thumbnail == "nsfw" || Thumbnail == "image");
+        public string Domain { get; set; }
         public string Selftext { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
 

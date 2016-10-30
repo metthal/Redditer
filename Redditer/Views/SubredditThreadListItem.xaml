@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignWidth="400" MinHeight="60" MaxHeight="300">
+    d:DesignWidth="400" MinHeight="60" MaxHeight="400">
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="StickiedThreadBrush" Color="ForestGreen"/>
@@ -42,13 +42,14 @@
                 <TextBlock Text="Stickied" Foreground="{StaticResource StickiedThreadBrush}" FontSize="10" FontWeight="Bold"
                        Visibility="{Binding Sticky, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <TextBlock TextWrapping="WrapWholeWords" Text="{Binding Title}" FontSize="13" Foreground="{Binding Sticky, Converter={StaticResource BoolToBrushOrWhiteConverter},
-                        ConverterParameter={StaticResource StickiedThreadBrush}}"/>
+                        ConverterParameter={StaticResource StickiedThreadBrush}}" TextTrimming="WordEllipsis" MaxLines="7"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Foreground="DarkGray" Text="{Binding Author}" FontSize="11"/>
                     <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
                     <TextBlock Text="{Binding Subreddit}" FontSize="11"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="10" Text="{Binding Domain}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                     <TextBlock FontSize="11" Text="{Binding Created, Converter={StaticResource DateTimeToRelativeConverter}}"/>
                     <TextBlock FontSize="11" Text="{Binding Edited.Value, Converter={StaticResource DateTimeToRelativeConverter}, ConverterParameter=' (last edited {0})'}"
                            Visibility="{Binding Edited.Defined, Converter={StaticResource BoolToVisibilityConverter}}"/>
