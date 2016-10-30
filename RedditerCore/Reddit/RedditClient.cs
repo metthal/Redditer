@@ -61,12 +61,19 @@ namespace RedditerCore.Reddit
             return JObject.Parse(response);
         }
 
-        public async Task<RedditListings> ListThreads(string subreddit, string sortType)
+        public async Task<RedditListings> ListThreads(string subreddit, string sortType, string nextListing = null, int count = 0)
         {
             if (subreddit == "")
                 subreddit = "/r/all";
 
-            var response = await Call(HttpMethod.Get, subreddit + "/" + sortType + "/.json");
+            string response;
+            if (nextListing == null)
+                response = await Call(HttpMethod.Get, subreddit + "/" + sortType + "/.json");
+            else
+                response = await Call(HttpMethod.Get, subreddit + "/" + sortType + "/.json",
+                    "after", nextListing,
+                    "count", Convert.ToString(count));
+
             return new RedditListings(JObject.Parse(response));
         }
 
