@@ -17,9 +17,11 @@ namespace Redditer.ViewModels
         public SubredditViewModel()
         {
             SortType = new ObservableCollection<string>{ "hot", "new", "top", "controversial", "gilded" };
+            QueriedSubreddits = new ObservableCollection<string>();
 
             CurrentSubreddit = new Subreddit("/r/all", new ObservableCollection<SubredditThread>());
             SelectedThread = null;
+            SelectedQueriedSubreddit = null;
 
             _nextListing = null;
         }
@@ -39,6 +41,7 @@ namespace Redditer.ViewModels
             }
 
             CurrentSubreddit = new Subreddit(subreddit, newThreads);
+            QueriedSubreddits.Clear();
         }
 
         public async Task NextThreads(string sortType)
@@ -52,7 +55,20 @@ namespace Redditer.ViewModels
             }
         }
 
-        public ObservableCollection<string> SortType { get; }
+        public async void QuerySubreddits(string prefix)
+        {
+            var queryResult = await Reddit.Instance.QuerySubreddits(prefix);
+            var subreddits = queryResult.Value<JArray>("names");
+
+            var queriedSubreddits = new ObservableCollection<string>();
+            foreach (var subreddit in subreddits)
+            {
+                queriedSubreddits.Add(subreddit.ToString());
+            }
+
+            QueriedSubreddits = queriedSubreddits;
+        }
+
         public Subreddit CurrentSubreddit
         {
             get { return _currentSubreddit; }
@@ -71,6 +87,20 @@ namespace Redditer.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public ObservableCollection<string> QueriedSubreddits
+        {
+            get { return _queriedSubreddits; }
+            private set
+            {
+                _queriedSubreddits = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<string> SortType { get; }
+
+        public string SelectedQueriedSubreddit { get; set; }
 
         private SubredditThread ParseThread(JObject jobject)
         {
@@ -99,5 +129,6 @@ namespace Redditer.ViewModels
         private Subreddit _currentSubreddit;
         private SubredditThread _selectedThread;
         private string _nextListing;
+        private ObservableCollection<string> _queriedSubreddits;
     }
 }

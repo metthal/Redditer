@@ -32,17 +32,21 @@ namespace Redditer.Views
             Frame.Navigate(typeof(SubredditThreadPage), ViewModel.SelectedThread);
         }
 
-        private void VisitSubreddit(object sender, KeyRoutedEventArgs e)
+        private void SubredditTextBoxKeydown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key != VirtualKey.Enter)
-                return;
+            if (e.Key == VirtualKey.Enter)
+            {
+                ViewModel.LoadSubreddit(subredditTextBox.Text, ViewModel.SortType[pivotView.SelectedIndex]);
 
-            ViewModel.LoadSubreddit(subredditTextBox.Text, ViewModel.SortType[pivotView.SelectedIndex]);
+                subredditTextBox.Text = "";
+                splitView.IsPaneOpen = false;
 
-            subredditTextBox.Text = "";
-            splitView.IsPaneOpen = false;
-
-            ScrollToTop();
+                ScrollToTop();
+            }
+            else
+            {
+                ViewModel.QuerySubreddits(subredditTextBox.Text + e.Key);
+            }
         }
 
         private void ChangeSortType(object sender, SelectionChangedEventArgs e)
@@ -114,6 +118,20 @@ namespace Redditer.Views
             var s = (ScrollViewer)sender;
             if (Math.Abs(s.VerticalOffset - s.ScrollableHeight) < 0.01)
                 await ViewModel.NextThreads(ViewModel.SortType[pivotView.SelectedIndex]);
+        }
+
+        private void ChooseQueriedSubreddit(object sender, SelectionChangedEventArgs e)
+        {
+            // Do not execute this if deselection fires this
+            if (e.AddedItems.Count == 0)
+                return;
+
+            ViewModel.LoadSubreddit(ViewModel.SelectedQueriedSubreddit, ViewModel.SortType[pivotView.SelectedIndex]);
+
+            subredditTextBox.Text = "";
+            splitView.IsPaneOpen = false;
+
+            ScrollToTop();
         }
 
         private void ScrollToTop()

@@ -25,7 +25,8 @@
             <SplitView.Pane>
                 <StackPanel>
                     <TextBlock Text="Go to subreddit" Margin="10,10,0,0"/>
-                    <TextBox Name="subredditTextBox" KeyDown="VisitSubreddit" Margin="10,10,10,0"/>
+                    <TextBox Name="subredditTextBox" KeyDown="SubredditTextBoxKeydown" Margin="10,10,10,0"/>
+                    <ListView ItemsSource="{Binding QueriedSubreddits}" SelectionChanged="ChooseQueriedSubreddit" SelectedItem="{Binding SelectedQueriedSubreddit, Mode=TwoWay}"/>
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>
