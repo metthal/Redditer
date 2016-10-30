@@ -1,8 +1,10 @@
+﻿using System;
 using Windows.System;
 using Windows.UI.Xaml;
 using Redditer.ViewModels;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Redditer.Models;
@@ -23,7 +25,6 @@ namespace Redditer.Views
             ViewModel = new SubredditViewModel();
 
             DataContext = ViewModel;
-            ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
         }
 
         public void OpenSelectedThreadComments()
@@ -40,11 +41,15 @@ namespace Redditer.Views
 
             subredditTextBox.Text = "";
             splitView.IsPaneOpen = false;
+
+            ScrollToTop();
         }
 
         private void ChangeSortType(object sender, SelectionChangedEventArgs e)
         {
             ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
+
+            ScrollToTop();
         }
 
         private void ThreadClicked(object sender, ItemClickEventArgs e)
@@ -91,7 +96,7 @@ namespace Redditer.Views
                 clickedSubredditItem.ExtendedMenu = true;
             }
         }
-        private void ThreadListScrolling(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private void ThreadListUpdating(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             // This piece of code makes sure that if we select some thread, then scroll away so we no longer see selected thread and select another one,
             // we no longer see the old thread as selected when we scroll back to original posisition.
@@ -104,7 +109,29 @@ namespace Redditer.Views
                 subredditThreadItem.ExtendedMenu = false;
         }
 
-        public SubredditViewModel ViewModel { get; set; }
+        private async void ThreadListScrolling(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            var s = (ScrollViewer)sender;
+            if (Math.Abs(s.VerticalOffset - s.ScrollableHeight) < 0.01)
+                await ViewModel.NextThreads(ViewModel.SortType[pivotView.SelectedIndex]);
+        }
 
+        private void ScrollToTop()
+        {
+            if (pivotView?.Items == null || pivotView.Items.Count == 0)
+                return;
+
+            if (pivotView.Items[pivotView.SelectedIndex] == null)
+                return;
+
+            var pivotItem = (PivotItem) pivotView.ContainerFromItem(pivotView.Items[pivotView.SelectedIndex]);
+            if (pivotItem == null)
+                return;
+
+            var scrollViewer = (ScrollViewer) pivotItem.ContentTemplateRoot;
+            scrollViewer?.ChangeView(0, 0, 1);
+        }
+
+        public SubredditViewModel ViewModel { get; set; }
     }
 }
