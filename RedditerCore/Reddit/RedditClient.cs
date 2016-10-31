@@ -55,13 +55,13 @@ namespace RedditerCore.Reddit
             return User.AccessToken;
         }
 
-        public async Task<JObject> AboutMe()
+        public async Task<RedditResponse> AboutMe()
         {
             var response = await Call(HttpMethod.Get, "/api/v1/me");
-            return JObject.Parse(response);
+            return new RedditResponse(response);
         }
 
-        public async Task<RedditListings> ListThreads(string subreddit, string sortType, string nextListing = null, int count = 0)
+        public async Task<RedditResponse> ListThreads(string subreddit, string sortType, string nextListing = null, int count = 0)
         {
             if (subreddit == "")
                 subreddit = "/r/all";
@@ -74,23 +74,23 @@ namespace RedditerCore.Reddit
                     "after", nextListing,
                     "count", Convert.ToString(count));
 
-            return new RedditListings(JObject.Parse(response));
+            return new RedditResponse(response);
         }
 
-        public async Task<JArray> ListComments(string threadLink)
+        public async Task<RedditResponse> ListComments(string threadLink)
         {
             var response = await Call(HttpMethod.Get, threadLink + "/.json");
-            return JArray.Parse(response);
+            return new RedditResponse(response);
         }
 
-        public async Task<JObject> QuerySubreddits(string prefix)
+        public async Task<RedditResponse> QuerySubreddits(string prefix)
         {
             var response = await Call(HttpMethod.Post, "/api/search_reddit_names/.json",
                 "query", prefix,
                 "exact", Convert.ToString(false),
                 "include_over_18", Convert.ToString(true),
                 "hide_unadvertisable", Convert.ToString(false));
-            return JObject.Parse(response);
+            return new RedditResponse(response);
         }
 
         protected async Task<string> Call(HttpMethod method, string apiMethod, params string[] args)

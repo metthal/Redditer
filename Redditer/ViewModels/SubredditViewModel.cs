@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Net;
 using System.Threading.Tasks;
-using RedditerCore.Reddit;
 using Newtonsoft.Json.Linq;
 using Redditer.Models;
 using Redditer.Providers;
 using Redditer.Utilities;
-using Redditer.Views;
 
 namespace Redditer.ViewModels
 {
@@ -31,11 +28,14 @@ namespace Redditer.ViewModels
             if (!subreddit.StartsWith("/r/"))
                 subreddit = subreddit.Insert(0, "/r/");
 
-            var threadListings = await Reddit.Instance.ListThreads(subreddit, sortType);
-            _nextListing = threadListings.Next;
+            string dummy;
+            var response = await Reddit.Instance.ListThreads(subreddit, sortType);
+            var threadListings = response.ParseListings(out _nextListing, out dummy);
+            if (threadListings == null)
+                return;
 
             var newThreads = new ObservableCollection<SubredditThread>();
-            foreach (var jthread in threadListings.Data)
+            foreach (var jthread in threadListings)
             {
                 newThreads.Add(ParseThread(jthread.Value<JObject>("data")));
             }
@@ -46,10 +46,13 @@ namespace Redditer.ViewModels
 
         public async Task NextThreads(string sortType)
         {
-            var threadListings = await Reddit.Instance.ListThreads(CurrentSubreddit.Name, sortType, _nextListing, CurrentSubreddit.Threads.Count);
-            _nextListing = threadListings.Next;
+            string dummy;
+            var response = await Reddit.Instance.ListThreads(CurrentSubreddit.Name, sortType, _nextListing, CurrentSubreddit.Threads.Count);
+            var threadListings = response.ParseListings(out _nextListing, out dummy);
+            if (threadListings == null)
+                return;
 
-            foreach (var jthread in threadListings.Data)
+            foreach (var jthread in threadListings)
             {
                 CurrentSubreddit.Threads.Add(ParseThread(jthread.Value<JObject>("data")));
             }
@@ -57,7 +60,11 @@ namespace Redditer.ViewModels
 
         public async void QuerySubreddits(string prefix)
         {
-            var queryResult = await Reddit.Instance.QuerySubreddits(prefix);
+            var response = await Reddit.Instance.QuerySubreddits(prefix);
+            var queryResult = response.AsObject();
+            if (queryResult == null)
+                return;
+
             var subreddits = queryResult.Value<JArray>("names");
 
             var queriedSubreddits = new ObservableCollection<string>();

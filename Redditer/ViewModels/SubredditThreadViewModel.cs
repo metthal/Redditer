@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Redditer.Models;
 using Redditer.Providers;
@@ -28,24 +24,26 @@ namespace Redditer.ViewModels
         public async void LoadComments()
         {
             var response = await Reddit.Instance.ListComments(Thread.Link);
-            var opComment = new RedditListings(JObject.Parse(response[0].ToString()));
+            var commentArray = response.AsArray();
+            if (commentArray == null)
+                return;
 
-            Thread.Selftext = WebUtility.HtmlDecode(opComment.Data[0].Value<JObject>("data").Value<string>("selftext"));
+            string dummy1, dummy2;
+            var opCommentListings = new RedditResponse(commentArray[0].ToString()).ParseListings(out dummy1, out dummy2);
+            var userCommentsListings = new RedditResponse(commentArray[1].ToString()).ParseListings(out dummy1, out dummy2);
+
+            Thread.Selftext = WebUtility.HtmlDecode(opCommentListings[0].Value<JObject>("data").Value<string>("selftext"));
             OnPropertyChanged("Thread");
 
             var comments = new ObservableCollection<Comment>();
-            LinearizeComments(comments, JObject.Parse(response[1].ToString()), 0);
+            LinearizeComments(comments, userCommentsListings, 0);
             Thread.Comments = comments;
             OnPropertyChanged("Thread");
         }
 
-        public void LinearizeComments(ObservableCollection<Comment> comments, JObject listing, int depth)
+        public void LinearizeComments(ObservableCollection<Comment> comments, JArray listing, int depth)
         {
-            if (listing.HasValues && listing.Value<string>("kind") != "Listing")
-                return;
-
-            var children = listing.Value<JObject>("data").Value<JArray>("children");
-            foreach (var jcomment in children)
+            foreach (var jcomment in listing)
             {
                 if (jcomment.Value<string>("kind") != "t1")
                     continue;
@@ -68,7 +66,12 @@ namespace Redditer.ViewModels
 
                 JToken replies;
                 if (data.TryGetValue("replies", out replies) && replies.ToString() != "")
-                    LinearizeComments(comments, data.Value<JObject>("replies"), depth + 1);
+                {
+                    string dummy1, dummy2;
+                    var repliesResponse = new RedditResponse(replies.ToString());
+                    var repliesListings = repliesResponse.ParseListings(out dummy1, out dummy2);
+                    LinearizeComments(comments, repliesListings, depth + 1);
+                }
             }
         }
 
