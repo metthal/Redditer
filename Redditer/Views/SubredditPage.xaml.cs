@@ -43,9 +43,21 @@ namespace Redditer.Views
 
                 ScrollToTop();
             }
+            else if (VirtualKey.A <= e.Key && e.Key <= VirtualKey.Z)
+            {
+                System.Diagnostics.Debug.WriteLine(subredditTextBox.Text + e.Key);
+                ViewModel.QuerySubreddits(subredditTextBox.Text + e.Key);
+            }
+            else if (VirtualKey.Number0 <= e.Key && e.Key <= VirtualKey.Number9)
+            {
+                var c = e.Key.ToString()[6];
+                System.Diagnostics.Debug.WriteLine(subredditTextBox.Text + c);
+                ViewModel.QuerySubreddits(subredditTextBox.Text + c);
+            }
             else
             {
-                ViewModel.QuerySubreddits(subredditTextBox.Text + e.Key);
+                System.Diagnostics.Debug.WriteLine(subredditTextBox.Text);
+                ViewModel.QuerySubreddits(subredditTextBox.Text);
             }
         }
 
