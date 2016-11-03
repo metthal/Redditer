@@ -11,6 +11,14 @@ namespace Redditer.ViewModels
 {
     public class SubredditThreadViewModel : BaseViewModel
     {
+        public SubredditThreadViewModel()
+        {
+            Thread = null;
+            IsLoadingComments = true;
+
+            _nextListing = null;
+        }
+
         public SubredditThread Thread
         {
             get { return _thread; }
@@ -18,6 +26,28 @@ namespace Redditer.ViewModels
             {
                 _thread = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public bool IsLoadingComments
+        {
+            get { return _isLoadingComments; }
+            set
+            {
+                _isLoadingComments = value;
+                OnPropertyChanged();
+                OnPropertyChanged("AreCommentsLoaded");
+            }
+        }
+
+        public bool AreCommentsLoaded
+        {
+            get { return !_isLoadingComments; }
+            set
+            {
+                _isLoadingComments = !value;
+                OnPropertyChanged();
+                OnPropertyChanged("IsLoadingComments");
             }
         }
 
@@ -30,7 +60,7 @@ namespace Redditer.ViewModels
 
             string dummy1, dummy2;
             var opCommentListings = new RedditResponse(commentArray[0].ToString()).ParseListings(out dummy1, out dummy2);
-            var userCommentsListings = new RedditResponse(commentArray[1].ToString()).ParseListings(out dummy1, out dummy2);
+            var userCommentsListings = new RedditResponse(commentArray[1].ToString()).ParseListings(out _nextListing, out dummy2);
 
             Thread.Selftext = WebUtility.HtmlDecode(opCommentListings[0].Value<JObject>("data").Value<string>("selftext"));
             OnPropertyChanged("Thread");
@@ -39,6 +69,8 @@ namespace Redditer.ViewModels
             LinearizeComments(comments, userCommentsListings, 0);
             Thread.Comments = comments;
             OnPropertyChanged("Thread");
+
+            IsLoadingComments = false;
         }
 
         public void LinearizeComments(ObservableCollection<Comment> comments, JArray listing, int depth)
@@ -76,5 +108,7 @@ namespace Redditer.ViewModels
         }
 
         private SubredditThread _thread;
+        private string _nextListing;
+        private bool _isLoadingComments;
     }
 }

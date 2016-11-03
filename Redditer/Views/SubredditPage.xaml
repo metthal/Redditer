@@ -52,7 +52,7 @@
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
                 <DataTemplate>
-                    <ScrollViewer ViewChanged="ThreadListScrolling" Margin="-25,0,-25,20">
+                    <ScrollViewer ViewChanged="ThreadListScrolling" Margin="-25,0,-25,0">
                         <ListView ItemsSource="{Binding DataContext.CurrentSubreddit.Threads, ElementName=subredditPage}"
                                   IsItemClickEnabled="True" ItemClick="ThreadClicked" SelectionMode="None" ContainerContentChanging="ThreadListUpdating"
                                   SelectedItem="{Binding DataContext.SelectedThread, ElementName=subredditPage, Mode=TwoWay}">

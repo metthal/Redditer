@@ -25,13 +25,24 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="Top Bar"/>
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
-                <TextBlock Text="{Binding Thread.Title}" TextWrapping="WrapWholeWords"/>
-                <Border BorderThickness="0.5" BorderBrush="DarkGray" Margin="5,0,5,0">
+        <ScrollViewer Grid.Row="1" ViewChanged="CommentsScrolling">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="{Binding Thread.Title}" TextWrapping="WrapWholeWords" VerticalAlignment="Top"/>
+                <StackPanel Grid.Row="1" Visibility="{Binding IsLoadingComments}" HorizontalAlignment="Stretch">
+                    <ProgressRing IsActive="{Binding IsLoadingComments}" Width="50" Height="50" Foreground="White"/>
+                    <TextBlock Text="Loading comments..." HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Border Grid.Row="1" BorderThickness="0.5" BorderBrush="DarkGray" Margin="5,0,5,0" VerticalAlignment="Top"
+                        Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords"/>
                 </Border>
-                <ListView ItemsSource="{Binding Thread.Comments}" Margin="-10,5,0,0" Height="677">
+                <ListView  Grid.Row="2" ItemsSource="{Binding Thread.Comments}" Margin="-10,5,0,0"
+                    Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Padding="{Binding Depth, Converter={StaticResource CommentDepthToPaddingConverter}}">
@@ -40,7 +51,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </StackPanel>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Page>
