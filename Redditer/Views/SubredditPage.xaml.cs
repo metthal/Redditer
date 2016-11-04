@@ -39,8 +39,10 @@ namespace Redditer.Views
                 if (subredditTextBox.Text.Length == 0)
                     return;
 
+                subredditTextBox.IsEnabled = false; // Hides the keyboard
                 ViewModel.LoadSubreddit(subredditTextBox.Text, ViewModel.SortType[pivotView.SelectedIndex]);
 
+                subredditTextBox.IsEnabled = true;
                 subredditTextBox.Text = "";
                 splitView.IsPaneOpen = false;
 
@@ -135,7 +137,7 @@ namespace Redditer.Views
         private void ChooseQueriedSubreddit(object sender, SelectionChangedEventArgs e)
         {
             // Do not execute this if deselection fires this
-            if (e.AddedItems.Count == 0)
+            if (!splitView.IsPaneOpen || e.AddedItems.Count == 0)
                 return;
 
             ViewModel.LoadSubreddit(ViewModel.SelectedQueriedSubreddit, ViewModel.SortType[pivotView.SelectedIndex]);

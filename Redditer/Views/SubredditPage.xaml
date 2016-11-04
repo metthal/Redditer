@@ -8,7 +8,11 @@
     xmlns:views="using:Redditer.Views"
     mc:Ignorable="d"
     DataContext="{StaticResource SubredditViewModel}"
-    NavigationCacheMode="Required">
+    NavigationCacheMode="Required"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Media="using:Microsoft.Xaml.Interactions.Media"
+    >
 
     <Page.Transitions>
         <TransitionCollection>
@@ -53,15 +57,42 @@
             <Pivot.ItemTemplate>
                 <DataTemplate>
                     <ScrollViewer ViewChanged="ThreadListScrolling" Margin="-25,0,-25,0">
-                        <ListView ItemsSource="{Binding DataContext.CurrentSubreddit.Threads, ElementName=subredditPage}"
-                                  IsItemClickEnabled="True" ItemClick="ThreadClicked" SelectionMode="None" ContainerContentChanging="ThreadListUpdating"
-                                  SelectedItem="{Binding DataContext.SelectedThread, ElementName=subredditPage, Mode=TwoWay}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <views:SubredditThreadListItem DataContext="{Binding}" ExtendedMenu="False" Tag="{Binding ElementName=subredditPage}"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <Grid DataContext="{Binding DataContext, ElementName=subredditPage}">
+                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                        Visibility="{Binding IsSubredditLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ProgressRing IsActive="{Binding IsSubredditLoading}" Width="50" Height="50" Foreground="White"/>
+                                <TextBlock Text="Loading threads..." HorizontalAlignment="Center"/>
+                            </StackPanel>
+                            <ListView ItemsSource="{Binding CurrentSubreddit.Threads}" SelectedItem="{Binding SelectedThread, Mode=TwoWay}"
+                                      IsItemClickEnabled="True" ItemClick="ThreadClicked" SelectionMode="None" ContainerContentChanging="ThreadListUpdating"
+                                      Visibility="{Binding IsSubredditLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <views:SubredditThreadListItem DataContext="{Binding}" ExtendedMenu="False" Tag="{Binding ElementName=subredditPage}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <Grid x:Name="bottomPanel" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                  Canvas.ZIndex="10" Background="DodgerBlue" Padding="0,5,0,5" Height="30"
+                                  Visibility="{Binding IsEndlessLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="1.7*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.Resources>
+                                    <Storyboard x:Name="ShowBottomPanel" TargetProperty="Opacity" TargetName="bottomPanel">
+                                        <DoubleAnimation From="0" To="0.6" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </Grid.Resources>
+                                <Interactivity:Interaction.Behaviors>
+                                    <Interactions:DataTriggerBehavior Binding="{Binding IsEndlessLoading}" Value="True">
+                                        <Media:ControlStoryboardAction Storyboard="{StaticResource ShowBottomPanel}" ControlStoryboardOption="Play" />
+                                    </Interactions:DataTriggerBehavior>
+                                </Interactivity:Interaction.Behaviors>
+                                <ProgressRing Grid.Column="0" IsActive="{Binding IsEndlessLoading}" Width="20" Height="20" Foreground="White" HorizontalAlignment="Right"/>
+                                <TextBlock Grid.Column="1" Text="Loading threads..." HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Grid>
                     </ScrollViewer>
                 </DataTemplate>
             </Pivot.ItemTemplate>

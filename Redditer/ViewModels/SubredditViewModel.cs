@@ -19,12 +19,15 @@ namespace Redditer.ViewModels
             CurrentSubreddit = new Subreddit("/r/all", new ObservableCollection<SubredditThread>());
             SelectedThread = null;
             SelectedQueriedSubreddit = null;
+            IsSubredditLoading = true;
+            IsEndlessLoading = false;
 
             _nextListing = null;
         }
 
         public async void LoadSubreddit(string subreddit, string sortType)
         {
+            IsSubredditLoading = true;
             if (!subreddit.StartsWith("/r/"))
                 subreddit = subreddit.Insert(0, "/r/");
 
@@ -42,15 +45,22 @@ namespace Redditer.ViewModels
 
             CurrentSubreddit = new Subreddit(subreddit, newThreads);
             QueriedSubreddits.Clear();
+            IsSubredditLoading = false;
         }
 
         public async Task NextThreads(string sortType)
         {
+            if (IsEndlessLoading)
+                return;
+            IsEndlessLoading = true;
+
             string dummy;
             var response = await Reddit.Instance.ListThreads(CurrentSubreddit.Name, sortType, _nextListing, CurrentSubreddit.Threads.Count);
             var threadListings = response.ParseListings(out _nextListing, out dummy);
             if (threadListings == null)
                 return;
+
+            IsEndlessLoading = false;
 
             foreach (var jthread in threadListings)
             {
@@ -85,6 +95,7 @@ namespace Redditer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public SubredditThread SelectedThread
         {
             get { return _selectedThread; }
@@ -108,6 +119,38 @@ namespace Redditer.ViewModels
         public ObservableCollection<string> SortType { get; }
 
         public string SelectedQueriedSubreddit { get; set; }
+
+        public bool IsSubredditLoading
+        {
+            get { return _isSubredditLoading; }
+            set
+            {
+                _isSubredditLoading = value;
+                OnPropertyChanged();
+                OnPropertyChanged("IsSubredditLoaded");
+            }
+        }
+
+        public bool IsSubredditLoaded
+        {
+            get { return !_isSubredditLoading; }
+            set
+            {
+                _isSubredditLoading = !value;
+                OnPropertyChanged();
+                OnPropertyChanged("IsSubredditLoading");
+            }
+        }
+
+        public bool IsEndlessLoading
+        {
+            get { return _isEndlessLoading; }
+            set
+            {
+                _isEndlessLoading = value;
+                OnPropertyChanged();
+            }
+        }
 
         private SubredditThread ParseThread(JObject jobject)
         {
@@ -137,5 +180,7 @@ namespace Redditer.ViewModels
         private SubredditThread _selectedThread;
         private string _nextListing;
         private ObservableCollection<string> _queriedSubreddits;
+        private bool _isSubredditLoading;
+        private bool _isEndlessLoading;
     }
 }
