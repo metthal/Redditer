@@ -11,7 +11,7 @@
         <viewModels:SubredditThreadViewModel x:Key="SubredditThreadViewModel" />
         <converters:CommentDepthToPaddingConverter x:Key="CommentDepthToPaddingConverter" />
         <converters:IntToPluralStringConverter x:Key="IntToPluralStringConverter" />
-        <converters:IntToStringFormatConverter x:Key="IntToStringFormatConverter"/>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:BoolToBrushOrWhiteConverter x:Key="BoolToBrushOrWhiteConverter" />
         <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />

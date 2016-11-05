@@ -7,11 +7,11 @@ using Windows.UI.Xaml.Data;
 
 namespace Redditer.Converters
 {
-    public class IntToStringFormatConverter : IValueConverter
+    public class StringFormatConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return string.Format((string)parameter, (int)value);
+            return string.Format((string)parameter, value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

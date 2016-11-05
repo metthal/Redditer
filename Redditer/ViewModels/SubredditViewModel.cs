@@ -21,7 +21,6 @@ namespace Redditer.ViewModels
             SelectedQueriedSubreddit = null;
             IsSubredditLoading = true;
             IsEndlessLoading = false;
-            IsLoggedIn = false;
 
             _nextListing = null;
         }
@@ -30,7 +29,9 @@ namespace Redditer.ViewModels
         {
             var auth = new Authenticator.Authenticator { ViewModel = this };
             var token = await Reddit.Instance.LogIn(auth);
-            IsLoggedIn = token != null;
+            OnPropertyChanged("IsLoggedIn");
+            OnPropertyChanged("IsNotLoggedIn");
+            OnPropertyChanged("User");
             return IsLoggedIn;
         }
 
@@ -161,27 +162,9 @@ namespace Redditer.ViewModels
             }
         }
 
-        public bool IsLoggedIn
-        {
-            get { return _isLoggedIn; }
-            set
-            {
-                _isLoggedIn = value;
-                OnPropertyChanged();
-                OnPropertyChanged("IsNotLoggedIn");
-            }
-        }
-
-        public bool IsNotLoggedIn
-        {
-            get { return !_isLoggedIn; }
-            set
-            {
-                _isLoggedIn = !value;
-                OnPropertyChanged();
-                OnPropertyChanged("IsLoggedIn");
-            }
-        }
+        public bool IsLoggedIn => Reddit.Instance.User.Authenticated;
+        public bool IsNotLoggedIn => !IsLoggedIn;
+        public string User => Reddit.Instance.User.Username;
 
         private SubredditThread ParseThread(JObject jobject)
         {

@@ -18,7 +18,7 @@
         <StackPanel Grid.Column="1" Visibility="{Binding LoadMoreComments, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" Margin="0,1,0,1">
                 <TextBlock Text="load more comments" Foreground="DodgerBlue" FontSize="9" FontWeight="Bold"/>
-                <TextBlock Text="{Binding LoadMoreCommentsCount, Converter={StaticResource IntToStringFormatConverter}, ConverterParameter='({0})'}"
+                <TextBlock Text="{Binding LoadMoreCommentsCount, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
                            FontSize="9" Foreground="DarkGray" Margin="4,0,0,0"/>
             </StackPanel>
         </StackPanel>
@@ -36,7 +36,7 @@
                            Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE735;" FontSize="9" VerticalAlignment="Center" Foreground="Gold"
                            Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <TextBlock Text="{Binding Gilded, Converter={StaticResource IntToStringFormatConverter}, ConverterParameter='x{0}'}"
+                <TextBlock Text="{Binding Gilded, Converter={StaticResource StringFormatConverter}, ConverterParameter='x{0}'}"
                            Visibility="{Binding IsMultigilded, Converter={StaticResource BoolToVisibilityConverter}}"
                            Foreground="Gold" FontWeight="Bold" FontSize="10" VerticalAlignment="Center"/>
             </StackPanel>
