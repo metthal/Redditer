@@ -19,43 +19,63 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <TextBlock Grid.Row="0" Text="Top Bar"/>
-        <ScrollViewer Grid.Row="1" ViewChanged="CommentsScrolling">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="8"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="8"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{Binding Thread.Title}" TextWrapping="WrapWholeWords" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Margin="5,0,5,0"/>
-                <Line Grid.Row="1" X1="0" X2="1" Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" VerticalAlignment="Center"
-                      Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <StackPanel Grid.Row="2" Visibility="{Binding IsLoadingComments}" HorizontalAlignment="Stretch">
-                    <ProgressRing IsActive="{Binding IsLoadingComments}" Width="50" Height="50" Foreground="White"/>
-                    <TextBlock Text="Loading comments..." HorizontalAlignment="Center"/>
+        <SplitView Name="splitView" DisplayMode="Inline" IsPaneOpen="False" OpenPaneLength="300" Canvas.ZIndex="10" Template="{StaticResource SplitViewWithInlineAnimations}">
+            <SplitView.Pane>
+                <StackPanel>
+                    <ToggleButton DataContext="{Binding ElementName=splitView}" IsChecked="{Binding IsPaneOpen, Mode=TwoWay}"
+                                  FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                  Content="&#xE830;" Height="40" Width="40"
+                                  Margin="0,15,12,0" HorizontalAlignment="Right"/>
+                    <TextBox Name="subredditTextBox" KeyDown="SubredditTextBoxKeydown" Margin="10,10,10,0" PlaceholderText="Enter subreddit name" />
+                    <ListView ItemsSource="{Binding ParentViewModel.QueriedSubreddits}" SelectionChanged="ChooseQueriedSubreddit"
+                              SelectedItem="{Binding ParentViewModel.SelectedQueriedSubreddit, Mode=TwoWay}"/>
                 </StackPanel>
-                <TextBlock Grid.Row="2" VerticalAlignment="Top" Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords" Margin="5,5,5,0" FontSize="11"
-                           Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <Line Grid.Row="3" X1="0" X2="1" Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" VerticalAlignment="Center" Margin="0,5,0,0"
-                      Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <ListView Grid.Row="4" ItemsSource="{Binding Thread.Comments}" Margin="-10,0,0,0" SelectionChanged="CommentClicked"
-                    Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="{Binding Depth, Converter={StaticResource CommentDepthToPaddingConverter}}" HorizontalAlignment="Stretch">
-                                <views:CommentListItem DataContext="{Binding}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-        </ScrollViewer>
+            </SplitView.Pane>
+        </SplitView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="60"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <ToggleButton DataContext="{Binding ElementName=splitView}" IsChecked="{Binding IsPaneOpen, Mode=TwoWay}"
+                              FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="10,10,0,10"
+                              Content="&#xE700;" Height="40" Width="40"/>
+                <TextBlock FontSize="16" Text="{Binding Thread.Subreddit}" Padding="30,10,10,10" FontWeight="Bold" VerticalAlignment="Center"/>
+            </StackPanel>
+            <ScrollViewer Grid.Row="1" ViewChanged="CommentsScrolling" IsEnabled="{Binding IsPaneOpen, ElementName=splitView, Converter={StaticResource BoolNegationConverter}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{Binding Thread.Title}" TextWrapping="WrapWholeWords" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Margin="5,0,5,0"/>
+                    <Line Grid.Row="1" X1="0" X2="1" Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" VerticalAlignment="Center"
+                          Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <StackPanel Grid.Row="2" Visibility="{Binding IsLoadingComments}" HorizontalAlignment="Stretch">
+                        <ProgressRing IsActive="{Binding IsLoadingComments}" Width="50" Height="50" Foreground="White"/>
+                        <TextBlock Text="Loading comments..." HorizontalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Grid.Row="2" VerticalAlignment="Top" Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords" Margin="5,5,5,0" FontSize="11"
+                               Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <Line Grid.Row="3" X1="0" X2="1" Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" VerticalAlignment="Center" Margin="0,5,0,0"
+                          Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <ListView Grid.Row="4" ItemsSource="{Binding Thread.Comments}" Margin="-10,0,0,0" SelectionChanged="CommentClicked"
+                        Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="{Binding Depth, Converter={StaticResource CommentDepthToPaddingConverter}}" HorizontalAlignment="Stretch">
+                                    <views:CommentListItem DataContext="{Binding}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>

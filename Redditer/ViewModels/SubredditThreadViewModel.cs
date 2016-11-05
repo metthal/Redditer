@@ -16,6 +16,7 @@ namespace Redditer.ViewModels
         {
             Thread = null;
             IsLoadingComments = true;
+            ParentViewModel = null;
 
             _nextListing = null;
         }
@@ -49,6 +50,16 @@ namespace Redditer.ViewModels
                 _isLoadingComments = !value;
                 OnPropertyChanged();
                 OnPropertyChanged("IsLoadingComments");
+            }
+        }
+
+        public SubredditViewModel ParentViewModel
+        {
+            get { return _parentViewModel; }
+            set
+            {
+                _parentViewModel = value;
+                OnPropertyChanged();
             }
         }
 
@@ -160,5 +171,6 @@ namespace Redditer.ViewModels
         private SubredditThread _thread;
         private string _nextListing;
         private bool _isLoadingComments;
+        private SubredditViewModel _parentViewModel;
     }
 }

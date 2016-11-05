@@ -29,7 +29,7 @@ namespace Redditer.Views
 
         public void OpenSelectedThreadComments()
         {
-            Frame.Navigate(typeof(SubredditThreadPage), ViewModel.SelectedThread);
+            Frame.Navigate(typeof(SubredditThreadPage), ViewModel);
         }
 
         private void SubredditTextBoxKeydown(object sender, KeyRoutedEventArgs e)
