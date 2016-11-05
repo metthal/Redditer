@@ -16,7 +16,7 @@ namespace RedditerCore.Authentication
         public readonly string LoginResource = "/post/login";
         public readonly string ClientId = "bHymir0Cz5KU-w";
         public readonly string RedirectUri = "https://github.com/metthal/Redditer";
-        public readonly string Scopes = "identity";
+        public readonly string Scopes = "identity read history";
 
         public AuthenticationClient()
         {
