@@ -21,8 +21,17 @@ namespace Redditer.ViewModels
             SelectedQueriedSubreddit = null;
             IsSubredditLoading = true;
             IsEndlessLoading = false;
+            IsLoggedIn = false;
 
             _nextListing = null;
+        }
+
+        public async Task<bool> Login()
+        {
+            var auth = new Authenticator.Authenticator { ViewModel = this };
+            var token = await Reddit.Instance.LogIn(auth);
+            IsLoggedIn = token != null;
+            return IsLoggedIn;
         }
 
         public async void LoadSubreddit(string subreddit, string sortType)
@@ -152,6 +161,28 @@ namespace Redditer.ViewModels
             }
         }
 
+        public bool IsLoggedIn
+        {
+            get { return _isLoggedIn; }
+            set
+            {
+                _isLoggedIn = value;
+                OnPropertyChanged();
+                OnPropertyChanged("IsNotLoggedIn");
+            }
+        }
+
+        public bool IsNotLoggedIn
+        {
+            get { return !_isLoggedIn; }
+            set
+            {
+                _isLoggedIn = !value;
+                OnPropertyChanged();
+                OnPropertyChanged("IsLoggedIn");
+            }
+        }
+
         private SubredditThread ParseThread(JObject jobject)
         {
             return new SubredditThread
@@ -182,5 +213,6 @@ namespace Redditer.ViewModels
         private ObservableCollection<string> _queriedSubreddits;
         private bool _isSubredditLoading;
         private bool _isEndlessLoading;
+        private bool _isLoggedIn;
     }
 }

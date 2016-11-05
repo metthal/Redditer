@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Authenticator\Authenticator.cs" />
     <Compile Include="Converters\BoolNegationConverter.cs" />
     <Compile Include="Converters\BoolToBrushOrWhiteConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />

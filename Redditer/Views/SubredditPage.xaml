@@ -25,7 +25,8 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SplitView Name="splitView" DisplayMode="Inline" IsPaneOpen="False" OpenPaneLength="300" Canvas.ZIndex="10" Template="{StaticResource SplitViewWithInlineAnimations}">
+        <SplitView Name="splitView" DisplayMode="Inline" IsPaneOpen="False" OpenPaneLength="300"
+                   Canvas.ZIndex="10" Template="{StaticResource SplitViewWithInlineAnimations}">
             <SplitView.Pane>
                 <StackPanel>
                     <ToggleButton DataContext="{Binding ElementName=splitView}" IsChecked="{Binding IsPaneOpen, Mode=TwoWay}"
@@ -37,66 +38,100 @@
                 </StackPanel>
             </SplitView.Pane>
         </SplitView>
-        <Pivot Name="pivotView" ItemsSource="{Binding SortType}" HorizontalContentAlignment="Stretch" SelectionChanged="ChangeSortType"
-               IsEnabled="{Binding IsPaneOpen, ElementName=splitView, Converter={StaticResource BoolNegationConverter}}">
-            <Pivot.TitleTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <ToggleButton DataContext="{Binding ElementName=splitView}" IsChecked="{Binding IsPaneOpen, Mode=TwoWay}"
-                                      FontFamily="Segoe MDL2 Assets" FontSize="20"
-                                      Content="&#xE700;" Height="40" Width="40"/>
-                        <TextBlock FontSize="16" Text="{Binding CurrentSubreddit.Name}" Padding="30,10,10,10"/>
-                    </StackPanel>
-                </DataTemplate>
-            </Pivot.TitleTemplate>
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" MinWidth="50" MaxWidth="150"/>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-            <Pivot.ItemTemplate>
-                <DataTemplate>
-                    <ScrollViewer ViewChanged="ThreadListScrolling" Margin="-25,0,-25,0">
-                        <Grid DataContext="{Binding DataContext, ElementName=subredditPage}">
-                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                                        Visibility="{Binding IsSubredditLoading, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ProgressRing IsActive="{Binding IsSubredditLoading}" Width="50" Height="50" Foreground="White"/>
-                                <TextBlock Text="Loading threads..." HorizontalAlignment="Center"/>
-                            </StackPanel>
-                            <ListView ItemsSource="{Binding CurrentSubreddit.Threads}" SelectedItem="{Binding SelectedThread, Mode=TwoWay}"
-                                      IsItemClickEnabled="True" ItemClick="ThreadClicked" SelectionMode="None" ContainerContentChanging="ThreadListUpdating"
-                                      Visibility="{Binding IsSubredditLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <views:SubredditThreadListItem DataContext="{Binding}" ExtendedMenu="False" Tag="{Binding ElementName=subredditPage}"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <Grid x:Name="bottomPanel" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                  Canvas.ZIndex="10" Background="DodgerBlue" Padding="0,5,0,5" Height="30"
-                                  Visibility="{Binding IsEndlessLoading, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="1.7*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.Resources>
-                                    <Storyboard x:Name="ShowBottomPanel" TargetProperty="Opacity" TargetName="bottomPanel">
-                                        <DoubleAnimation From="0" To="0.6" Duration="0:0:0.3"/>
-                                    </Storyboard>
-                                </Grid.Resources>
-                                <Interactivity:Interaction.Behaviors>
-                                    <Interactions:DataTriggerBehavior Binding="{Binding IsEndlessLoading}" Value="True">
-                                        <Media:ControlStoryboardAction Storyboard="{StaticResource ShowBottomPanel}" ControlStoryboardOption="Play" />
-                                    </Interactions:DataTriggerBehavior>
-                                </Interactivity:Interaction.Behaviors>
-                                <ProgressRing Grid.Column="0" IsActive="{Binding IsEndlessLoading}" Width="20" Height="20" Foreground="White" HorizontalAlignment="Right"/>
-                                <TextBlock Grid.Column="1" Text="Loading threads..." HorizontalAlignment="Left"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="60"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ToggleButton Grid.Column="0" DataContext="{Binding ElementName=splitView}" IsChecked="{Binding IsPaneOpen, Mode=TwoWay}"
+                              FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="10,10,0,10"
+                              Content="&#xE700;" Height="40" Width="40"/>
+                <TextBlock Grid.Column="1" FontSize="16" Text="{Binding CurrentSubreddit.Name}" Padding="10,10,10,10"
+                           FontWeight="Bold" VerticalAlignment="Center"/>
+                <Button Grid.Column="2" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="0,10,0,10"
+                        Content="&#xEDAB;" Height="40" Width="40"
+                        Tapped="RefreshTapped"/>
+                <Button Grid.Column="3" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                              FontFamily="Segoe MDL2 Assets" FontSize="20" Margin="0,10,10,10"
+                              Content="&#xE712;" Height="40"
+                              Tapped="MenuTapped">
+                    <FlyoutBase.AttachedFlyout>
+                        <MenuFlyout x:Name="menuFlyout" Placement="Bottom">
+                            <MenuFlyoutItem Text="Subreddit info" HorizontalContentAlignment="Left" FontSize="13"/>
+                            <MenuFlyoutItem Text="Login" HorizontalContentAlignment="Left" FontSize="13"
+                                            Tapped="MenuLoginTapped" Visibility="{Binding IsNotLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <MenuFlyoutItem Text="Profile" HorizontalContentAlignment="Left" FontSize="13"
+                                            Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <MenuFlyoutItem Text="Logout" HorizontalContentAlignment="Left" FontSize="13"
+                                            Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </MenuFlyout>
+                    </FlyoutBase.AttachedFlyout>
+                </Button>
+            </Grid>
+            <Pivot Grid.Row="1" Name="pivotView" ItemsSource="{Binding SortType}" HorizontalContentAlignment="Stretch" SelectionChanged="ChangeSortType"
+                   IsEnabled="{Binding IsPaneOpen, ElementName=splitView, Converter={StaticResource BoolNegationConverter}}">
+                <Pivot.TitleTemplate>
+                    <DataTemplate>
+                    </DataTemplate>
+                </Pivot.TitleTemplate>
+                <Pivot.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" MinWidth="50" MaxWidth="150"/>
+                    </DataTemplate>
+                </Pivot.HeaderTemplate>
+                <Pivot.ItemTemplate>
+                    <DataTemplate>
+                        <ScrollViewer ViewChanged="ThreadListScrolling" Margin="-25,0,-25,0">
+                            <Grid DataContext="{Binding DataContext, ElementName=subredditPage}">
+                                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                            Visibility="{Binding IsSubredditLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <ProgressRing IsActive="{Binding IsSubredditLoading}" Width="50" Height="50" Foreground="White"/>
+                                    <TextBlock Text="Loading threads..." HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <ListView ItemsSource="{Binding CurrentSubreddit.Threads}" SelectedItem="{Binding SelectedThread, Mode=TwoWay}"
+                                          IsItemClickEnabled="True" ItemClick="ThreadClicked" SelectionMode="None" ContainerContentChanging="ThreadListUpdating"
+                                          Visibility="{Binding IsSubredditLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <views:SubredditThreadListItem DataContext="{Binding}" ExtendedMenu="False" Tag="{Binding ElementName=subredditPage}"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <Grid x:Name="bottomPanel" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                      Canvas.ZIndex="10" Background="DodgerBlue" Padding="0,5,0,5" Height="30"
+                                      Visibility="{Binding IsEndlessLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="1.7*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.Resources>
+                                        <Storyboard x:Name="ShowBottomPanel" TargetProperty="Opacity" TargetName="bottomPanel">
+                                            <DoubleAnimation From="0" To="0.6" Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </Grid.Resources>
+                                    <Interactivity:Interaction.Behaviors>
+                                        <Interactions:DataTriggerBehavior Binding="{Binding IsEndlessLoading}" Value="True">
+                                            <Media:ControlStoryboardAction Storyboard="{StaticResource ShowBottomPanel}" ControlStoryboardOption="Play" />
+                                        </Interactions:DataTriggerBehavior>
+                                    </Interactivity:Interaction.Behaviors>
+                                    <ProgressRing Grid.Column="0" IsActive="{Binding IsEndlessLoading}" Width="20" Height="20" Foreground="White" HorizontalAlignment="Right"/>
+                                    <TextBlock Grid.Column="1" Text="Loading threads..." HorizontalAlignment="Left"/>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </ScrollViewer>
-                </DataTemplate>
-            </Pivot.ItemTemplate>
-        </Pivot>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </Pivot.ItemTemplate>
+            </Pivot>
+        </Grid>
     </Grid>
 </Page>
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Redditer.ViewModels;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -130,6 +132,9 @@ namespace Redditer.Views
         private async void ThreadListScrolling(object sender, ScrollViewerViewChangedEventArgs e)
         {
             var s = (ScrollViewer)sender;
+            if (Math.Abs(s.VerticalOffset) < 0.01 && Math.Abs(s.ScrollableHeight) < 0.01)
+                return;
+
             if (Math.Abs(s.VerticalOffset - s.ScrollableHeight) < 0.01)
                 await ViewModel.NextThreads(ViewModel.SortType[pivotView.SelectedIndex]);
         }
@@ -162,6 +167,27 @@ namespace Redditer.Views
 
             var scrollViewer = (ScrollViewer) pivotItem.ContentTemplateRoot;
             scrollViewer?.ChangeView(0, 0, 1);
+        }
+
+        private void RefreshTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
+        }
+
+        private void MenuTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var button = sender as Button;
+            menuFlyout.ShowAt(button);
+        }
+
+        private async void MenuLoginTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var result = await ViewModel.Login();
+            if (result)
+                return;
+
+            var dialog = new MessageDialog("Failed to login");
+            await dialog.ShowAsync();
         }
 
         public SubredditViewModel ViewModel { get; set; }
