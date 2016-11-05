@@ -29,19 +29,23 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
+                    <RowDefinition Height="8"/>
                     <RowDefinition/>
+                    <RowDefinition Height="8"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{Binding Thread.Title}" TextWrapping="WrapWholeWords" VerticalAlignment="Top"/>
-                <StackPanel Grid.Row="1" Visibility="{Binding IsLoadingComments}" HorizontalAlignment="Stretch">
+                <TextBlock Grid.Row="0" Text="{Binding Thread.Title}" TextWrapping="WrapWholeWords" VerticalAlignment="Top" FontSize="13" FontWeight="Bold" Margin="5,0,5,0"/>
+                <Line Grid.Row="1" X1="0" X2="1" Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" VerticalAlignment="Center"
+                      Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <StackPanel Grid.Row="2" Visibility="{Binding IsLoadingComments}" HorizontalAlignment="Stretch">
                     <ProgressRing IsActive="{Binding IsLoadingComments}" Width="50" Height="50" Foreground="White"/>
                     <TextBlock Text="Loading comments..." HorizontalAlignment="Center"/>
                 </StackPanel>
-                <Border Grid.Row="1" BorderThickness="0.5" BorderBrush="DarkGray" Margin="5,0,5,0" VerticalAlignment="Top"
-                        Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords"/>
-                </Border>
-                <ListView  Grid.Row="2" ItemsSource="{Binding Thread.Comments}" Margin="-10,5,0,0" SelectionChanged="CommentClicked"
+                <TextBlock Grid.Row="2" VerticalAlignment="Top" Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords" Margin="5,5,5,0" FontSize="11"
+                           Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Line Grid.Row="3" X1="0" X2="1" Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" VerticalAlignment="Center" Margin="0,5,0,0"
+                      Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <ListView Grid.Row="4" ItemsSource="{Binding Thread.Comments}" Margin="-10,0,0,0" SelectionChanged="CommentClicked"
                     Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
