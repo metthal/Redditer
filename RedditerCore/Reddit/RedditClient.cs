@@ -83,6 +83,12 @@ namespace RedditerCore.Reddit
             return new RedditResponse(response);
         }
 
+        public async Task<RedditResponse> ListComments(string threadLink, string commentLink)
+        {
+            var response = await Call(HttpMethod.Get, threadLink + commentLink + "/.json");
+            return new RedditResponse(response);
+        }
+
         public async Task<RedditResponse> QuerySubreddits(string prefix)
         {
             var response = await Call(HttpMethod.Post, "/api/search_reddit_names/.json",
