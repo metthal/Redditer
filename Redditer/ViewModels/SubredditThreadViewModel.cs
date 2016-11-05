@@ -90,9 +90,15 @@ namespace Redditer.ViewModels
             // This listings now contains info about the parent comment, so we need to skip this one level and only parse its replies
             string dummy1, dummy2;
             var moreCommentsListings = new RedditResponse(commentsArray[1].ToString()).ParseListings(out dummy1, out dummy2);
-            moreCommentsListings =
-                new RedditResponse(moreCommentsListings[0].Value<JObject>("data").Value<JObject>("replies").ToString())
-                    .ParseListings(out dummy1, out dummy2);
+
+            JToken replies;
+            if (moreCommentsListings[0].Value<JObject>("data").TryGetValue("replies", out replies) && replies.Type == JTokenType.Object)
+            {
+                moreCommentsListings =
+                    new RedditResponse(moreCommentsListings[0].Value<JObject>("data").Value<JObject>("replies").ToString()).ParseListings(out dummy1, out dummy2);
+            }
+            else
+                return;
 
             var moreComments = new ObservableCollection<Comment>();
             LinearizeComments(moreComments, moreCommentsListings, placeholderComment.Depth, placeholderComment.LoadMoreCommentsChildren);
@@ -101,7 +107,6 @@ namespace Redditer.ViewModels
             {
                 Thread.Comments.Insert(index + i, moreComments[i]);
             }
-            OnPropertyChanged("Thread");
         }
 
         public void LinearizeComments(ObservableCollection<Comment> comments, JArray listing, int depth, List<string> validLinks = null)
