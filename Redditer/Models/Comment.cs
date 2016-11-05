@@ -9,6 +9,11 @@ namespace Redditer.Models
 {
     public class Comment
     {
+        public Comment()
+        {
+            LoadMoreCommentsLink = Maybe<string>.Nothing();
+        }
+
         public int Depth { get; set; }
         public string Text { get; set; }
         public string Author { get; set; }
@@ -19,5 +24,9 @@ namespace Redditer.Models
         public int Gilded { get; set; }
         public bool IsGilded => Gilded > 0;
         public bool IsMultigilded => Gilded > 1;
+        public bool RegularComment => !LoadMoreComments;
+        public bool LoadMoreComments => LoadMoreCommentsLink.Defined;
+        public Maybe<string> LoadMoreCommentsLink { get; set; }
+        public int LoadMoreCommentsCount { get; set; }
     }
 }

@@ -73,36 +73,75 @@ namespace Redditer.ViewModels
             IsLoadingComments = false;
         }
 
+        public async void LoadMoreComments(Comment placeholderComment)
+        {
+            if (!placeholderComment.LoadMoreComments)
+                return;
+
+            var response = await Reddit.Instance.ListComments(Thread.Link, placeholderComment.LoadMoreCommentsLink.Value);
+            var commentsArray = response.AsArray();
+            if (commentsArray == null)
+                return;
+
+            var index = Thread.Comments.IndexOf(placeholderComment);
+            Thread.Comments.RemoveAt(index);
+
+            // This listings now contains info about the parent comment, so we need to skip this one level and only parse its replies
+            string dummy1, dummy2;
+            var moreCommentsListings = new RedditResponse(commentsArray[1].ToString()).ParseListings(out dummy1, out dummy2);
+            moreCommentsListings =
+                new RedditResponse(moreCommentsListings[0].Value<JObject>("data").Value<JObject>("replies").ToString())
+                    .ParseListings(out dummy1, out dummy2);
+
+            var moreComments = new ObservableCollection<Comment>();
+            LinearizeComments(moreComments, moreCommentsListings, placeholderComment.Depth);
+
+            for (int i = 0; i < moreComments.Count; ++i)
+                Thread.Comments.Insert(index + i, moreComments[i]);
+            OnPropertyChanged("Thread");
+        }
+
         public void LinearizeComments(ObservableCollection<Comment> comments, JArray listing, int depth)
         {
             foreach (var jcomment in listing)
             {
-                if (jcomment.Value<string>("kind") != "t1")
-                    continue;
-
-                var data = jcomment.Value<JObject>("data");
-                var comment = new Comment
+                if (jcomment.Value<string>("kind") == "t1")
                 {
-                    Depth = depth,
-                    Author = data.Value<string>("author"),
-                    Text = WebUtility.HtmlDecode(data.Value<string>("body")),
-                    Score = data.Value<int>("score"),
-                    Flair = data.Value<string>("author_flair_text"),
-                    Created = DateTimeHelper.FromTimestamp(data.Value<ulong>("created_utc")),
-                    Edited = data["edited"].Type == JTokenType.Boolean
-                        ? Maybe<DateTime>.Nothing()
-                        : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(data.Value<ulong>("edited"))),
-                    Gilded = data.Value<int>("gilded")
-                };
-                comments.Add(comment);
+                    var data = jcomment.Value<JObject>("data");
+                    var comment = new Comment
+                    {
+                        Depth = depth,
+                        Author = data.Value<string>("author"),
+                        Text = WebUtility.HtmlDecode(data.Value<string>("body")),
+                        Score = data.Value<int>("score"),
+                        Flair = data.Value<string>("author_flair_text"),
+                        Created = DateTimeHelper.FromTimestamp(data.Value<ulong>("created_utc")),
+                        Edited = data["edited"].Type == JTokenType.Boolean
+                            ? Maybe<DateTime>.Nothing()
+                            : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(data.Value<ulong>("edited"))),
+                        Gilded = data.Value<int>("gilded")
+                    };
+                    comments.Add(comment);
 
-                JToken replies;
-                if (data.TryGetValue("replies", out replies) && replies.ToString() != "")
+                    JToken replies;
+                    if (data.TryGetValue("replies", out replies) && replies.ToString() != "")
+                    {
+                        string dummy1, dummy2;
+                        var repliesResponse = new RedditResponse(replies.ToString());
+                        var repliesListings = repliesResponse.ParseListings(out dummy1, out dummy2);
+                        LinearizeComments(comments, repliesListings, depth + 1);
+                    }
+                }
+                else if (jcomment.Value<string>("kind") == "more")
                 {
-                    string dummy1, dummy2;
-                    var repliesResponse = new RedditResponse(replies.ToString());
-                    var repliesListings = repliesResponse.ParseListings(out dummy1, out dummy2);
-                    LinearizeComments(comments, repliesListings, depth + 1);
+                    var data = jcomment.Value<JObject>("data");
+                    var comment = new Comment
+                    {
+                        Depth = depth,
+                        LoadMoreCommentsLink = Maybe<string>.Just(data.Value<string>("parent_id").Remove(0, 3)),
+                        LoadMoreCommentsCount = data.Value<int>("count")
+                    };
+                    comments.Add(comment);
                 }
             }
         }

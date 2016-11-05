@@ -49,5 +49,17 @@ namespace Redditer.Views
             if (Math.Abs(s.VerticalOffset - s.ScrollableHeight) < 0.01)
                 System.Diagnostics.Debug.WriteLine("{0}/{1}", s.VerticalOffset, s.ScrollableHeight);
         }
+
+        private void CommentClicked(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+                return;
+
+            var comment = e.AddedItems[0] as Comment;
+            if (comment.LoadMoreComments)
+            {
+                ViewModel.LoadMoreComments(comment);
+            }
+        }
     }
 }

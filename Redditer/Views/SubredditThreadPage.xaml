@@ -41,7 +41,7 @@
                         Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords"/>
                 </Border>
-                <ListView  Grid.Row="2" ItemsSource="{Binding Thread.Comments}" Margin="-10,5,0,0"
+                <ListView  Grid.Row="2" ItemsSource="{Binding Thread.Comments}" Margin="-10,5,0,0" SelectionChanged="CommentClicked"
                     Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
