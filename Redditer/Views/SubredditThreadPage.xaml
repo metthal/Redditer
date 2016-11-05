@@ -45,9 +45,9 @@
                     Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Padding="{Binding Depth, Converter={StaticResource CommentDepthToPaddingConverter}}">
+                            <Grid Padding="{Binding Depth, Converter={StaticResource CommentDepthToPaddingConverter}}" HorizontalAlignment="Stretch">
                                 <views:CommentListItem DataContext="{Binding}"/>
-                            </StackPanel>
+                            </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

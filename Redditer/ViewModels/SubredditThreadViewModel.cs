@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net;
 using Newtonsoft.Json.Linq;
@@ -94,20 +95,25 @@ namespace Redditer.ViewModels
                     .ParseListings(out dummy1, out dummy2);
 
             var moreComments = new ObservableCollection<Comment>();
-            LinearizeComments(moreComments, moreCommentsListings, placeholderComment.Depth);
+            LinearizeComments(moreComments, moreCommentsListings, placeholderComment.Depth, placeholderComment.LoadMoreCommentsChildren);
 
-            for (int i = 0; i < moreComments.Count; ++i)
+            for (var i = 0; i < moreComments.Count; ++i)
+            {
                 Thread.Comments.Insert(index + i, moreComments[i]);
+            }
             OnPropertyChanged("Thread");
         }
 
-        public void LinearizeComments(ObservableCollection<Comment> comments, JArray listing, int depth)
+        public void LinearizeComments(ObservableCollection<Comment> comments, JArray listing, int depth, List<string> validLinks = null)
         {
             foreach (var jcomment in listing)
             {
+                var data = jcomment.Value<JObject>("data");
+                if (validLinks != null && !validLinks.Contains(data.Value<string>("id")))
+                    continue;
+
                 if (jcomment.Value<string>("kind") == "t1")
                 {
-                    var data = jcomment.Value<JObject>("data");
                     var comment = new Comment
                     {
                         Depth = depth,
@@ -134,12 +140,12 @@ namespace Redditer.ViewModels
                 }
                 else if (jcomment.Value<string>("kind") == "more")
                 {
-                    var data = jcomment.Value<JObject>("data");
                     var comment = new Comment
                     {
                         Depth = depth,
                         LoadMoreCommentsLink = Maybe<string>.Just(data.Value<string>("parent_id").Remove(0, 3)),
-                        LoadMoreCommentsCount = data.Value<int>("count")
+                        LoadMoreCommentsCount = data.Value<int>("count"),
+                        LoadMoreCommentsChildren = data.Value<JArray>("children").ToObject<List<string>>()
                     };
                     comments.Add(comment);
                 }

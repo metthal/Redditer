@@ -25,8 +25,10 @@ namespace Redditer.Models
         public bool IsGilded => Gilded > 0;
         public bool IsMultigilded => Gilded > 1;
         public bool RegularComment => !LoadMoreComments;
-        public bool LoadMoreComments => LoadMoreCommentsLink.Defined;
+
         public Maybe<string> LoadMoreCommentsLink { get; set; }
+        public bool LoadMoreComments => LoadMoreCommentsLink.Defined;
         public int LoadMoreCommentsCount { get; set; }
+        public List<string> LoadMoreCommentsChildren { get; set; }
     }
 }
