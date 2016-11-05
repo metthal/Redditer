@@ -59,7 +59,13 @@ namespace RedditerCore.Rest
         public Uri BaseUrl
         {
             get { return _client.BaseAddress; }
-            set { _client.BaseAddress = value; }
+            set
+            {
+                _client = new HttpClient(_handler)
+                {
+                    BaseAddress = value
+                };
+            }
         }
 
         public string UserAgent { get; set; }

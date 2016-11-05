@@ -42,14 +42,29 @@ namespace RedditerCore.Reddit
 
             // User requested to cancel login process
             if (User.Username == null && User.Password == null)
+            {
+                User.Username = null;
+                User.Password = null;
                 return null;
+            }
 
-            await _authClient.LogInRequest(User);
+            if (await _authClient.LogInRequest(User) == null)
+            {
+                User.Username = null;
+                User.Password = null;
+                return null;
+            }
 
             if (await authenticator.OnAppAuthorizeChallenge())
             {
                 await _authClient.AuthenticationRequest(HttpMethod.Post);
                 UpdateAuthenticationInfo(_authClient.ObtainedToken);
+            }
+            else
+            {
+                User.Username = null;
+                User.Password = null;
+                return null;
             }
 
             return User.AccessToken;

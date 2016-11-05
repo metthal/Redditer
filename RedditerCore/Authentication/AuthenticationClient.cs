@@ -82,7 +82,7 @@ namespace RedditerCore.Authentication
 
             // We are not logged in, wrong username or password
             if (response.Headers.Location == null)
-                throw new WrongUsernameOrPasswordException();
+                return null;
 
             // Follow redirect
             request = new RestRequest(HttpMethod.Get) { Resource = response.Headers.Location.AbsolutePath };
