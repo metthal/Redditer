@@ -35,6 +35,7 @@ namespace Redditer.Models
         public bool HasThumbnail => Thumbnail.StartsWith("http");
         public string Domain { get; set; }
         public bool Selfpost { get; set; }
+        public bool Linkpost => !Selfpost;
         public string Url { get; set; }
         public string Selftext { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
