@@ -60,6 +60,7 @@
             <Image Grid.Row="0" Grid.Column="1" Height="45" VerticalAlignment="Top" HorizontalAlignment="Right"
                    Visibility="{Binding HasThumbnail, Converter={StaticResource BoolToVisibilityConverter}}"
                    Source="{Binding Thumbnail, Converter={StaticResource UriToImageConverter}}"
+                   Tag="{Binding}"
                    Tapped="ThumbnailTapped"/>
             <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="NSFW" Foreground="Crimson" FontWeight="Bold" FontSize="10" VerticalAlignment="Bottom"
                        Visibility="{Binding Nsfw, Converter={StaticResource BoolToVisibilityConverter}}"/>
