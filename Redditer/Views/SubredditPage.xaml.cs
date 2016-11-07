@@ -184,7 +184,10 @@ namespace Redditer.Views
         {
             var result = await ViewModel.Login();
             if (result)
+            {
+                ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
                 return;
+            }
 
             var dialog = new MessageDialog("Failed to login");
             await dialog.ShowAsync();

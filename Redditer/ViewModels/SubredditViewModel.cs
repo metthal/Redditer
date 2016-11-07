@@ -170,6 +170,7 @@ namespace Redditer.ViewModels
         {
             return new SubredditThread
                 {
+                    Name = jobject.Value<string>("name"),
                     Link = jobject.Value<string>("permalink"),
                     Title = WebUtility.HtmlDecode(jobject.Value<string>("title")),
                     Author = jobject.Value<string>("author"),
@@ -186,7 +187,10 @@ namespace Redditer.ViewModels
                     Thumbnail = jobject.Value<string>("thumbnail"),
                     Domain = jobject.Value<string>("domain"),
                     Selfpost = jobject.Value<bool>("is_self"),
-                    Url = jobject.Value<string>("url")
+                    Url = jobject.Value<string>("url"),
+                    Likes = jobject["likes"].Type == JTokenType.Boolean
+                        ? Maybe<bool>.Just(jobject.Value<bool>("likes"))
+                        : Maybe<bool>.Nothing()
                 };
         }
 
@@ -196,6 +200,5 @@ namespace Redditer.ViewModels
         private ObservableCollection<string> _queriedSubreddits;
         private bool _isSubredditLoading;
         private bool _isEndlessLoading;
-        private bool _isLoggedIn;
     }
 }

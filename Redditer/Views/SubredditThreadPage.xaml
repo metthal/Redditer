@@ -64,7 +64,7 @@
                                 Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords" FontSize="11"
                                    Visibility="{Binding Thread.Selfpost, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                        <TextBlock TextWrapping="WrapWholeWords" FontSize="11"
+                        <TextBlock TextWrapping="Wrap" FontSize="11"
                                    Visibility="{Binding Thread.Linkpost, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Hyperlink NavigateUri="{Binding Thread.Url}"><Run Text="{Binding Thread.Url}"/></Hyperlink>
                         </TextBlock>

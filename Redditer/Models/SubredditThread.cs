@@ -11,6 +11,7 @@ namespace Redditer.Models
 {
     public class SubredditThread
     {
+        public string Name { get; set; }
         public string Link { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
@@ -38,6 +39,10 @@ namespace Redditer.Models
         public bool Linkpost => !Selfpost;
         public string Url { get; set; }
         public string Selftext { get; set; }
+        public Maybe<bool> Likes { get; set; }
+        public bool Upvoted => Likes.Defined && Likes.Value;
+        public bool Downvoted => Likes.Defined && !Likes.Value;
+        public bool Voted => Upvoted || Downvoted;
         public ObservableCollection<Comment> Comments { get; set; }
 
         private string _subreddit;

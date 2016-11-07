@@ -13,6 +13,13 @@ namespace RedditerCore.Reddit
         public readonly string RedditBaseUrl = "https://ssl.reddit.com/";
         public readonly string RedditBaseOAuthUrl = "https://oauth.reddit.com/";
 
+        public enum VoteType
+        {
+            Downvote = -1,
+            Unvote = 0,
+            Upvote = 1
+        }
+
         public RedditClient()
         {
             BaseUrl = new Uri(RedditBaseUrl);
@@ -111,6 +118,15 @@ namespace RedditerCore.Reddit
                 "exact", Convert.ToString(false),
                 "include_over_18", Convert.ToString(true),
                 "hide_unadvertisable", Convert.ToString(false));
+            return new RedditResponse(response);
+        }
+
+        public async Task<RedditResponse> Vote(string fullname, VoteType voteType)
+        {
+            var response = await Call(HttpMethod.Post, "/api/vote",
+                "id", fullname,
+                "dir", Convert.ToString((int)voteType),
+                "rank", "2");
             return new RedditResponse(response);
         }
 
