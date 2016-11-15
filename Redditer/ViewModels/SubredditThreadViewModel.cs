@@ -133,6 +133,7 @@ namespace Redditer.ViewModels
                     var comment = new Comment
                     {
                         Depth = depth,
+                        Name = data.Value<string>("name"),
                         Author = data.Value<string>("author"),
                         Text = WebUtility.HtmlDecode(data.Value<string>("body")),
                         Score = data.Value<int>("score"),
@@ -141,7 +142,10 @@ namespace Redditer.ViewModels
                         Edited = data["edited"].Type == JTokenType.Boolean
                             ? Maybe<DateTime>.Nothing()
                             : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(data.Value<ulong>("edited"))),
-                        Gilded = data.Value<int>("gilded")
+                        Gilded = data.Value<int>("gilded"),
+                        Likes = data["likes"].Type == JTokenType.Boolean
+                            ? Maybe<bool>.Just(data.Value<bool>("likes"))
+                            : Maybe<bool>.Nothing()
                     };
                     comments.Add(comment);
 
@@ -167,6 +171,10 @@ namespace Redditer.ViewModels
                 }
             }
         }
+
+        public bool IsLoggedIn => Reddit.Instance.User.Authenticated;
+        public bool IsNotLoggedIn => !IsLoggedIn;
+        public string User => Reddit.Instance.User.Username;
 
         private SubredditThread _thread;
         private string _nextListing;

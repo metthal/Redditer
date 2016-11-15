@@ -16,6 +16,7 @@ namespace Redditer.Models
 
         public int Depth { get; set; }
 
+        public string Name { get; set; }
         public string Text { get; set; }
         public string Author { get; set; }
         public int Score { get; set; }
@@ -25,6 +26,10 @@ namespace Redditer.Models
         public int Gilded { get; set; }
         public bool IsGilded => Gilded > 0;
         public bool IsMultigilded => Gilded > 1;
+        public Maybe<bool> Likes { get; set; }
+        public bool Upvoted => Likes!= null && Likes.Defined && Likes.Value;
+        public bool Downvoted => Likes != null && Likes.Defined && !Likes.Value;
+        public bool Voted => Upvoted || Downvoted;
         public bool RegularComment => !LoadMoreComments;
 
         public Maybe<string> LoadMoreCommentsLink { get; set; }

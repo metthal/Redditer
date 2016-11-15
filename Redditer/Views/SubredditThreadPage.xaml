@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:Redditer.Views"
     mc:Ignorable="d"
-    DataContext="{StaticResource SubredditThreadViewModel}">
+    DataContext="{StaticResource SubredditThreadViewModel}"
+    x:Name="subredditThreadPage">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -76,7 +77,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Padding="{Binding Depth, Converter={StaticResource CommentDepthToPaddingConverter}}" HorizontalAlignment="Stretch">
-                                    <views:CommentListItem DataContext="{Binding}"/>
+                                    <views:CommentListItem DataContext="{Binding}" Tag="{Binding ElementName=subredditThreadPage}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
