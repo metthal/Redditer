@@ -27,8 +27,14 @@ namespace Redditer.Authenticator
             if (result != ContentDialogResult.Primary)
                 return new Tuple<string, string>(null, null);
 
-            Accounts.Save(dialog.Username, dialog.Password);
+            Remember = dialog.Remember;
             return new Tuple<string, string>(dialog.Username, dialog.Password);
+        }
+
+        public void OnLogIn(string username, string password)
+        {
+            Accounts.Save(username, password);
+            Settings.Instance.Data.LastLoggedUser = username;
         }
 
         public async Task<bool> OnAppAuthorizeChallenge()
@@ -39,6 +45,12 @@ namespace Redditer.Authenticator
             //return result == ContentDialogResult.Primary;
         }
 
+        public void OnLogOut(string username)
+        {
+            Accounts.Remove(username);
+        }
+
         public SubredditViewModel ViewModel { get; set; }
+        public bool Remember { get; set; }
     }
 }

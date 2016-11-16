@@ -74,7 +74,14 @@ namespace RedditerCore.Reddit
                 return null;
             }
 
+            authenticator.OnLogIn(User.Username, User.Password);
             return User.AccessToken;
+        }
+
+        public void LogOut(IUserAuthenticator authenticator)
+        {
+            authenticator.OnLogOut(User.Username);
+            User = new User();
         }
 
         public async Task<RedditResponse> AboutMe()

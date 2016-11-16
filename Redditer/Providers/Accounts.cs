@@ -15,19 +15,44 @@ namespace Redditer.Providers
         {
             var vault = new PasswordVault();
             var credentials = new PasswordCredential(Resource, username, password);
-            vault.Add(credentials);
+
+            try
+            {
+                vault.Add(credentials);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public static PasswordCredential Get(string username)
         {
             var vault = new PasswordVault();
-            return vault.Retrieve(Resource, username);
+            try
+            {
+                var credentials = vault.Retrieve(Resource, username);
+                return credentials;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static void Remove(string username)
         {
             var vault = new PasswordVault();
-            vault.Remove(vault.Retrieve(Resource, username));
+            try
+            {
+                var credentials = vault.Retrieve(Resource, username);
+                if (credentials == null)
+                    return;
+
+                vault.Remove(credentials);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

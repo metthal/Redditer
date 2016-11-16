@@ -29,13 +29,21 @@ namespace Redditer.ViewModels
         {
             var auth = new Authenticator.Authenticator { ViewModel = this };
             var token = await Reddit.Instance.LogIn(auth);
-            if (token != null)
-                Settings.Instance.Data.LastLoggedUser = User;
 
             OnPropertyChanged("IsLoggedIn");
             OnPropertyChanged("IsNotLoggedIn");
             OnPropertyChanged("User");
             return IsLoggedIn;
+        }
+
+        public void Logout()
+        {
+            var auth = new Authenticator.Authenticator { ViewModel = this };
+
+            Reddit.Instance.LogOut(auth);
+            OnPropertyChanged("IsLoggedIn");
+            OnPropertyChanged("IsNotLoggedIn");
+            OnPropertyChanged("User");
         }
 
         public async void LoadSubreddit(string subreddit, string sortType)

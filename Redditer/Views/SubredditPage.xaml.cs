@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Redditer.Models;
+using Redditer.Providers;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,7 +29,8 @@ namespace Redditer.Views
 
             DataContext = ViewModel;
 
-            ViewModel.Login();
+            if (Settings.Instance.Data.LastLoggedUser != null)
+                ViewModel.Login();
         }
 
         public void OpenSelectedThreadComments()
@@ -193,6 +195,12 @@ namespace Redditer.Views
 
             var dialog = new MessageDialog("Failed to login");
             await dialog.ShowAsync();
+        }
+
+        private void MenuLogoutTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.Logout();
+            ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
         }
 
         public SubredditViewModel ViewModel { get; set; }

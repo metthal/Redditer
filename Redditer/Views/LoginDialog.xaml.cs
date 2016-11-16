@@ -15,15 +15,18 @@ namespace Redditer.Views
         {
             Username = BoxUsername.Text;
             Password = BoxPassword.Password;
+            Remember = BoxRemember.IsChecked.HasValue && BoxRemember.IsChecked.Value;
         }
 
         private void CancelButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             Username = "";
             Password = "";
+            Remember = false;
         }
 
         public string Username { get; private set; }
         public string Password { get; private set; }
+        public bool Remember { get; private set; }
     }
 }

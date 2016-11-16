@@ -14,7 +14,8 @@ namespace RedditerCore.Rest
         {
             _handler = new HttpClientHandler
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                CookieContainer = new CookieContainer()
             };
             _client = new HttpClient(_handler);
             UserAgent = "Redditer";
@@ -61,6 +62,13 @@ namespace RedditerCore.Rest
             get { return _client.BaseAddress; }
             set
             {
+                var redirects = _handler.AllowAutoRedirect;
+                _handler = new HttpClientHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                    AllowAutoRedirect = redirects,
+                    CookieContainer = new CookieContainer()
+                };
                 _client = new HttpClient(_handler)
                 {
                     BaseAddress = value

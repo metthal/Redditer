@@ -43,10 +43,8 @@ namespace Redditer.Providers
 
         public void Reset()
         {
-            if (_connection == null)
-                return;
-
-            _connection.DropTable<SettingsData>();
+            var path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings.sqlite");
+            File.Delete(path);
         }
 
         public SettingsData Data { get; set; }

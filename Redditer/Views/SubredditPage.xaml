@@ -73,7 +73,7 @@
                                             Text="{Binding User, Converter={StaticResource StringFormatConverter}, ConverterParameter='Profile ({0})'}"
                                             Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <MenuFlyoutItem Text="Logout" HorizontalContentAlignment="Left" FontSize="13"
-                                            Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                            Tapped="MenuLogoutTapped" Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         </MenuFlyout>
                     </FlyoutBase.AttachedFlyout>
                 </Button>
