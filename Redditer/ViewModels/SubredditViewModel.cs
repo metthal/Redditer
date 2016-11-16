@@ -27,8 +27,8 @@ namespace Redditer.ViewModels
 
         public async Task<bool> Login()
         {
-            var auth = new Authenticator.Authenticator { ViewModel = this };
-            var token = await Reddit.Instance.LogIn(auth);
+            var auth = new Authenticator.Authenticator();
+            await Reddit.Instance.LogIn(auth);
 
             OnPropertyChanged("IsLoggedIn");
             OnPropertyChanged("IsNotLoggedIn");
@@ -38,9 +38,9 @@ namespace Redditer.ViewModels
 
         public void Logout()
         {
-            var auth = new Authenticator.Authenticator { ViewModel = this };
-
+            var auth = new Authenticator.Authenticator();
             Reddit.Instance.LogOut(auth);
+
             OnPropertyChanged("IsLoggedIn");
             OnPropertyChanged("IsNotLoggedIn");
             OnPropertyChanged("User");

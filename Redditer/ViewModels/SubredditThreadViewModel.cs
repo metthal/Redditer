@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Redditer.Models;
 using Redditer.Providers;
@@ -65,6 +66,7 @@ namespace Redditer.ViewModels
 
         public async void LoadComments()
         {
+            IsLoadingComments = true;
             var response = await Reddit.Instance.ListComments(Thread.Link);
             var commentArray = response.AsArray();
             if (commentArray == null)
@@ -83,6 +85,27 @@ namespace Redditer.ViewModels
             OnPropertyChanged("Thread");
 
             IsLoadingComments = false;
+        }
+
+        public async Task<bool> Login()
+        {
+            var auth = new Authenticator.Authenticator();
+            await Reddit.Instance.LogIn(auth);
+
+            OnPropertyChanged("IsLoggedIn");
+            OnPropertyChanged("IsNotLoggedIn");
+            OnPropertyChanged("User");
+            return IsLoggedIn;
+        }
+
+        public void Logout()
+        {
+            var auth = new Authenticator.Authenticator();
+            Reddit.Instance.LogOut(auth);
+
+            OnPropertyChanged("IsLoggedIn");
+            OnPropertyChanged("IsNotLoggedIn");
+            OnPropertyChanged("User");
         }
 
         public async void LoadMoreComments(Comment placeholderComment)

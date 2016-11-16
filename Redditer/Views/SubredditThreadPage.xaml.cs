@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -108,5 +109,35 @@ namespace Redditer.Views
                 ViewModel.LoadMoreComments(comment);
             }
         }
+        private void RefreshTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.LoadComments();
+        }
+
+        private void MenuTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var button = sender as Button;
+            menuFlyout.ShowAt(button);
+        }
+
+        private async void MenuLoginTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var result = await ViewModel.Login();
+            if (result)
+            {
+                ViewModel.LoadComments();
+                return;
+            }
+
+            var dialog = new MessageDialog("Failed to login");
+            await dialog.ShowAsync();
+        }
+
+        private void MenuLogoutTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.Logout();
+            ViewModel.LoadComments();
+        }
+
     }
 }

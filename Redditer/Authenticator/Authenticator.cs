@@ -50,7 +50,6 @@ namespace Redditer.Authenticator
             Accounts.Remove(username);
         }
 
-        public SubredditViewModel ViewModel { get; set; }
         public bool Remember { get; set; }
     }
 }

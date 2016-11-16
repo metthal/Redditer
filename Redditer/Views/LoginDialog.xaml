@@ -11,7 +11,7 @@
     PrimaryButtonClick="LoginButtonClick"
     SecondaryButtonClick="CancelButtonClick">
 
-    <Grid Height="145" HorizontalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
