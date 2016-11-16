@@ -5,6 +5,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Redditer.Providers;
 using Redditer.Views;
 
 namespace Redditer
@@ -37,6 +38,8 @@ namespace Redditer
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            Settings.Instance.Load();
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -105,7 +108,9 @@ namespace Redditer
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+
+            Settings.Instance.Save();
+
             deferral.Complete();
         }
     }

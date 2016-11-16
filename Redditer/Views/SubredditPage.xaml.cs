@@ -27,6 +27,8 @@ namespace Redditer.Views
             ViewModel = new SubredditViewModel();
 
             DataContext = ViewModel;
+
+            ViewModel.Login();
         }
 
         public void OpenSelectedThreadComments()

@@ -29,6 +29,9 @@ namespace Redditer.ViewModels
         {
             var auth = new Authenticator.Authenticator { ViewModel = this };
             var token = await Reddit.Instance.LogIn(auth);
+            if (token != null)
+                Settings.Instance.Data.LastLoggedUser = User;
+
             OnPropertyChanged("IsLoggedIn");
             OnPropertyChanged("IsNotLoggedIn");
             OnPropertyChanged("User");
