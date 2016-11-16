@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Redditer.Providers;
 using Redditer.Utilities;
 using RedditerCore.Reddit;
 
@@ -40,8 +41,8 @@ namespace Redditer.Models
         public string Url { get; set; }
         public string Selftext { get; set; }
         public Maybe<bool> Likes { get; set; }
-        public bool Upvoted => Likes.Defined && Likes.Value;
-        public bool Downvoted => Likes.Defined && !Likes.Value;
+        public bool Upvoted => Reddit.Instance.User.Authenticated && Likes.Defined && Likes.Value;
+        public bool Downvoted => Reddit.Instance.User.Authenticated && Likes.Defined && !Likes.Value;
         public bool Voted => Upvoted || Downvoted;
         public ObservableCollection<Comment> Comments { get; set; }
 

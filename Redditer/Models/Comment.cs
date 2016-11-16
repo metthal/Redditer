@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Redditer.Providers;
 using Redditer.Utilities;
 
 namespace Redditer.Models
@@ -27,8 +28,8 @@ namespace Redditer.Models
         public bool IsGilded => Gilded > 0;
         public bool IsMultigilded => Gilded > 1;
         public Maybe<bool> Likes { get; set; }
-        public bool Upvoted => Likes!= null && Likes.Defined && Likes.Value;
-        public bool Downvoted => Likes != null && Likes.Defined && !Likes.Value;
+        public bool Upvoted => Reddit.Instance.User.Authenticated && Likes != null && Likes.Defined && Likes.Value;
+        public bool Downvoted => Reddit.Instance.User.Authenticated && Likes != null && Likes.Defined && !Likes.Value;
         public bool Voted => Upvoted || Downvoted;
         public bool RegularComment => !LoadMoreComments;
 
