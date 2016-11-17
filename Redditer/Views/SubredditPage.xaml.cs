@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -31,6 +32,9 @@ namespace Redditer.Views
 
             if (Settings.Instance.Data.LastLoggedUser != null)
                 ViewModel.Login();
+
+            var dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += OnDataRequested;
         }
 
         public void OpenSelectedThreadComments()
@@ -201,6 +205,12 @@ namespace Redditer.Views
         {
             ViewModel.Logout();
             ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
+        }
+
+        private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            args.Request.Data.Properties.Title = ViewModel.SelectedThread.Name;
+            args.Request.Data.SetText("https://reddit.com/" + ViewModel.SelectedThread.Link);
         }
 
         public SubredditViewModel ViewModel { get; set; }

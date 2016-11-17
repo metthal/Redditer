@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -44,25 +45,12 @@ namespace Redditer.Views
         public static readonly DependencyProperty ExtendedMenuProperty =
             DependencyProperty.Register("ExtendedMenu", typeof(bool), typeof(SubredditThreadListItem), new PropertyMetadata(false));
 
-        private void ShowAuthorProfile(object sender, RoutedEventArgs e)
+        private void CopyThread(object sender, RoutedEventArgs e)
         {
-            var toastContent = new ToastContent
-            {
-                Visual = new ToastVisual
-                {
-                    BindingGeneric = new ToastBindingGeneric
-                    {
-                        Children =
-                        {
-                            new AdaptiveText {Text = "Redditer"},
-                            new AdaptiveText {Text = "Not Implemented Yet"}
-                        }
-                    }
-                }
-            };
-            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTimeOffset.Now.AddSeconds(4) };
-
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+            var subredditThread = DataContext as SubredditThread;
+            var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+            dataPackage.SetText("https://reddit.com/" + subredditThread.Link);
+            Clipboard.SetContent(dataPackage);
         }
 
         private void ShowComments(object sender, RoutedEventArgs e)
@@ -71,25 +59,9 @@ namespace Redditer.Views
             subredditPage?.OpenSelectedThreadComments();
         }
 
-        private void ReportThread(object sender, RoutedEventArgs e)
+        private void ShareThread(object sender, RoutedEventArgs e)
         {
-            var toastContent = new ToastContent
-            {
-                Visual = new ToastVisual
-                {
-                    BindingGeneric = new ToastBindingGeneric
-                    {
-                        Children =
-                        {
-                            new AdaptiveText {Text = "Redditer"},
-                            new AdaptiveText {Text = "Not Implemented Yet"}
-                        }
-                    }
-                }
-            };
-            var toast = new ToastNotification(toastContent.GetXml()) { ExpirationTime = DateTimeOffset.Now.AddSeconds(4) };
-
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+            DataTransferManager.ShowShareUI();
         }
 
         private async void FollowLink(object sender, RoutedEventArgs e)

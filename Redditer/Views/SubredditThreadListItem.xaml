@@ -85,10 +85,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="ShowAuthorProfile">
+            <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="CopyThread">
                 <TextBlock>
-                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xEA8C; " FontSize="11"/>
-                    <Run Text="AUTHOR'S PROFILE" FontSize="11"/>
+                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE8C8; " FontSize="11"/>
+                    <Run Text="COPY LINK" FontSize="11"/>
                 </TextBlock>
             </Button>
             <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="ShowComments">
@@ -97,10 +97,10 @@
                     <Run Text="COMMENTS" FontSize="11"/>
                 </TextBlock>
             </Button>
-            <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="ReportThread">
+            <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="ShareThread">
                 <TextBlock>
-                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE814; " FontSize="11"/>
-                    <Run Text="REPORT" FontSize="11"/>
+                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE72D; " FontSize="11"/>
+                    <Run Text="SHARE" FontSize="11"/>
                 </TextBlock>
             </Button>
             <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="FollowLink">
