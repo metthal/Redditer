@@ -9,6 +9,7 @@
     <Application.Resources>
         <viewModels:SubredditViewModel x:Key="SubredditViewModel" />
         <viewModels:SubredditThreadViewModel x:Key="SubredditThreadViewModel" />
+        <viewModels:NewThreadViewModel x:Key="NewThreadViewModel" />
         <converters:CommentDepthToPaddingConverter x:Key="CommentDepthToPaddingConverter" />
         <converters:IntToPluralStringConverter x:Key="IntToPluralStringConverter" />
         <converters:StringFormatConverter x:Key="StringFormatConverter"/>

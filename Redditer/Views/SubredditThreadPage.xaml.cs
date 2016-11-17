@@ -199,5 +199,15 @@ namespace Redditer.Views
             if (ViewModel.SelectedComment != null && ViewModel.SelectedComment != (Comment)args.Item && commentItem.ExtendedMenu)
                 commentItem.ExtendedMenu = false;
         }
+
+        private async void AddComment(object sender, TappedRoutedEventArgs e)
+        {
+            if (ViewModel.IsNotLoggedIn)
+            {
+                var dialog = new MessageDialog("You need to be logged in to post comments.");
+                await dialog.ShowAsync();
+                return;
+            }
+        }
     }
 }

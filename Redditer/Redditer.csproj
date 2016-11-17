@@ -115,6 +115,7 @@
     <Compile Include="Providers\SettingsData.cs" />
     <Compile Include="Utilities\DateTimeHelper.cs" />
     <Compile Include="Utilities\Maybe.cs" />
+    <Compile Include="ViewModels\NewThreadViewModel.cs" />
     <Compile Include="ViewModels\SubredditThreadViewModel.cs" />
     <Compile Include="ViewModels\SubredditViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
@@ -123,6 +124,9 @@
     </Compile>
     <Compile Include="Views\LoginDialog.xaml.cs">
       <DependentUpon>LoginDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewThreadPage.xaml.cs">
+      <DependentUpon>NewThreadPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SubredditPage.xaml.cs">
       <DependentUpon>SubredditPage.xaml</DependentUpon>
@@ -164,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewThreadPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

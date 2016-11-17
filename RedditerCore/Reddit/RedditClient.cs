@@ -18,6 +18,12 @@ namespace RedditerCore.Reddit
             Upvote = 1
         }
 
+        public enum SubmitType
+        {
+            Text,
+            Link
+        }
+
         public RedditClient()
         {
             BaseUrl = new Uri(RedditBaseUrl);
@@ -133,6 +139,22 @@ namespace RedditerCore.Reddit
                 "id", fullname,
                 "dir", Convert.ToString((int)voteType),
                 "rank", "2");
+            return new RedditResponse(response);
+        }
+
+        public async Task<RedditResponse> Submit(SubmitType type, string subreddit, string title, string text, bool sendReplies)
+        {
+            var contentKind = type == SubmitType.Link ? "link" : "self";
+            var contentAttribute = type == SubmitType.Link ? "url" : "text";
+
+            var response = await Call(HttpMethod.Post, "/api/submit",
+                "api_type", "json",
+                "sr", subreddit,
+                "resubmit", Convert.ToString(true),
+                "kind", contentKind,
+                "title", title,
+                contentAttribute, text,
+                "sendreplies", Convert.ToString(sendReplies));
             return new RedditResponse(response);
         }
 

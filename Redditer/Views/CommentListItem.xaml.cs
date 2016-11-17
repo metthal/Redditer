@@ -136,5 +136,19 @@ namespace Redditer.Views
             dataPackage.SetText(comment.Text);
             Clipboard.SetContent(dataPackage);
         }
+
+        private async void ReplyComment(object sender, RoutedEventArgs e)
+        {
+            var subredditThreadPage = Tag as SubredditThreadPage;
+            if (subredditThreadPage == null)
+                return;
+
+            if (subredditThreadPage.ViewModel.IsNotLoggedIn)
+            {
+                var dialog = new MessageDialog("You need to be logged in to post comments.");
+                await dialog.ShowAsync();
+                return;
+            }
+        }
     }
 }

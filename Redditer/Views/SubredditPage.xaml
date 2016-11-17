@@ -66,9 +66,10 @@
                               Tapped="MenuTapped">
                     <FlyoutBase.AttachedFlyout>
                         <MenuFlyout x:Name="menuFlyout" Placement="Bottom">
-                            <MenuFlyoutItem Text="Subreddit info" HorizontalContentAlignment="Left" FontSize="13"/>
                             <MenuFlyoutItem Text="Login" HorizontalContentAlignment="Left" FontSize="13"
                                             Tapped="MenuLoginTapped" Visibility="{Binding IsNotLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <MenuFlyoutItem Text="New thread" HorizontalContentAlignment="Left" FontSize="13" Tapped="NewThreadTapped"
+                                            Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <MenuFlyoutItem HorizontalContentAlignment="Left" FontSize="13"
                                             Text="{Binding User, Converter={StaticResource StringFormatConverter}, ConverterParameter='Profile ({0})'}"
                                             Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>

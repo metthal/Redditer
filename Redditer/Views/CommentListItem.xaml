@@ -91,7 +91,7 @@
                    <Run Text="COPY LINK" FontSize="11"/>
                </TextBlock>
            </Button>
-           <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11">
+           <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="ReplyComment">
                <TextBlock>
                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xEC42; " FontSize="11"/>
                    <Run Text="REPLY" FontSize="11"/>

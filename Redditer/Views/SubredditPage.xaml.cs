@@ -204,6 +204,11 @@ namespace Redditer.Views
             ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
         }
 
+        private void NewThreadTapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(NewThreadPage), ViewModel.CurrentSubreddit);
+        }
+
         public SubredditViewModel ViewModel { get; set; }
     }
 }
