@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using RedditerCore.Exceptions;
 using RedditerCore.Rest;
 using RedditerCore.Utilities;
-using HttpMethod = System.Net.Http.HttpMethod;
+using HttpMethod = Windows.Web.Http.HttpMethod;
 
 namespace RedditerCore.Authentication
 {
@@ -20,7 +20,7 @@ namespace RedditerCore.Authentication
 
         public AuthenticationClient()
         {
-            CookieContainer = new CookieContainer();
+            //CookieContainer = new CookieContainer();
             FollowRedirects = false;
             BaseUrl = new Uri(AuthBaseUrl);
 

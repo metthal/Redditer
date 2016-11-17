@@ -1,7 +1,8 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System;
 using System.Threading.Tasks;
+using Windows.Web.Http;
+using Windows.Web.Http.Headers;
+using HttpStatusCode = Windows.Web.Http.HttpStatusCode;
 
 namespace RedditerCore.Rest
 {
@@ -18,7 +19,7 @@ namespace RedditerCore.Rest
         }
 
         public HttpResponseMessage Message { get; }
-        public HttpResponseHeaders Headers => Message.Headers;
+        public HttpResponseHeaderCollection Headers => Message.Headers;
         public HttpStatusCode StatusCode => Message.StatusCode;
         public bool Success => Message.IsSuccessStatusCode;
         public string ReasonPhrase => Message.ReasonPhrase;

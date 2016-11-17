@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
+using Windows.Web.Http;
 
 namespace RedditerCore.Rest
 {

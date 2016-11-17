@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Windows.Web.Http;
 using RedditerCore.Authentication;
 using RedditerCore.Rest;
 
@@ -81,6 +79,7 @@ namespace RedditerCore.Reddit
         public void LogOut(IUserAuthenticator authenticator)
         {
             authenticator.OnLogOut(User.Username);
+            RemoveCookie("reddit_session");
             User = new User();
         }
 

@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using RedditerCore.Utilities;
-using HttpClient = System.Net.Http.HttpClient;
-using HttpRequestMessage = System.Net.Http.HttpRequestMessage;
+using HttpClient = Windows.Web.Http.HttpClient;
+using HttpRequestMessage = Windows.Web.Http.HttpRequestMessage;
 
 namespace RedditerCore.Rest
 {
@@ -12,20 +13,18 @@ namespace RedditerCore.Rest
     {
         public RestClient()
         {
-            _handler = new HttpClientHandler
+            _filter = new HttpBaseProtocolFilter
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-                CookieContainer = new CookieContainer()
+                AutomaticDecompression = true
             };
-            _client = new HttpClient(_handler);
+            _client = new HttpClient(_filter);
             UserAgent = "Redditer";
             Authorization = "";
         }
 
         public async Task<RestResponse> Execute(RestRequest request)
         {
-            UriBuilder requestUri = new UriBuilder(BaseUrl);
-            requestUri.Path = request.Resource;
+            var requestUri = new UriBuilder(BaseUrl) { Path = request.Resource };
             if (request.QueryParameters.Count > 0)
                 requestUri.Query = request.QueryParameters.AsQueryString();
 
@@ -39,47 +38,34 @@ namespace RedditerCore.Rest
             message.RequestUri = requestUri.Uri;
             message.Method = request.Method;
             if (request.Parameters.Count > 0)
-                message.Content = new FormUrlEncodedContent(request.Parameters);
+                message.Content = new HttpFormUrlEncodedContent(request.Parameters);
 
-            var response = await _client.SendAsync(message);
+            var response = await _client.SendRequestAsync(message);
             return new RestResponse(response);
         }
 
-        public CookieContainer CookieContainer
+        public void RemoveCookie(string cookieName)
         {
-            get { return _handler.CookieContainer; }
-            set { _handler.CookieContainer = value; }
+            var cookies = _filter.CookieManager.GetCookies(BaseUrl);
+            var cookie = cookies.Single(httpCookie => httpCookie.Name == cookieName);
+            if (cookie == null)
+                return;
+
+            _filter.CookieManager.DeleteCookie(cookie);
         }
 
         public bool FollowRedirects
         {
-            get { return _handler.AllowAutoRedirect; }
-            set { _handler.AllowAutoRedirect = value; }
+            get { return _filter.AllowAutoRedirect; }
+            set { _filter.AllowAutoRedirect = value; }
         }
 
-        public Uri BaseUrl
-        {
-            get { return _client.BaseAddress; }
-            set
-            {
-                var redirects = _handler.AllowAutoRedirect;
-                _handler = new HttpClientHandler
-                {
-                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-                    AllowAutoRedirect = redirects,
-                    CookieContainer = new CookieContainer()
-                };
-                _client = new HttpClient(_handler)
-                {
-                    BaseAddress = value
-                };
-            }
-        }
-
+        public Uri BaseUrl { get; set; }
         public string UserAgent { get; set; }
         public string Authorization { get; set; }
 
-        private HttpClientHandler _handler;
-        private HttpClient _client;
+        //private HttpClientHandler _handler;
+        private readonly HttpClient _client;
+        private readonly HttpBaseProtocolFilter _filter;
     }
 }
