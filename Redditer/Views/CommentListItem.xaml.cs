@@ -149,6 +149,9 @@ namespace Redditer.Views
                 await dialog.ShowAsync();
                 return;
             }
+
+            var comment = DataContext as Comment;
+            subredditThreadPage.NavigateToAddCommentPage(comment);
         }
     }
 }

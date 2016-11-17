@@ -158,6 +158,15 @@ namespace RedditerCore.Reddit
             return new RedditResponse(response);
         }
 
+        public async Task<RedditResponse> Comment(string parentFullname, string text)
+        {
+            var response = await Call(HttpMethod.Post, "/api/comment",
+                "api_type", "json",
+                "thing_id", parentFullname,
+                "text", text);
+            return new RedditResponse(response);
+        }
+
         protected async Task<string> Call(HttpMethod method, string apiMethod, params string[] args)
         {
             // Odd number of parameters

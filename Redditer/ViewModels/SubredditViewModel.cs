@@ -61,7 +61,7 @@ namespace Redditer.ViewModels
             var newThreads = new ObservableCollection<SubredditThread>();
             foreach (var jthread in threadListings)
             {
-                newThreads.Add(ParseThread(jthread.Value<JObject>("data")));
+                newThreads.Add(SubredditThread.Parse(jthread.Value<JObject>("data")));
             }
 
             CurrentSubreddit = new Subreddit(subreddit, newThreads);
@@ -85,7 +85,7 @@ namespace Redditer.ViewModels
 
             foreach (var jthread in threadListings)
             {
-                CurrentSubreddit.Threads.Add(ParseThread(jthread.Value<JObject>("data")));
+                CurrentSubreddit.Threads.Add(SubredditThread.Parse(jthread.Value<JObject>("data")));
             }
         }
 
@@ -176,34 +176,6 @@ namespace Redditer.ViewModels
         public bool IsLoggedIn => Reddit.Instance.User.Authenticated;
         public bool IsNotLoggedIn => !IsLoggedIn;
         public string User => Reddit.Instance.User.Username;
-
-        private SubredditThread ParseThread(JObject jobject)
-        {
-            return new SubredditThread
-                {
-                    Name = jobject.Value<string>("name"),
-                    Link = jobject.Value<string>("permalink"),
-                    Title = WebUtility.HtmlDecode(jobject.Value<string>("title")),
-                    Author = jobject.Value<string>("author"),
-                    Score = jobject.Value<int>("score"),
-                    Subreddit = jobject.Value<string>("subreddit"),
-                    Nsfw = jobject.Value<bool>("over_18"),
-                    Sticky = jobject.Value<bool>("stickied"),
-                    Flairs = WebUtility.HtmlDecode(jobject.Value<string>("link_flair_text")),
-                    NumberOfComments = jobject.Value<int>("num_comments"),
-                    Created = DateTimeHelper.FromTimestamp(jobject.Value<ulong>("created_utc")),
-                    Edited = jobject["edited"].Type == JTokenType.Boolean
-                        ? Maybe<DateTime>.Nothing()
-                        : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(jobject.Value<ulong>("edited"))),
-                    Thumbnail = jobject.Value<string>("thumbnail"),
-                    Domain = jobject.Value<string>("domain"),
-                    Selfpost = jobject.Value<bool>("is_self"),
-                    Url = jobject.Value<string>("url"),
-                    Likes = jobject["likes"].Type == JTokenType.Boolean
-                        ? Maybe<bool>.Just(jobject.Value<bool>("likes"))
-                        : Maybe<bool>.Nothing()
-                };
-        }
 
         private Subreddit _currentSubreddit;
         private SubredditThread _selectedThread;

@@ -164,24 +164,8 @@ namespace Redditer.ViewModels
 
                 if (jcomment.Value<string>("kind") == "t1")
                 {
-                    var comment = new Comment
-                    {
-                        Depth = depth,
-                        Id = data.Value<string>("id"),
-                        Name = data.Value<string>("name"),
-                        Author = data.Value<string>("author"),
-                        Text = WebUtility.HtmlDecode(data.Value<string>("body")),
-                        Score = data.Value<int>("score"),
-                        Flair = data.Value<string>("author_flair_text"),
-                        Created = DateTimeHelper.FromTimestamp(data.Value<ulong>("created_utc")),
-                        Edited = data["edited"].Type == JTokenType.Boolean
-                            ? Maybe<DateTime>.Nothing()
-                            : Maybe<DateTime>.Just(DateTimeHelper.FromTimestamp(data.Value<ulong>("edited"))),
-                        Gilded = data.Value<int>("gilded"),
-                        Likes = data["likes"].Type == JTokenType.Boolean
-                            ? Maybe<bool>.Just(data.Value<bool>("likes"))
-                            : Maybe<bool>.Nothing()
-                    };
+                    var comment = Comment.Parse(data);
+                    comment.Depth = depth;
                     comments.Add(comment);
 
                     JToken replies;

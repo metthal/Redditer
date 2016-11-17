@@ -10,6 +10,7 @@
         <viewModels:SubredditViewModel x:Key="SubredditViewModel" />
         <viewModels:SubredditThreadViewModel x:Key="SubredditThreadViewModel" />
         <viewModels:NewThreadViewModel x:Key="NewThreadViewModel" />
+        <viewModels:AddCommentViewModel x:Key="AddCommentViewModel" />
         <converters:CommentDepthToPaddingConverter x:Key="CommentDepthToPaddingConverter" />
         <converters:IntToPluralStringConverter x:Key="IntToPluralStringConverter" />
         <converters:StringFormatConverter x:Key="StringFormatConverter"/>

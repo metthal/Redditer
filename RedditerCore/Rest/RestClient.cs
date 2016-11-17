@@ -64,7 +64,6 @@ namespace RedditerCore.Rest
         public string UserAgent { get; set; }
         public string Authorization { get; set; }
 
-        //private HttpClientHandler _handler;
         private readonly HttpClient _client;
         private readonly HttpBaseProtocolFilter _filter;
     }

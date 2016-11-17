@@ -115,10 +115,14 @@
     <Compile Include="Providers\SettingsData.cs" />
     <Compile Include="Utilities\DateTimeHelper.cs" />
     <Compile Include="Utilities\Maybe.cs" />
+    <Compile Include="ViewModels\AddCommentViewModel.cs" />
     <Compile Include="ViewModels\NewThreadViewModel.cs" />
     <Compile Include="ViewModels\SubredditThreadViewModel.cs" />
     <Compile Include="ViewModels\SubredditViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="Views\AddCommentPage.xaml.cs">
+      <DependentUpon>AddCommentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AuthorizeAppDialog.xaml.cs">
       <DependentUpon>AuthorizeAppDialog.xaml</DependentUpon>
     </Compile>
@@ -163,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\AddCommentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AuthorizeAppDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
