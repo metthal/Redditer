@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -75,6 +76,30 @@ namespace Redditer
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+            }
+
+            var dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += OnDataRequested;
+        }
+
+        private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            var rootFrame = Window.Current.Content as Frame;
+            if (rootFrame.Content is SubredditPage)
+            {
+                var subredditPage = (SubredditPage) rootFrame.Content;
+                args.Request.Data.Properties.Title = subredditPage.ViewModel.SelectedThread.Title;
+                args.Request.Data.SetText("https://reddit.com" + subredditPage.ViewModel.SelectedThread.Link);
+            }
+            else if (rootFrame.Content is SubredditThreadPage)
+            {
+                var subredditThreadPage = (SubredditThreadPage) rootFrame.Content;
+                args.Request.Data.Properties.Title = subredditThreadPage.ViewModel.ParentViewModel.SelectedThread.Title;
+                args.Request.Data.SetText("https://reddit.com" + subredditThreadPage.ViewModel.ParentViewModel.SelectedThread.Link + subredditThreadPage.ViewModel.SelectedComment.Id);
+            }
+            else
+            {
+                args.Request.FailWithDisplayText("Unable to share this content");
             }
         }
 

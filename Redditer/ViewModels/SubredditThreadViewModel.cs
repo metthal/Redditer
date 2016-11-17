@@ -16,6 +16,7 @@ namespace Redditer.ViewModels
         public SubredditThreadViewModel()
         {
             Thread = null;
+            SelectedComment = null;
             IsLoadingComments = true;
             ParentViewModel = null;
 
@@ -28,6 +29,16 @@ namespace Redditer.ViewModels
             set
             {
                 _thread = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Comment SelectedComment
+        {
+            get { return _selectedComment; }
+            set
+            {
+                _selectedComment = value;
                 OnPropertyChanged();
             }
         }
@@ -156,6 +167,7 @@ namespace Redditer.ViewModels
                     var comment = new Comment
                     {
                         Depth = depth,
+                        Id = data.Value<string>("id"),
                         Name = data.Value<string>("name"),
                         Author = data.Value<string>("author"),
                         Text = WebUtility.HtmlDecode(data.Value<string>("body")),
@@ -203,5 +215,6 @@ namespace Redditer.ViewModels
         private string _nextListing;
         private bool _isLoadingComments;
         private SubredditViewModel _parentViewModel;
+        private Comment _selectedComment;
     }
 }

@@ -32,9 +32,6 @@ namespace Redditer.Views
 
             if (Settings.Instance.Data.LastLoggedUser != null)
                 ViewModel.Login();
-
-            var dataTransferManager = DataTransferManager.GetForCurrentView();
-            dataTransferManager.DataRequested += OnDataRequested;
         }
 
         public void OpenSelectedThreadComments()
@@ -117,7 +114,7 @@ namespace Redditer.Views
             else
             {
                 // If the previously selected thread was visible, hide extended menu
-                // If the previously selected thread is not visible, this is handled in ThreadListScrolling event
+                // If the previously selected thread is not visible, this is handled in ThreadListUpdating event
                 // Show extended menu on the newly selected item
                 if (selectedSubredditItem != null)
                     selectedSubredditItem.ExtendedMenu = false;
@@ -205,12 +202,6 @@ namespace Redditer.Views
         {
             ViewModel.Logout();
             ViewModel.LoadSubreddit(ViewModel.CurrentSubreddit.Name, ViewModel.SortType[pivotView.SelectedIndex]);
-        }
-
-        private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs args)
-        {
-            args.Request.Data.Properties.Title = ViewModel.SelectedThread.Name;
-            args.Request.Data.SetText("https://reddit.com/" + ViewModel.SelectedThread.Link);
         }
 
         public SubredditViewModel ViewModel { get; set; }

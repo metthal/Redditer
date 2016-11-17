@@ -49,7 +49,7 @@ namespace Redditer.Views
         {
             var subredditThread = DataContext as SubredditThread;
             var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
-            dataPackage.SetText("https://reddit.com/" + subredditThread.Link);
+            dataPackage.SetText("https://reddit.com" + subredditThread.Link);
             Clipboard.SetContent(dataPackage);
         }
 
@@ -64,7 +64,7 @@ namespace Redditer.Views
             DataTransferManager.ShowShareUI();
         }
 
-        private async void FollowLink(object sender, RoutedEventArgs e)
+        private async void OpenContent(object sender, RoutedEventArgs e)
         {
             var subredditPage = Tag as SubredditPage;
             if (subredditPage == null)

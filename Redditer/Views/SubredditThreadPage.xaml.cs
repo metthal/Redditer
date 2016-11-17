@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -98,17 +99,6 @@ namespace Redditer.Views
                 System.Diagnostics.Debug.WriteLine("{0}/{1}", s.VerticalOffset, s.ScrollableHeight);
         }
 
-        private void CommentClicked(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count == 0)
-                return;
-
-            var comment = e.AddedItems[0] as Comment;
-            if (comment.LoadMoreComments)
-            {
-                ViewModel.LoadMoreComments(comment);
-            }
-        }
         private void RefreshTapped(object sender, TappedRoutedEventArgs e)
         {
             ViewModel.LoadComments();
@@ -139,5 +129,75 @@ namespace Redditer.Views
             ViewModel.LoadComments();
         }
 
+        private void CommentClicked(object sender, ItemClickEventArgs e)
+        {
+
+            var commentList = (ListView)e.OriginalSource;
+            var clickedItem = (ListViewItem)commentList.ContainerFromItem(e.ClickedItem);
+            var commentItem = (CommentListItem)clickedItem.ContentTemplateRoot;
+
+            // Extract selected item and selected thread
+            ListViewItem selectedItem = null;
+            CommentListItem selectedCommentItem = null;
+            if (commentList.SelectedItem != null)
+            {
+                // Container is virtualized, so if comment is not visible it may not have any list item associated
+                selectedItem = (ListViewItem)commentList.ContainerFromItem(commentList.SelectedItem);
+                if (selectedItem != null)
+                    selectedCommentItem = (CommentListItem)selectedItem.ContentTemplateRoot;
+            }
+
+            var comment = e.ClickedItem as Comment;
+            if (comment.LoadMoreComments)
+            {
+                ViewModel.LoadMoreComments(comment);
+                // Disable selection mode, deselect item and hide extended menu
+                commentList.SelectionMode = ListViewSelectionMode.None;
+                commentList.SelectedItem = null;
+                if (selectedCommentItem != null)
+                    selectedCommentItem.ExtendedMenu = false;
+                return;
+            }
+
+            // If there is no thread selected
+            if (selectedItem == null)
+            {
+                // Enable selection mode, select the clicked item and show extended menu
+                commentList.SelectionMode = ListViewSelectionMode.Single;
+                commentList.SelectedItem = e.ClickedItem;
+                commentItem.ExtendedMenu = true;
+            }
+            // If we click on the same item as currently selected item
+            else if (commentList.SelectedItem == e.ClickedItem)
+            {
+                // Disable selection mode, deselect item and hide extended menu
+                commentList.SelectionMode = ListViewSelectionMode.None;
+                commentList.SelectedItem = null;
+                selectedCommentItem.ExtendedMenu = false;
+            }
+            // If we clicked on another thread while other thread was selected
+            else
+            {
+                // If the previously selected thread was visible, hide extended menu
+                // If the previously selected thread is not visible, this is handled in CommentListScrolling event
+                // Show extended menu on the newly selected item
+                if (selectedCommentItem != null)
+                    selectedCommentItem.ExtendedMenu = false;
+                commentItem.ExtendedMenu = true;
+            }
+        }
+
+        private void CommentListUpdating(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            // This piece of code makes sure that if we select some comment, then scroll away so we no longer see selected comment and select another one,
+            // we no longer see the old comment as selected when we scroll back to original posisition.
+            var commentItem = (CommentListItem)args.ItemContainer.ContentTemplateRoot;
+            if (commentItem == null)
+                return;
+
+            // If there is some other comment selected and it is not this comment and extended menu is shown, then hide the extended menu
+            if (ViewModel.SelectedComment != null && ViewModel.SelectedComment != (Comment)args.Item && commentItem.ExtendedMenu)
+                commentItem.ExtendedMenu = false;
+        }
     }
 }

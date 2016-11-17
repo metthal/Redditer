@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -29,6 +30,15 @@ namespace Redditer.Views
         {
             this.InitializeComponent();
         }
+
+        public bool ExtendedMenu
+        {
+            get { return (bool)GetValue(ExtendedMenuProperty); }
+            set { SetValue(ExtendedMenuProperty, value); }
+        }
+
+        public static readonly DependencyProperty ExtendedMenuProperty =
+            DependencyProperty.Register("ExtendedMenu", typeof(bool), typeof(CommentListItem), new PropertyMetadata(false));
 
         private async void UpvoteTapped(object sender, TappedRoutedEventArgs e)
         {
@@ -100,6 +110,31 @@ namespace Redditer.Views
                 comment.Likes = Maybe<bool>.Just(false);
                 await Reddit.Instance.Vote(comment.Name, RedditClient.VoteType.Downvote);
             }
+        }
+
+        private void CopyCommentLink(object sender, RoutedEventArgs e)
+        {
+            var comment = DataContext as Comment;
+            var subredditThreadPage = Tag as SubredditThreadPage;
+            var subredditThread = subredditThreadPage.ViewModel.Thread;
+
+            var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+            dataPackage.SetText("https://reddit.com" + subredditThread.Link + comment.Id);
+            Clipboard.SetContent(dataPackage);
+        }
+
+        private void ShareComment(object sender, RoutedEventArgs e)
+        {
+            DataTransferManager.ShowShareUI();
+        }
+
+        private void CopyCommentMessage(object sender, RoutedEventArgs e)
+        {
+            var comment = DataContext as Comment;
+
+            var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+            dataPackage.SetText(comment.Text);
+            Clipboard.SetContent(dataPackage);
         }
     }
 }

@@ -6,59 +6,110 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="commentItem">
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="VotedBrush" Color="DodgerBlue"/>
     </UserControl.Resources>
 
     <Grid Margin="0,2,0,2" HorizontalAlignment="Stretch">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Line Margin="0,5,0,2" Grid.Column="0" Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" Y1="0" Y2="1"
-              Visibility="{Binding RegularComment, Converter={StaticResource BoolToVisibilityConverter}}"/>
-        <StackPanel Grid.Column="1" Visibility="{Binding LoadMoreComments, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel Orientation="Horizontal" Margin="0,1,0,1">
-                <TextBlock Text="load more comments" Foreground="DodgerBlue" FontSize="9" FontWeight="Bold"/>
-                <TextBlock Text="{Binding LoadMoreCommentsCount, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Padding="{Binding Depth, Converter={StaticResource CommentDepthToPaddingConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Line Grid.Column="0" Margin="0,5,0,2"
+                  Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" Y1="0" Y2="1"
+                  Visibility="{Binding RegularComment, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <Grid Grid.Column="1" Visibility="{Binding LoadMoreComments, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" Margin="0,1,0,1">
+                    <TextBlock Text="load more comments" Foreground="DodgerBlue" FontSize="9" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding LoadMoreCommentsCount, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
                            FontSize="9" Foreground="DarkGray" Margin="4,0,0,0"/>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Visibility="{Binding RegularComment, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="upvoteButton" FontFamily="Segoe MDL2 Assets" FontSize="9" Content="&#xE935;" VerticalContentAlignment="Center" HorizontalAlignment="Center"
-                        Background="Transparent" Tapped="UpvoteTapped" Padding="5,0,5,5" Margin="0,0,0,0"
-                        Foreground="{Binding Upvoted, Converter={StaticResource BoolToBrushOrWhiteConverter}, ConverterParameter={StaticResource VotedBrush}}"/>
-                <TextBlock x:Name="scoreText" Text="{Binding Score}" FontSize="11" TextAlignment="Center" Margin="0,3,0,3"
-                           Foreground="{Binding Voted, Converter={StaticResource BoolToBrushOrWhiteConverter}, ConverterParameter={StaticResource VotedBrush}}"/>
-                <Button x:Name="downvoteButton" FontFamily="Segoe MDL2 Assets" FontSize="9" Content="&#xE936;" VerticalContentAlignment="Center" HorizontalAlignment="Center"
-                        Background="Transparent" Tapped="DownvoteTapped" Padding="5,5,5,0" Margin="0,0,0,0"
-                        Foreground="{Binding Downvoted, Converter={StaticResource BoolToBrushOrWhiteConverter}, ConverterParameter={StaticResource VotedBrush}}"/>
-                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
-                <TextBlock Foreground="DarkGray" VerticalAlignment="Bottom" FontSize="11" Text="{Binding Author}"/>
-                <Border Margin="2,0,2,0" CornerRadius="3" Background="DarkGray">
-                    <TextBlock Padding="2,0,2,0" FontSize="11" Foreground="Black" Text="{Binding Flair}"
-                               Visibility="{Binding Flair, Converter={StaticResource StringToVisibilityConverter}}"/>
-                </Border>
-                <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"
-                           Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE735;" FontSize="9" VerticalAlignment="Center" Foreground="Gold"
-                           Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <TextBlock Text="{Binding Gilded, Converter={StaticResource StringFormatConverter}, ConverterParameter='x{0}'}"
-                           Visibility="{Binding IsMultigilded, Converter={StaticResource BoolToVisibilityConverter}}"
-                           Foreground="Gold" FontWeight="Bold" FontSize="10" VerticalAlignment="Center"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Created, Converter={StaticResource DateTimeToRelativeConverter}}"
-                       FontSize="11"/>
-                <TextBlock Text="{Binding Edited.Value, Converter={StaticResource DateTimeToRelativeConverter}, ConverterParameter=' (last edited {0})'}"
-                           Visibility="{Binding Edited.Defined, Converter={StaticResource BoolToVisibilityConverter}}"
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="1" Visibility="{Binding RegularComment, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="10*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="upvoteButton" FontFamily="Segoe MDL2 Assets" FontSize="9" Content="&#xE935;" VerticalContentAlignment="Center" HorizontalAlignment="Center"
+                            Background="Transparent" Tapped="UpvoteTapped" Padding="5,0,5,5" Margin="0,0,0,0"
+                            Foreground="{Binding Upvoted, Converter={StaticResource BoolToBrushOrWhiteConverter}, ConverterParameter={StaticResource VotedBrush}}"/>
+                        <TextBlock x:Name="scoreText" Text="{Binding Score}" FontSize="11" TextAlignment="Center" Margin="0,3,0,3"
+                               Foreground="{Binding Voted, Converter={StaticResource BoolToBrushOrWhiteConverter}, ConverterParameter={StaticResource VotedBrush}}"/>
+                        <Button x:Name="downvoteButton" FontFamily="Segoe MDL2 Assets" FontSize="9" Content="&#xE936;" VerticalContentAlignment="Center" HorizontalAlignment="Center"
+                            Background="Transparent" Tapped="DownvoteTapped" Padding="5,5,5,0" Margin="0,0,0,0"
+                            Foreground="{Binding Downvoted, Converter={StaticResource BoolToBrushOrWhiteConverter}, ConverterParameter={StaticResource VotedBrush}}"/>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
+                        <TextBlock Foreground="DarkGray" VerticalAlignment="Bottom" FontSize="11" Text="{Binding Author}"/>
+                        <Border Margin="2,0,2,0" CornerRadius="3" Background="DarkGray">
+                            <TextBlock Padding="2,0,2,0" FontSize="11" Foreground="Black" Text="{Binding Flair}"
+                                   Visibility="{Binding Flair, Converter={StaticResource StringToVisibilityConverter}}"/>
+                        </Border>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"
+                               Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE735;" FontSize="9" VerticalAlignment="Center" Foreground="Gold"
+                               Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock Text="{Binding Gilded, Converter={StaticResource StringFormatConverter}, ConverterParameter='x{0}'}"
+                               Visibility="{Binding IsMultigilded, Converter={StaticResource BoolToVisibilityConverter}}"
+                               Foreground="Gold" FontWeight="Bold" FontSize="10" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Created, Converter={StaticResource DateTimeToRelativeConverter}}"
                            FontSize="11"/>
-            </StackPanel>
-            <TextBlock Text="{Binding Text}" FontSize="11" TextWrapping="WrapWholeWords" Margin="0,5,0,0"/>
-        </StackPanel>
+                        <TextBlock Text="{Binding Edited.Value, Converter={StaticResource DateTimeToRelativeConverter}, ConverterParameter=' (last edited {0})'}"
+                               Visibility="{Binding Edited.Defined, Converter={StaticResource BoolToVisibilityConverter}}"
+                               FontSize="11"/>
+                    </StackPanel>
+                </StackPanel>
+                <TextBlock Grid.Row="1" Text="{Binding Text}" FontSize="11" TextWrapping="WrapWholeWords" Margin="0,5,0,0"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Visibility="{Binding ExtendedMenu, ElementName=commentItem}">
+           <Grid.RowDefinitions>
+               <RowDefinition Height="25"/>
+               <RowDefinition Height="25"/>
+           </Grid.RowDefinitions>
+           <Grid.ColumnDefinitions>
+               <ColumnDefinition/>
+               <ColumnDefinition/>
+           </Grid.ColumnDefinitions>
+
+           <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="CopyCommentLink">
+               <TextBlock>
+                   <Run FontFamily="Segoe MDL2 Assets" Text="&#xE71B; " FontSize="11"/>
+                   <Run Text="COPY LINK" FontSize="11"/>
+               </TextBlock>
+           </Button>
+           <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11">
+               <TextBlock>
+                   <Run FontFamily="Segoe MDL2 Assets" Text="&#xEC42; " FontSize="11"/>
+                   <Run Text="REPLY" FontSize="11"/>
+               </TextBlock>
+           </Button>
+           <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="ShareComment">
+               <TextBlock>
+                   <Run FontFamily="Segoe MDL2 Assets" Text="&#xE72D; " FontSize="11"/>
+                   <Run Text="SHARE" FontSize="11"/>
+               </TextBlock>
+           </Button>
+           <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="CopyCommentMessage">
+               <TextBlock>
+                   <Run FontFamily="Segoe MDL2 Assets" Text="&#xE8C8; " FontSize="11"/>
+                   <Run Text="COPY MESSAGE" FontSize="11"/>
+               </TextBlock>
+           </Button>
+       </Grid>
     </Grid>
 
 </UserControl>

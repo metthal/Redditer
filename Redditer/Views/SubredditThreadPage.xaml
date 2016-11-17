@@ -74,7 +74,7 @@
                 </Button>
             </Grid>
             <ScrollViewer Grid.Row="1" ViewChanged="CommentsScrolling" IsEnabled="{Binding IsPaneOpen, ElementName=splitView, Converter={StaticResource BoolNegationConverter}}">
-                <Grid>
+                <Grid HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="8"/>
@@ -89,7 +89,7 @@
                         <ProgressRing IsActive="{Binding IsLoadingComments}" Width="50" Height="50" Foreground="White"/>
                         <TextBlock Text="Loading comments..." HorizontalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="2" VerticalAlignment="Top" Margin="5,5,5,0"
+                    <StackPanel Grid.Row="2" VerticalAlignment="Top" Margin="5,5,5,0" HorizontalAlignment="Stretch"
                                 Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="{Binding Thread.Selftext}" TextWrapping="WrapWholeWords" FontSize="11"
                                    Visibility="{Binding Thread.Selfpost, Converter={StaticResource BoolToVisibilityConverter}}"/>
@@ -100,13 +100,17 @@
                     </StackPanel>
                     <Line Grid.Row="3" X1="0" X2="1" Stroke="DodgerBlue" StrokeThickness="1" Stretch="Fill" VerticalAlignment="Center" Margin="0,5,0,0"
                           Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                    <ListView Grid.Row="4" ItemsSource="{Binding Thread.Comments}" Margin="-10,0,0,0" SelectionChanged="CommentClicked"
+                    <ListView Grid.Row="4" ItemsSource="{Binding Thread.Comments}" Margin="-10,0,0,0" SelectedItem="{Binding SelectedComment, Mode=TwoWay}"
+                        IsItemClickEnabled="True" ItemClick="CommentClicked" SelectionMode="None" ContainerContentChanging="CommentListUpdating"
                         Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Padding="{Binding Depth, Converter={StaticResource CommentDepthToPaddingConverter}}" HorizontalAlignment="Stretch">
-                                    <views:CommentListItem DataContext="{Binding}" Tag="{Binding ElementName=subredditThreadPage}"/>
-                                </Grid>
+                                <views:CommentListItem DataContext="{Binding}" ExtendedMenu="False" Tag="{Binding ElementName=subredditThreadPage}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

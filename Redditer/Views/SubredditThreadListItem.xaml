@@ -87,7 +87,7 @@
 
             <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="CopyThread">
                 <TextBlock>
-                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE8C8; " FontSize="11"/>
+                    <Run FontFamily="Segoe MDL2 Assets" Text="&#xE71B; " FontSize="11"/>
                     <Run Text="COPY LINK" FontSize="11"/>
                 </TextBlock>
             </Button>
@@ -103,10 +103,10 @@
                     <Run Text="SHARE" FontSize="11"/>
                 </TextBlock>
             </Button>
-            <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="FollowLink">
+            <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Click="OpenContent">
                 <TextBlock>
                     <Run FontFamily="Segoe MDL2 Assets" Text="&#xE774; " FontSize="11"/>
-                    <Run Text="FOLLOW LINK" FontSize="11"/>
+                    <Run Text="OPEN CONTENT" FontSize="11"/>
                 </TextBlock>
             </Button>
         </Grid>
