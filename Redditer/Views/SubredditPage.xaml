@@ -66,6 +66,10 @@
                               Tapped="MenuTapped">
                     <FlyoutBase.AttachedFlyout>
                         <MenuFlyout x:Name="menuFlyout" Placement="Bottom">
+                            <MenuFlyoutItem Text="Add to favorites" HorizontalContentAlignment="Left" FontSize="13" Tapped="AddToFavorites"
+                                            Visibility="{Binding NotInFavorites, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <MenuFlyoutItem Text="Remove from favorites" HorizontalContentAlignment="Left" FontSize="13" Tapped="RemoveFromFavorites"
+                                            Visibility="{Binding InFavorites, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <MenuFlyoutItem Text="Login" HorizontalContentAlignment="Left" FontSize="13"
                                             Tapped="MenuLoginTapped" Visibility="{Binding IsNotLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <MenuFlyoutItem Text="New thread" HorizontalContentAlignment="Left" FontSize="13" Tapped="NewThreadTapped"

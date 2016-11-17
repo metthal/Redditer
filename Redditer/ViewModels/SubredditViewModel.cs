@@ -65,7 +65,9 @@ namespace Redditer.ViewModels
             }
 
             CurrentSubreddit = new Subreddit(subreddit, newThreads);
-            QueriedSubreddits.Clear();
+            QueriedSubreddits = Favorites;
+            OnPropertyChanged("InFavorites");
+            OnPropertyChanged("NotInFavorites");
             IsSubredditLoading = false;
         }
 
@@ -91,6 +93,12 @@ namespace Redditer.ViewModels
 
         public async void QuerySubreddits(string prefix)
         {
+            if (prefix == "")
+            {
+                QueriedSubreddits = Favorites;
+                return;
+            }
+
             var response = await Reddit.Instance.QuerySubreddits(prefix);
             var queryResult = response.AsObject();
             if (queryResult == null)
@@ -172,6 +180,28 @@ namespace Redditer.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public ObservableCollection<string> Favorites => new ObservableCollection<string>(Settings.Instance.Data.Favorites);
+        public bool InFavorites
+        {
+            get { return Settings.Instance.Data.Favorites.Contains(CurrentSubreddit.Shortname); }
+            set
+            {
+                if (value)
+                {
+                    if (!Settings.Instance.Data.Favorites.Contains(CurrentSubreddit.Shortname))
+                        Settings.Instance.Data.Favorites.Add(CurrentSubreddit.Shortname);
+                }
+                else
+                    Settings.Instance.Data.Favorites.Remove(CurrentSubreddit.Shortname);
+
+                QueriedSubreddits = Favorites;
+                OnPropertyChanged();
+                OnPropertyChanged("NotInFavorites");
+                OnPropertyChanged("Favorites");
+            }
+        }
+        public bool NotInFavorites => !InFavorites;
 
         public bool IsLoggedIn => Reddit.Instance.User.Authenticated;
         public bool IsNotLoggedIn => !IsLoggedIn;

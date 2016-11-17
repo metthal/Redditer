@@ -209,6 +209,16 @@ namespace Redditer.Views
             Frame.Navigate(typeof(NewThreadPage), ViewModel.CurrentSubreddit);
         }
 
+        private void AddToFavorites(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.InFavorites = true;
+        }
+
+        private void RemoveFromFavorites(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel.InFavorites = false;
+        }
+
         public SubredditViewModel ViewModel { get; set; }
     }
 }
