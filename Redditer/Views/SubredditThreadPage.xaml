@@ -7,7 +7,8 @@
     xmlns:views="using:Redditer.Views"
     mc:Ignorable="d"
     DataContext="{StaticResource SubredditThreadViewModel}"
-    x:Name="subredditThreadPage">
+    x:Name="subredditThreadPage"
+    NavigationCacheMode="Enabled">
 
     <Page.Transitions>
         <TransitionCollection>

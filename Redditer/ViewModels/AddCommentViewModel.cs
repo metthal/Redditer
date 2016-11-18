@@ -58,6 +58,19 @@ namespace Redditer.ViewModels
         public async Task SubmitComment()
         {
             var response = await Reddit.Instance.Comment(CommentedComment != null ? CommentedComment.Name : CommentedThreadPage.ViewModel.Thread.Name, Text);
+            var comment = Comment.Parse(response.AsObject().Value<JObject>("json").Value<JObject>("data").Value<JArray>("things")[0].Value<JObject>("data"));
+
+            if (CommentedComment != null)
+            {
+                var index = CommentedThreadPage.ViewModel.Thread.Comments.IndexOf(CommentedComment);
+                comment.Depth = CommentedComment.Depth + 1;
+                CommentedThreadPage.ViewModel.Thread.Comments.Insert(index + 1, comment);
+            }
+            else
+            {
+                comment.Depth = 0;
+                CommentedThreadPage.ViewModel.Thread.Comments.Insert(0, comment);
+            }
         }
 
         private string _text;

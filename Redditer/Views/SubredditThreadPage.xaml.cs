@@ -41,11 +41,26 @@ namespace Redditer.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.ParentViewModel = e.Parameter as SubredditViewModel;
-            ViewModel.Thread = ViewModel.ParentViewModel.SelectedThread;
-            ViewModel.LoadComments();
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                ViewModel.ParentViewModel = e.Parameter as SubredditViewModel;
+                ViewModel.Thread = ViewModel.ParentViewModel.SelectedThread;
+                ViewModel.LoadComments();
+            }
 
             base.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                var cacheSize = Frame.CacheSize;
+                Frame.CacheSize = 0;
+                Frame.CacheSize = cacheSize;
+            }
+
+            base.OnNavigatingFrom(e);
         }
 
         private void SubredditTextBoxKeydown(object sender, KeyRoutedEventArgs e)
