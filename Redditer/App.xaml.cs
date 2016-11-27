@@ -39,9 +39,7 @@ namespace Redditer
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-            Settings.Instance.Reset();
             Settings.Instance.Load();
-            System.Diagnostics.Debug.WriteLine(Settings.Instance.Data.LastLoggedUser);
 
             Frame rootFrame = Window.Current.Content as Frame;
 

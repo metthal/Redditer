@@ -110,9 +110,6 @@ namespace Redditer.Views
 
         private void CommentsScrolling(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            var s = (ScrollViewer)sender;
-            if (Math.Abs(s.VerticalOffset - s.ScrollableHeight) < 0.01)
-                System.Diagnostics.Debug.WriteLine("{0}/{1}", s.VerticalOffset, s.ScrollableHeight);
         }
 
         private void RefreshTapped(object sender, TappedRoutedEventArgs e)

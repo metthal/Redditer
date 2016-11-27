@@ -111,7 +111,7 @@
                             </TextBlock>
                         </Button>
                     </Grid>
-                    <ListView Grid.Row="5" ItemsSource="{Binding Thread.Comments}" Margin="-10,0,0,0" SelectedItem="{Binding SelectedComment, Mode=TwoWay}"
+                    <ListView Grid.Row="5" ItemsSource="{Binding Thread.Comments}" Margin="-10,0,-10,0" SelectedItem="{Binding SelectedComment, Mode=TwoWay}"
                         IsItemClickEnabled="True" ItemClick="CommentClicked" SelectionMode="None" ContainerContentChanging="CommentListUpdating"
                         Visibility="{Binding AreCommentsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
                         <ListView.ItemContainerStyle>

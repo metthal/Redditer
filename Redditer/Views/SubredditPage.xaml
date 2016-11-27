@@ -103,6 +103,10 @@
                                     <ProgressRing IsActive="{Binding IsSubredditLoading}" Width="50" Height="50" Foreground="White"/>
                                     <TextBlock Text="Loading threads..." HorizontalAlignment="Center"/>
                                 </StackPanel>
+                                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                            Visibility="{Binding IsNotConnectedToInternet, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock Text="Internet not available" HorizontalAlignment="Center"/>
+                                </StackPanel>
                                 <ListView ItemsSource="{Binding CurrentSubreddit.Threads}" SelectedItem="{Binding SelectedThread, Mode=TwoWay}"
                                           IsItemClickEnabled="True" ItemClick="ThreadClicked" SelectionMode="None" ContainerContentChanging="ThreadListUpdating"
                                           Visibility="{Binding IsSubredditLoaded, Converter={StaticResource BoolToVisibilityConverter}}">

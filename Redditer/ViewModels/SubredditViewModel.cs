@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json.Linq;
 using Redditer.Models;
 using Redditer.Providers;
@@ -13,7 +14,7 @@ namespace Redditer.ViewModels
     {
         public SubredditViewModel()
         {
-            SortType = new ObservableCollection<string>{ "hot", "new", "top", "controversial", "gilded" };
+            SortType = new ObservableCollection<string>{ "hot", "new", "top", "controversial" };
             QueriedSubreddits = new ObservableCollection<string>();
 
             CurrentSubreddit = new Subreddit("/r/all", new ObservableCollection<SubredditThread>());
@@ -21,6 +22,7 @@ namespace Redditer.ViewModels
             SelectedQueriedSubreddit = null;
             IsSubredditLoading = true;
             IsEndlessLoading = false;
+            IsNotConnectedToInternet = false;
 
             _nextListing = null;
         }
@@ -49,6 +51,15 @@ namespace Redditer.ViewModels
         public async void LoadSubreddit(string subreddit, string sortType)
         {
             IsSubredditLoading = true;
+
+            if (!ConnectionHelper.IsInternetAvailable)
+            {
+                IsNotConnectedToInternet = true;
+                IsSubredditLoading = false;
+                return;
+            }
+
+            IsNotConnectedToInternet = false;
             if (!subreddit.StartsWith("/r/"))
                 subreddit = subreddit.Insert(0, "/r/");
 
@@ -98,6 +109,9 @@ namespace Redditer.ViewModels
                 QueriedSubreddits = Favorites;
                 return;
             }
+
+            if (!ConnectionHelper.IsInternetAvailable)
+                return;
 
             var response = await Reddit.Instance.QuerySubreddits(prefix);
             var queryResult = response.AsObject();
@@ -181,19 +195,19 @@ namespace Redditer.ViewModels
             }
         }
 
-        public ObservableCollection<string> Favorites => new ObservableCollection<string>(Settings.Instance.Data.Favorites);
+        public ObservableCollection<string> Favorites => new ObservableCollection<string>(Settings.Instance.Favorites);
         public bool InFavorites
         {
-            get { return Settings.Instance.Data.Favorites.Contains(CurrentSubreddit.Shortname); }
+            get { return Settings.Instance.Favorites.Contains(CurrentSubreddit.Shortname); }
             set
             {
                 if (value)
                 {
-                    if (!Settings.Instance.Data.Favorites.Contains(CurrentSubreddit.Shortname))
-                        Settings.Instance.Data.Favorites.Add(CurrentSubreddit.Shortname);
+                    if (!Settings.Instance.Favorites.Contains(CurrentSubreddit.Shortname))
+                        Settings.Instance.Favorites.Add(CurrentSubreddit.Shortname);
                 }
                 else
-                    Settings.Instance.Data.Favorites.Remove(CurrentSubreddit.Shortname);
+                    Settings.Instance.Favorites.Remove(CurrentSubreddit.Shortname);
 
                 QueriedSubreddits = Favorites;
                 OnPropertyChanged();
@@ -207,11 +221,22 @@ namespace Redditer.ViewModels
         public bool IsNotLoggedIn => !IsLoggedIn;
         public string User => Reddit.Instance.User.Username;
 
+        public bool IsNotConnectedToInternet
+        {
+            get { return _isNotConnectedToInternet; }
+            set
+            {
+                _isNotConnectedToInternet = value;
+                OnPropertyChanged();
+            }
+        }
+
         private Subreddit _currentSubreddit;
         private SubredditThread _selectedThread;
         private string _nextListing;
         private ObservableCollection<string> _queriedSubreddits;
         private bool _isSubredditLoading;
         private bool _isEndlessLoading;
+        private bool _isNotConnectedToInternet;
     }
 }

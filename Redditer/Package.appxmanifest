@@ -1,48 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<Package
-  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
-
-  <Identity
-    Name="00d4e06f-a35f-40a0-b6c0-94eef9ee2ecf"
-    Publisher="CN=milko"
-    Version="1.0.0.0" />
-
-  <mp:PhoneIdentity PhoneProductId="00d4e06f-a35f-40a0-b6c0-94eef9ee2ecf" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
-
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
+  <Identity Name="00d4e06f-a35f-40a0-b6c0-94eef9ee2ecf" Publisher="CN=milko" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="00d4e06f-a35f-40a0-b6c0-94eef9ee2ecf" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Redditer</DisplayName>
     <PublisherDisplayName>milko</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Logos\NewStoreLogo.png</Logo>
   </Properties>
-
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="App"
-      Executable="$targetnametoken$.exe"
-      EntryPoint="Redditer.App">
-      <uap:VisualElements
-        DisplayName="Redditer"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Redditer"
-        BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Redditer.App">
+      <uap:VisualElements DisplayName="Redditer" Square150x150Logo="Logos\Square150x150Logo.png" Square44x44Logo="Logos\Square44x44Logo.png" Description="Redditer" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Logos\Wide310x150Logo.png" Square310x310Logo="Logos\Square310x310Logo.png" Square71x71Logo="Logos\Square71x71Logo.png" />
+        <uap:SplashScreen Image="Logos\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
-
   <Capabilities>
     <Capability Name="internetClient" />
   </Capabilities>

@@ -15,9 +15,9 @@ namespace Redditer.Authenticator
     {
         public async Task<Tuple<string, string>> OnLogInChallenge()
         {
-            if (Settings.Instance.Data.LastLoggedUser != null)
+            if (Settings.Instance.LastLoggedUser != null)
             {
-                var rememberedUser = Accounts.Get(Settings.Instance.Data.LastLoggedUser);
+                var rememberedUser = Accounts.Get(Settings.Instance.LastLoggedUser);
                 if (rememberedUser != null)
                     return new Tuple<string, string>(rememberedUser.UserName, rememberedUser.Password);
             }
@@ -34,7 +34,7 @@ namespace Redditer.Authenticator
         public void OnLogIn(string username, string password)
         {
             Accounts.Save(username, password);
-            Settings.Instance.Data.LastLoggedUser = username;
+            Settings.Instance.LastLoggedUser = username;
         }
 
         public async Task<bool> OnAppAuthorizeChallenge()

@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp;
 using Redditer.Models;
 using Redditer.Providers;
 
@@ -30,7 +31,7 @@ namespace Redditer.Views
 
             DataContext = ViewModel;
 
-            if (Settings.Instance.Data.LastLoggedUser != null)
+            if (Settings.Instance.LastLoggedUser != null)
                 ViewModel.Login();
         }
 
@@ -187,6 +188,13 @@ namespace Redditer.Views
 
         private async void MenuLoginTapped(object sender, TappedRoutedEventArgs e)
         {
+            if (!ConnectionHelper.IsInternetAvailable)
+            {
+                var noInternetDialog = new MessageDialog("Internet not available");
+                await noInternetDialog.ShowAsync();
+                return;
+            }
+
             var result = await ViewModel.Login();
             if (result)
             {
