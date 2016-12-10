@@ -227,6 +227,11 @@ namespace Redditer.Views
             ViewModel.InFavorites = false;
         }
 
+        private async void MenuRegisterTapped(object sender, TappedRoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/register"));
+        }
+
         public SubredditViewModel ViewModel { get; set; }
     }
 }

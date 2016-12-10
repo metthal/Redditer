@@ -50,14 +50,9 @@
                         <Button x:Name="downvoteButton" FontFamily="Segoe MDL2 Assets" FontSize="9" Content="&#xE936;" VerticalContentAlignment="Center" HorizontalAlignment="Center"
                             Background="Transparent" Tapped="DownvoteTapped" Padding="5,5,5,0" Margin="0,0,0,0"
                             Foreground="{Binding Downvoted, Converter={StaticResource BoolToBrushOrWhiteConverter}, ConverterParameter={StaticResource VotedBrush}}"/>
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"/>
-                        <TextBlock Foreground="DarkGray" VerticalAlignment="Bottom" FontSize="11" Text="{Binding Author}"/>
-                        <Border Margin="2,0,2,0" CornerRadius="3" Background="DarkGray">
-                            <TextBlock Padding="2,0,2,0" FontSize="11" Foreground="Black" Text="{Binding Flair}"
-                                   Visibility="{Binding Flair, Converter={StaticResource StringToVisibilityConverter}}"/>
-                        </Border>
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="  &#xECCC;  " FontSize="5" VerticalAlignment="Center" Margin="0,4,0,0"
-                               Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock Foreground="DarkGray" FontSize="11" Margin="0,3,0,0" Text="{Binding Author}"/>
+                        <TextBlock Margin="0,3,0,0" Padding="2,0,2,0" FontSize="11" Text="{Binding Flair}"
+                               Visibility="{Binding Flair, Converter={StaticResource StringToVisibilityConverter}}"/>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE735;" FontSize="9" VerticalAlignment="Center" Foreground="Gold"
                                Visibility="{Binding IsGilded, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         <TextBlock Text="{Binding Gilded, Converter={StaticResource StringFormatConverter}, ConverterParameter='x{0}'}"

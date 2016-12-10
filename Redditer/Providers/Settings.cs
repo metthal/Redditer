@@ -60,7 +60,9 @@ namespace Redditer.Providers
             _connection.Table<TableLastLoggedUser>().Delete(user => true);
             _connection.Table<TableFavorites>().Delete(favorites => true);
 
-            _connection.Insert(new TableLastLoggedUser {Username = LastLoggedUser});
+            if (LastLoggedUser != null)
+                _connection.Insert(new TableLastLoggedUser {Username = LastLoggedUser});
+
             foreach (var favorite in Favorites)
                 _connection.Insert(new TableFavorites {Subreddit = favorite});
         }

@@ -72,6 +72,8 @@
                                             Visibility="{Binding InFavorites, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <MenuFlyoutItem Text="Login" HorizontalContentAlignment="Left" FontSize="13"
                                             Tapped="MenuLoginTapped" Visibility="{Binding IsNotLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <MenuFlyoutItem Text="Register" HorizontalContentAlignment="Left" FontSize="13"
+                                            Tapped="MenuRegisterTapped" Visibility="{Binding IsNotLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <MenuFlyoutItem Text="New thread" HorizontalContentAlignment="Left" FontSize="13" Tapped="NewThreadTapped"
                                             Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <MenuFlyoutItem HorizontalContentAlignment="Left" FontSize="13"

@@ -230,5 +230,10 @@ namespace Redditer.Views
             var args = new Tuple<SubredditThreadPage, Comment>(this, comment);
             Frame.Navigate(typeof(AddCommentPage), args);
         }
+
+        private async void MenuRegisterTapped(object sender, TappedRoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/register"));
+        }
     }
 }

@@ -48,6 +48,7 @@ namespace Redditer.Authenticator
         public void OnLogOut(string username)
         {
             Accounts.Remove(username);
+            Settings.Instance.LastLoggedUser = null;
         }
 
         public bool Remember { get; set; }

@@ -65,6 +65,8 @@
                             <MenuFlyoutItem Text="Subreddit info" HorizontalContentAlignment="Left" FontSize="13"/>
                             <MenuFlyoutItem Text="Login" HorizontalContentAlignment="Left" FontSize="13"
                                             Tapped="MenuLoginTapped" Visibility="{Binding IsNotLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <MenuFlyoutItem Text="Register" HorizontalContentAlignment="Left" FontSize="13"
+                                            Tapped="MenuRegisterTapped" Visibility="{Binding IsNotLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <MenuFlyoutItem HorizontalContentAlignment="Left" FontSize="13"
                                             Text="{Binding User, Converter={StaticResource StringFormatConverter}, ConverterParameter='Profile ({0})'}"
                                             Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"/>
